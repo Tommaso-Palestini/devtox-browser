@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Shellrunner
+GenericName=Web Browser
+GenericName[it]=Browser web
+Comment=Lightweight browser for developers, with a built-in terminal
+Comment[it]=Browser leggero per sviluppatori, con terminale integrato
+Exec=shellrunner %U
+Icon=shellrunner
+Terminal=false
+Categories=Network;WebBrowser;Development;
+MimeType=text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+StartupWMClass=shellrunner
+Keywords=browser;web;terminal;developer;

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="{{it}}">
+<head>
+<meta charset="utf-8">
+<title>$title</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: #0b0915;
+    color: #e9e4ff;
+    font: 13px/1.6 "Fira Mono", ui-monospace, monospace;
+  }
+  header {
+    position: sticky; top: 0;
+    padding: 8px 16px;
+    background: #171228;
+    border-bottom: 1px solid #2c2348;
+    color: #8d84b8;
+    font-family: "Fira Sans Condensed", sans-serif;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  pre { margin: 0; padding: 12px 0; counter-reset: line; white-space: pre-wrap; word-break: break-all; }
+  .line { display: block; padding: 0 16px 0 72px; position: relative; }
+  .line::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute; left: 0; width: 56px;
+    text-align: right; color: #4a3f73;
+    user-select: none;
+  }
+  .line:hover { background: rgba(255, 46, 136, 0.06); }
+  .tag { color: #ff2e88; }
+  .note { margin: 0; padding: 8px 16px; color: #ffb627; font-family: "Fira Sans Condensed", sans-serif; }
+</style>
+</head>
+<body>
+<header>$url</header>
+$note
+<pre>$lines</pre>
+</body>
+</html>

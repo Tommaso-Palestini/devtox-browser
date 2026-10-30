@@ -1,0 +1,618 @@
+/* Neon Deck: tema GTK di Shellrunner.
+ * Magenta = web, ciano = shell, ambra = avvisi. Il bagliore compare
+ * solo dove c'è un'azione o uno stato (focus, hover, elemento attivo). */
+
+@define-color void #0e0b19;
+@define-color deck #171228;
+@define-color deck_hi #211a3a;
+@define-color seam #2c2348;
+@define-color ink #e9e4ff;
+@define-color haze #8d84b8;
+@define-color magenta #ff2e88;
+@define-color cyan #2de2e6;
+@define-color amber #ffb627;
+@define-color term_bg #0b0915;
+
+/* Colori con nome usati dal tema di sistema (adw-gtk3): li riallineiamo */
+@define-color accent_color @magenta;
+@define-color accent_bg_color @magenta;
+@define-color accent_fg_color @void;
+@define-color window_bg_color @void;
+@define-color window_fg_color @ink;
+@define-color view_bg_color @deck;
+@define-color view_fg_color @ink;
+@define-color headerbar_bg_color @deck;
+@define-color headerbar_fg_color @ink;
+@define-color popover_bg_color @deck_hi;
+@define-color popover_fg_color @ink;
+@define-color card_bg_color @deck_hi;
+@define-color theme_bg_color @void;
+@define-color theme_fg_color @ink;
+@define-color theme_base_color @deck;
+@define-color theme_text_color @ink;
+@define-color theme_selected_bg_color @magenta;
+@define-color theme_selected_fg_color @void;
+
+* {
+  font-family: "Fira Sans Condensed", "Fira Sans", sans-serif;
+  outline-color: alpha(@cyan, 0.7);
+}
+
+window,
+.background {
+  background-color: @void;
+  color: @ink;
+}
+
+selection,
+*:selected {
+  background-color: alpha(@magenta, 0.35);
+  color: @ink;
+}
+
+.dim-label {
+  color: @haze;
+  opacity: 1;
+}
+
+/* --- Pulsanti ---------------------------------------------------------- */
+
+button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: @haze;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+  transition: background-color 160ms ease-out, color 160ms ease-out,
+              box-shadow 220ms ease-out, border-color 160ms ease-out;
+}
+
+button:hover {
+  background-color: alpha(@ink, 0.07);
+  color: @ink;
+}
+
+button:active,
+button:checked {
+  background-color: alpha(@magenta, 0.14);
+  color: @magenta;
+}
+
+button:disabled {
+  color: alpha(@haze, 0.35);
+}
+
+button.destructive-action {
+  background-color: @magenta;
+  color: @void;
+  font-weight: 600;
+}
+
+button.destructive-action:hover {
+  box-shadow: 0 0 14px alpha(@magenta, 0.55);
+}
+
+button.suggested-action {
+  background-color: @cyan;
+  color: @void;
+  font-weight: 600;
+}
+
+/* --- Header ------------------------------------------------------------ */
+
+headerbar.deck-header {
+  background: @deck;
+  border-bottom: 1px solid @seam;
+  box-shadow: none;
+  min-height: 44px;
+  padding: 0 6px;
+}
+
+headerbar.deck-header:backdrop {
+  background: @deck;
+}
+
+entry.url-entry {
+  font-family: "Fira Mono", monospace;
+  font-size: 10pt;
+  background: @void;
+  color: @ink;
+  caret-color: @magenta;
+  border: 1px solid @seam;
+  border-radius: 8px;
+  min-height: 30px;
+  padding: 0 12px;
+  box-shadow: none;
+  transition: border-color 200ms ease-out, box-shadow 280ms ease-out;
+}
+
+entry.url-entry:focus {
+  border-color: @magenta;
+  box-shadow: 0 0 0 1px alpha(@magenta, 0.35), 0 0 16px alpha(@magenta, 0.30);
+}
+
+entry.url-entry image {
+  color: @haze;
+}
+
+button.reload.loading {
+  animation: neon-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes neon-pulse {
+  0% { color: @magenta; }
+  50% { color: @cyan; }
+  100% { color: @magenta; }
+}
+
+button.js-toggle {
+  font-family: "Fira Sans Compressed", sans-serif;
+  font-weight: 700;
+  min-width: 44px;
+}
+
+button.js-toggle:checked {
+  color: @cyan;
+  background-color: alpha(@cyan, 0.10);
+}
+
+button.js-toggle:not(:checked):not(:disabled) {
+  color: @amber;
+  background-color: alpha(@amber, 0.12);
+}
+
+/* Sulle pagine interne (sr://) il JS non si può spegnere: pulsante muto */
+button.js-toggle:disabled {
+  color: alpha(@haze, 0.35);
+  background-color: transparent;
+}
+
+/* --- Barra laterale (rail) --------------------------------------------- */
+
+#rail {
+  background: @deck;
+  border-right: 1px solid @seam;
+  padding: 10px 7px;
+}
+
+#rail button {
+  min-width: 38px;
+  min-height: 38px;
+  padding: 0;
+  border-radius: 9px;
+}
+
+#rail button:checked {
+  color: @magenta;
+  background-color: alpha(@magenta, 0.12);
+  box-shadow: inset 3px 0 @magenta, 0 0 14px alpha(@magenta, 0.25);
+}
+
+#rail button.shell:checked {
+  color: @cyan;
+  background-color: alpha(@cyan, 0.10);
+  box-shadow: inset 3px 0 @cyan, 0 0 14px alpha(@cyan, 0.22);
+}
+
+#rail separator {
+  background: @seam;
+  min-height: 1px;
+  margin: 6px 4px;
+}
+
+#ram-button {
+  padding: 6px 0 2px;
+}
+
+#ram-label {
+  font-family: "Fira Sans Compressed", sans-serif;
+  font-weight: 600;
+  font-size: 9pt;
+  color: @haze;
+}
+
+/* --- Tab del browser --------------------------------------------------- */
+
+notebook.browser-tabs > header {
+  background: @deck;
+  border: none;
+  box-shadow: inset 0 -1px @seam;
+  padding: 4px 6px 0;
+}
+
+notebook.browser-tabs > header tab {
+  min-height: 30px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  color: @haze;
+  box-shadow: inset 0 -2px transparent;
+  transition: background-color 180ms ease-out, color 180ms ease-out, box-shadow 220ms ease-out;
+}
+
+notebook.browser-tabs > header tab:hover {
+  background-color: alpha(@ink, 0.04);
+  color: @ink;
+}
+
+notebook.browser-tabs > header tab:checked {
+  background-color: @void;
+  color: @ink;
+  box-shadow: inset 0 -2px @magenta, 0 -8px 14px -10px alpha(@magenta, 0.7);
+}
+
+notebook.browser-tabs > header tab button {
+  min-width: 20px;
+  min-height: 20px;
+  padding: 0;
+  border-radius: 5px;
+}
+
+notebook.browser-tabs > stack {
+  background: @void;
+}
+
+/* --- Pannello laterale ------------------------------------------------- */
+
+.side-panel {
+  background: @deck;
+  border-left: 1px solid @seam;
+}
+
+/* Pulsanti dentro i pannelli: con bordo, così si leggono come azioni */
+.side-panel stack button {
+  border-color: @seam;
+  background-color: alpha(@ink, 0.03);
+  padding: 4px 12px;
+}
+
+.side-panel stack button:hover {
+  border-color: @magenta;
+  box-shadow: 0 0 10px alpha(@magenta, 0.25);
+}
+
+.side-panel stack > box {
+  padding: 4px 4px 8px;
+}
+
+/* Azioni che portano qualcosa nella shell: ciano come il terminale */
+.side-panel stack button.shell-action {
+  color: @cyan;
+  border-color: alpha(@cyan, 0.5);
+}
+
+.side-panel stack button.shell-action:hover {
+  border-color: @cyan;
+  box-shadow: 0 0 12px alpha(@cyan, 0.3);
+}
+
+.side-panel stackswitcher button {
+  padding: 2px 14px;
+  font-weight: 600;
+}
+
+.side-panel stackswitcher button:checked {
+  color: @magenta;
+  background-color: transparent;
+  box-shadow: inset 0 -2px @magenta;
+}
+
+/* --- Terminale --------------------------------------------------------- */
+
+.terminal-panel {
+  background: @term_bg;
+  border-top: 1px solid @seam;
+}
+
+.terminal-panel .terminal-title {
+  color: @cyan;
+  font-weight: 600;
+}
+
+notebook.terminal-tabs > header {
+  background: @term_bg;
+  border: none;
+  box-shadow: inset 0 -1px @seam;
+  padding: 0 4px;
+}
+
+notebook.terminal-tabs > header tab {
+  min-height: 24px;
+  padding: 0 8px;
+  border: none;
+  color: @haze;
+  background: transparent;
+  box-shadow: inset 0 -2px transparent;
+  transition: color 160ms ease-out, box-shadow 200ms ease-out;
+}
+
+notebook.terminal-tabs > header tab:checked {
+  color: @ink;
+  box-shadow: inset 0 -2px @cyan;
+}
+
+notebook.terminal-tabs > stack {
+  background: @term_bg;
+}
+
+paned > separator {
+  background: @seam;
+  min-width: 1px;
+  min-height: 1px;
+  transition: background-color 200ms ease-out;
+}
+
+paned > separator:hover {
+  background: @cyan;
+}
+
+/* --- Liste, testo, popover --------------------------------------------- */
+
+treeview.view {
+  background-color: @deck;
+  color: @ink;
+}
+
+treeview.view:hover {
+  background-color: alpha(@ink, 0.04);
+}
+
+treeview.view:selected {
+  background-color: alpha(@magenta, 0.25);
+  color: @ink;
+}
+
+treeview.view header button {
+  background: @deck;
+  color: @haze;
+  border: none;
+  border-bottom: 1px solid @seam;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+textview text {
+  background-color: @deck;
+  color: @ink;
+}
+
+textview.ai-output text {
+  font-size: 10.5pt;
+}
+
+scrollbar {
+  background: transparent;
+  border: none;
+}
+
+scrollbar slider {
+  background-color: alpha(@haze, 0.35);
+  min-width: 5px;
+  min-height: 5px;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 180ms ease-out;
+}
+
+scrollbar slider:hover {
+  background-color: @cyan;
+}
+
+popover,
+menu,
+.menu {
+  background-color: @deck_hi;
+  border: 1px solid @seam;
+  color: @ink;
+}
+
+menuitem {
+  transition: background-color 120ms ease-out;
+}
+
+menuitem:hover {
+  background-color: alpha(@magenta, 0.18);
+  color: @ink;
+}
+
+menuitem accelerator {
+  color: @haze;
+}
+
+tooltip,
+tooltip.background {
+  background-color: @deck_hi;
+  color: @ink;
+  border: 1px solid @seam;
+  border-radius: 6px;
+}
+
+combobox button,
+entry {
+  background-color: @void;
+  border: 1px solid @seam;
+  color: @ink;
+}
+
+/* --- Avvisi ------------------------------------------------------------ */
+
+.status-toast {
+  background-color: @deck_hi;
+  color: @ink;
+  border: 1px solid alpha(@cyan, 0.55);
+  border-radius: 10px;
+  padding: 8px 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 0 18px alpha(@cyan, 0.25);
+}
+
+/* --- Vista responsive -------------------------------------------------- */
+
+frame.device-frame > border {
+  border: 1px solid alpha(@magenta, 0.6);
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px alpha(@magenta, 0.06), 0 0 28px alpha(@magenta, 0.22);
+}
+
+.device-size {
+  font-family: "Fira Sans Compressed", sans-serif;
+  font-weight: 600;
+  font-size: 11pt;
+  color: @haze;
+}
+
+.suspended-placeholder {
+  color: @haze;
+  font-size: 12pt;
+}
+
+/* --- Barra indirizzi: stato della connessione -------------------------- */
+
+entry.url-entry image.left {
+  color: @cyan;
+  margin-right: 6px;
+}
+
+entry.url-entry.insecure image.left {
+  color: @amber;
+}
+
+entry.url-entry image.right {
+  color: @haze;
+  transition: color 160ms ease-out;
+}
+
+entry.url-entry image.right:hover {
+  color: @magenta;
+}
+
+/* Scudi: ambra quando su questo sito qualcosa è spento */
+button.shields.shields-down {
+  color: @amber;
+  background-color: alpha(@amber, 0.12);
+}
+
+.shields-host {
+  font-family: "Fira Sans Compressed", sans-serif;
+  font-weight: 700;
+  font-size: 16pt;
+}
+
+popover label.insecure {
+  color: @amber;
+}
+
+.private-note {
+  color: @amber;
+}
+
+switch {
+  background-color: @seam;
+  border: 1px solid @seam;
+  transition: background-color 180ms ease-out;
+}
+
+switch:checked {
+  background-color: @magenta;
+  border-color: @magenta;
+}
+
+switch slider {
+  background-color: @ink;
+  border: none;
+}
+
+/* --- Tab private ------------------------------------------------------- */
+
+notebook.browser-tabs > header tab box.private label,
+notebook.browser-tabs > header tab box.private image {
+  color: @amber;
+}
+
+/* --- Command palette --------------------------------------------------- */
+
+.palette {
+  background-color: @deck_hi;
+  border: 1px solid alpha(@magenta, 0.55);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 18px 48px alpha(black, 0.55), 0 0 26px alpha(@magenta, 0.18);
+}
+
+entry.palette-entry {
+  font-family: "Fira Mono", monospace;
+  font-size: 12pt;
+  min-height: 38px;
+  background: @void;
+  border: 1px solid @seam;
+  border-radius: 8px;
+  caret-color: @magenta;
+}
+
+.palette list {
+  background: transparent;
+}
+
+.palette list row {
+  border-radius: 7px;
+  transition: background-color 100ms ease-out;
+}
+
+.palette list row label {
+  color: @ink;
+}
+
+.palette list row label.dim-label,
+.palette list row image {
+  color: @haze;
+}
+
+.palette list row:selected {
+  background-color: alpha(@magenta, 0.18);
+  box-shadow: inset 3px 0 @magenta;
+}
+
+.palette list row:selected image {
+  color: @magenta;
+}
+
+/* --- Ricerca nella pagina ---------------------------------------------- */
+
+.findbar {
+  background-color: @deck_hi;
+  border: 1px solid @seam;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 10px 28px alpha(black, 0.5);
+}
+
+.find-count {
+  color: @haze;
+  margin: 0 6px;
+  min-width: 90px;
+}
+
+.find-count.error {
+  color: @amber;
+}
+
+/* --- Download ---------------------------------------------------------- */
+
+progressbar trough {
+  background-color: @seam;
+  min-height: 4px;
+  border-radius: 4px;
+}
+
+progressbar progress {
+  background-image: linear-gradient(to right, @magenta, @cyan);
+  min-height: 4px;
+  border-radius: 4px;
+}
+
+list {
+  background-color: @deck;
+}

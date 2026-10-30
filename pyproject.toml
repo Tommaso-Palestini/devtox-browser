@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shellrunner-browser"
+dynamic = ["version"]
+description = "Browser leggero per sviluppatori Linux, con terminale integrato (GTK 3 + WebKitGTK)"
+readme = "README.md"
+license = { text = "GPL-3.0-or-later" }
+requires-python = ">=3.10"
+authors = [{ name = "XENON1354" }]
+# PyGObject, pycairo, GTK, WebKitGTK e VTE arrivano dai pacchetti di sistema:
+# il virtualenv va creato con --system-site-packages (vedi README)
+dependencies = []
+keywords = ["browser", "webkit", "gtk", "terminal", "developer-tools", "privacy"]
+classifiers = [
+    "Environment :: X11 Applications :: GTK",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+]
+
+[project.scripts]
+shellrunner = "shellrunner.__main__:main"
+
+[tool.setuptools]
+packages = ["shellrunner", "shellrunner.webext"]
+script-files = ["bin/sr"]
+
+[tool.setuptools.package-data]
+shellrunner = ["resources/*", "locale/*.po"]
+"shellrunner.webext" = ["*.c", "*.sh"]
+
+[tool.setuptools.dynamic]
+version = { attr = "shellrunner.__version__" }

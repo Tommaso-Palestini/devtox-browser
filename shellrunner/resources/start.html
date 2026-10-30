@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="{{it}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{Nuova tab}}</title>
+<style>
+  :root {
+    --void: #0e0b19;
+    --deck: #171228;
+    --seam: #2c2348;
+    --ink: #e9e4ff;
+    --haze: #8d84b8;
+    --magenta: #ff2e88;
+    --cyan: #2de2e6;
+    --ui: "Fira Sans Condensed", "Fira Sans", system-ui, sans-serif;
+    --display: "Fira Sans Compressed", "Fira Sans Condensed", sans-serif;
+    --mono: "Fira Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 12vh 16px 48px;
+    background:
+      radial-gradient(60vw 40vh at 8% 0%, rgba(255, 46, 136, 0.10), transparent 70%),
+      radial-gradient(50vw 40vh at 100% 100%, rgba(45, 226, 230, 0.08), transparent 70%),
+      var(--void);
+    color: var(--ink);
+    font: 400 16px/1.5 var(--ui);
+  }
+  main { max-width: 720px; margin: 0 auto; }
+
+  /* Il prompt è il cuore della pagina: si scrive come in una shell */
+  .prompt {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6em;
+    padding: 0 0 14px;
+  }
+  .sigil {
+    font: 700 clamp(2.4rem, 7vw, 3.6rem)/1 var(--mono);
+    color: var(--magenta);
+    text-shadow: 0 0 18px rgba(255, 46, 136, 0.55);
+  }
+  .prompt input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: var(--ink);
+    caret-color: var(--magenta);
+    font: 400 clamp(1.3rem, 4vw, 1.9rem)/1.2 var(--mono);
+  }
+  .prompt input::placeholder { color: var(--haze); opacity: 0.7; }
+  /* La linea sotto il prompt si "carica" una volta all'apertura */
+  .prompt::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--magenta), var(--cyan));
+    box-shadow: 0 0 14px rgba(255, 46, 136, 0.45);
+    transform-origin: left;
+    animation: charge 700ms cubic-bezier(.2, .8, .2, 1) both;
+  }
+  .prompt:focus-within::after { box-shadow: 0 0 22px rgba(45, 226, 230, 0.55); }
+  @keyframes charge { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .hint { margin: 10px 0 0; color: var(--haze); font-size: 0.9rem; }
+
+  h2 {
+    margin: 56px 0 14px;
+    font: 600 1rem/1.2 var(--ui);
+    color: var(--haze);
+  }
+
+  /* Server locali: il numero di porta è l'informazione, quindi è grande */
+  .servers { display: flex; flex-wrap: wrap; gap: 12px; padding: 0; margin: 0; list-style: none; }
+  .servers a {
+    display: block;
+    min-width: 120px;
+    padding: 10px 16px 12px;
+    border: 1px solid var(--seam);
+    border-radius: 10px;
+    background: var(--deck);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 160ms ease-out, box-shadow 220ms ease-out, transform 160ms ease-out;
+  }
+  .servers a:hover, .servers a:focus-visible {
+    border-color: var(--cyan);
+    box-shadow: 0 0 18px rgba(45, 226, 230, 0.28);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .port {
+    display: block;
+    font: 800 2.6rem/1 var(--display);
+    color: var(--cyan);
+    font-variant-numeric: tabular-nums;
+  }
+  .host { font: 400 0.85rem/1.4 var(--mono); color: var(--haze); }
+  .empty { margin: 0; color: var(--haze); max-width: 60ch; }
+
+  /* Preferiti: titolo in evidenza, dominio sotto in piccolo */
+  .bookmarks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .bookmarks a {
+    display: block;
+    padding: 10px 14px;
+    border: 1px solid var(--seam);
+    border-left: 2px solid var(--magenta);
+    border-radius: 8px;
+    background: var(--deck);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 160ms ease-out, box-shadow 220ms ease-out;
+  }
+  .bookmarks a:hover, .bookmarks a:focus-visible {
+    border-color: var(--magenta);
+    box-shadow: 0 0 16px rgba(255, 46, 136, 0.25);
+    outline: none;
+  }
+  .bookmarks .title { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .bookmarks .site { font: 400 0.8rem/1.4 var(--mono); color: var(--haze); }
+  .empty code { font-family: var(--mono); color: var(--ink); }
+
+  dl.keys {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content 1fr;
+    gap: 8px 16px;
+    margin: 0;
+    color: var(--haze);
+    font-size: 0.95rem;
+  }
+  dl.keys dt { margin: 0; }
+  dl.keys dd { margin: 0; }
+  kbd {
+    font: 500 0.85rem var(--mono);
+    color: var(--ink);
+    padding: 2px 7px;
+    border: 1px solid var(--seam);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    background: var(--deck);
+  }
+  @media (max-width: 560px) {
+    dl.keys { grid-template-columns: max-content 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <form class="prompt" action="sr://go" method="get" role="search">
+    <span class="sigil" aria-hidden="true">$$</span>
+    <input name="q" autocomplete="off" spellcheck="false" autofocus
+           placeholder="{{cerca, oppure localhost:5173}}" aria-label="{{Cerca o apri un indirizzo}}">
+  </form>
+  <p class="hint">$search_hint</p>
+
+  $bookmarks
+
+  <h2>{{Server locali}}</h2>
+  $servers
+
+  <h2>{{Scorciatoie}}</h2>
+  <dl class="keys">
+    <dt><kbd>Ctrl+K</kbd></dt><dd>{{palette dei comandi}}</dd>
+    <dt><kbd>Ctrl+`</kbd></dt><dd>{{terminale}}</dd>
+    <dt><kbd>Ctrl+T</kbd></dt><dd>{{nuova tab}}</dd>
+    <dt><kbd>Ctrl+Shift+N</kbd></dt><dd>{{tab privata}}</dd>
+    <dt><kbd>Ctrl+F</kbd></dt><dd>{{cerca nella pagina}}</dd>
+    <dt><kbd>Ctrl+D</kbd></dt><dd>{{aggiungi ai preferiti}}</dd>
+    <dt><kbd>Ctrl+U</kbd></dt><dd>{{sorgente}}</dd>
+    <dt><kbd>Ctrl+Shift+T</kbd></dt><dd>{{riapri tab chiusa}}</dd>
+    <dt><kbd>Ctrl+Shift+L</kbd></dt><dd>{{server locali}}</dd>
+    <dt><kbd>Ctrl+L</kbd></dt><dd>{{barra indirizzi}}</dd>
+    <dt><kbd>Ctrl+Shift+E</kbd></dt><dd>{{richieste di rete}}</dd>
+    <dt><kbd>Shift+Esc</kbd></dt><dd>{{memoria}}</dd>
+    <dt><kbd>Ctrl+Shift+A</kbd></dt><dd>{{IA locale}}</dd>
+    <dt><kbd>Ctrl+Shift+M</kbd></dt><dd>{{vista responsive}}</dd>
+    <dt><kbd>Ctrl+Shift+S</kbd></dt><dd>{{screenshot}}</dd>
+    <dt><kbd>F12</kbd></dt><dd>{{strumenti sviluppatore}}</dd>
+  </dl>
+</main>
+</body>
+</html>

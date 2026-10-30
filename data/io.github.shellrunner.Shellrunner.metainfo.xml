@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Metadati AppStream: nome, descrizione e screenshot per i software center (GNOME Software, Discover, Flathub) -->
+<component type="desktop-application">
+  <id>io.github.shellrunner.Shellrunner</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Shellrunner</name>
+  <summary>Lightweight browser for developers, with a built-in terminal</summary>
+  <summary xml:lang="it">Browser leggero per sviluppatori, con terminale integrato</summary>
+  <description>
+    <p>Shellrunner puts a WebKit browser and a real terminal in the same window,
+    with a command palette for every action and privacy protections on by default.</p>
+    <ul>
+      <li>Built-in terminal and the sr command to drive the browser from the shell</li>
+      <li>Command palette, local dev server detection, network log, responsive view</li>
+      <li>HTTPS-only, tracker blocklist, anti-fingerprinting, Global Privacy Control</li>
+      <li>Optional local AI assistant through Ollama</li>
+      <li>No telemetry, no accounts, no update pings</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">shellrunner.desktop</launchable>
+  <provides>
+    <binary>shellrunner</binary>
+    <binary>sr</binary>
+  </provides>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+    <category>Development</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-10-30"/>
+  </releases>
+</component>

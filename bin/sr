@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""sr: controlla Shellrunner dal terminale tramite il socket Unix locale.
+
+  sr open <indirizzo o ricerca>   apre una nuova tab
+  sr tabs                         elenca le tab
+  sr mem                          memoria dei processi del browser
+"""
+
+import argparse
+import json
+import os
+import socket
+import sys
+
+APP_ID = "shellrunner"
+
+# sr resta un file solo, senza GTK: le poche frasi tradotte stanno qui
+MESSAGES_EN = {
+    "Controlla Shellrunner.": "Control Shellrunner.",
+    "apre un indirizzo o una ricerca in una nuova tab": "open an address or a search in a new tab",
+    "elenca le tab aperte": "list open tabs",
+    "mostra la memoria usata dal browser": "show the browser's memory use",
+    "sr: Shellrunner non è in esecuzione (socket non trovato)": "sr: Shellrunner is not running (socket not found)",
+    "risposta non valida": "invalid response",
+    "aperto": "opened",
+    "terminale": "terminal",
+}
+
+
+def language():
+    """Stessa scelta del browser: "language" in config.json, poi le variabili di sistema."""
+    base = os.environ.get("XDG_CONFIG_HOME") or os.path.join(os.path.expanduser("~"), ".config")
+    try:
+        with open(os.path.join(base, APP_ID, "config.json"), encoding="utf-8") as f:
+            configured = json.load(f).get("language", "")
+    except (OSError, ValueError, AttributeError):
+        configured = ""
+    if configured in ("it", "en"):
+        return configured
+    for name in ("LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"):
+        code = os.environ.get(name, "").split(":")[0].split("_")[0].split(".")[0].lower()
+        if code and code not in ("c", "posix"):
+            return "it" if code == "it" else "en"
+    return "en"
+
+
+def _(text):
+    return MESSAGES_EN.get(text, text) if LANGUAGE == "en" else text
+
+
+def socket_path():
+    if os.environ.get("SHELLRUNNER_SOCKET"):
+        return os.environ["SHELLRUNNER_SOCKET"]
+    runtime = os.environ.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}"
+    return os.path.join(runtime, APP_ID + ".sock")
+
+
+def send(request):
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
+        sock.settimeout(5)
+        try:
+            sock.connect(socket_path())
+        except OSError:
+            sys.exit(_("sr: Shellrunner non è in esecuzione (socket non trovato)"))
+        sock.sendall((json.dumps(request) + "\n").encode())
+        data = b""
+        while not data.endswith(b"\n"):
+            chunk = sock.recv(65536)
+            if not chunk:
+                break
+            data += chunk
+    response = json.loads(data or b"{}")
+    if not response.get("ok"):
+        sys.exit(f"sr: {response.get('error', _('risposta non valida'))}")
+    return response
+
+
+def mb_size(kb):
+    return f"{kb / 1024:.1f} MB"
+
+
+def main():
+    parser = argparse.ArgumentParser(prog="sr", description=_("Controlla Shellrunner."))
+    sub = parser.add_subparsers(dest="cmd", required=True)
+    open_parser = sub.add_parser("open", help=_("apre un indirizzo o una ricerca in una nuova tab"))
+    open_parser.add_argument("target", nargs="+")
+    sub.add_parser("tabs", help=_("elenca le tab aperte"))
+    sub.add_parser("mem", help=_("mostra la memoria usata dal browser"))
+    args = parser.parse_args()
+
+    if args.cmd == "open":
+        response = send({"cmd": "open", "url": " ".join(args.target)})
+        print(f"{_('aperto')}: {response['url']}")
+    elif args.cmd == "tabs":
+        for tab in send({"cmd": "tabs"})["tabs"]:
+            marks = ("*" if tab["current"] else " ") + ("z" if tab["suspended"] else " ")
+            print(f"{tab['index']:>3} {marks} {tab['title'][:50]:<50}  {tab['uri'] or ''}")
+    elif args.cmd == "mem":
+        response = send({"cmd": "mem"})
+        for proc in sorted(response["processes"], key=lambda p: -p["pss_kb"]):
+            print(f"{proc['pid']:>8}  {proc['kind']:<12} {proc['name']:<18} {mb_size(proc['pss_kb']):>10}")
+        print(f"\nbrowser: {mb_size(response['browser_kb'])}   "
+              f"{_('terminale')}: {mb_size(response['terminal_kb'])}")
+
+
+LANGUAGE = language()
+
+if __name__ == "__main__":
+    main()
