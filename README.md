@@ -12,6 +12,12 @@ uses the web engine your distribution already keeps up to date.
 > **Status: 0.1, early.** Interface in English and Italian.
 > See [Known limitations](#known-limitations) before switching your daily browser.
 
+```sh
+git clone https://github.com/Tommaso-Palestini/devtox-browser.git && cd devtox-browser && sh install.sh
+```
+
+Needs a few system libraries first: see [Install](#install).
+
 ## Why
 
 - **Browser + terminal, one window.** ``Ctrl+` `` slides a terminal up from the bottom;
@@ -70,48 +76,122 @@ uses the web engine your distribution already keeps up to date.
 | Camera, microphone, location, notifications | always denied |
 | Private tabs (ephemeral profile, gone with the last private tab) | `Ctrl+Shift+N` |
 
-Coming from another browser? `devtox://import` (also in the menu and the command
-palette) brings over bookmarks and recent history from Firefox, Chrome, Chromium, Brave,
-Edge, Vivaldi, Opera, Zen and LibreWolf, including Flatpak and Snap installs. Passwords
-and cookies stay where they are, and Tor Browser is never read.
+The import page (`devtox://import`) reads bookmarks and recent history from Firefox,
+Chrome, Chromium, Brave, Edge, Vivaldi, Opera, Zen and LibreWolf, including Flatpak and
+Snap installs. Passwords and cookies stay where they are, and Tor Browser is never read.
 
-On first start a setup page (`devtox://setup`) lets you pick the language, the search
-engine (DuckDuckGo, Startpage, Brave Search, Mojeek, Ecosia or Google), a balanced
-or maximum-privacy preset, your dev server ports and whether to show the AI panel.
 Every protection can also be turned off per site from the shield in the address bar.
 The blocklist is a plain text file that you own: nothing is downloaded behind your back.
 
 ## Install
 
-Devtox needs a few system libraries (they cannot come from pip):
+You need Linux with Python 3.10 or newer and WebKitGTK 4.1 (any current
+Debian/Ubuntu, Fedora or Arch has them). Installing takes about a minute and does not
+need `sudo` except for the system libraries.
+
+### 1. System libraries
+
+GTK, WebKitGTK and VTE come from your distribution, not from pip:
 
 ```sh
 # Debian, Ubuntu, Pop!_OS, Mint
-sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-webkit2-4.1 gir1.2-soup-3.0 gir1.2-vte-2.91 gcc pkg-config libglib2.0-dev
+sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-webkit2-4.1 gir1.2-soup-3.0 \
+    gir1.2-vte-2.91 gir1.2-secret-1 gcc pkg-config libglib2.0-dev
 
 # Fedora
-sudo dnf install python3-gobject python3-cairo gtk3 webkit2gtk4.1 libsoup3 vte291 gcc pkgconf glib2-devel
+sudo dnf install python3-gobject python3-cairo gtk3 webkit2gtk4.1 libsoup3 vte291 libsecret \
+    gcc pkgconf glib2-devel
 
 # Arch
-sudo pacman -S python-gobject python-cairo gtk3 webkit2gtk-4.1 libsoup3 vte3 gcc pkgconf glib2
+sudo pacman -S python-gobject python-cairo gtk3 webkit2gtk-4.1 libsoup3 vte3 libsecret gcc pkgconf glib2
 ```
 
-Then clone the repository and run the installer:
+Some of these are optional. Devtox starts without them and `devtox --check` shows what is off:
+
+- `gcc`, `pkg-config` and the GLib headers are used only once, to compile a tiny
+  WebKit extension that sends the GPC header and trims the Referer. Without them those
+  two protections are off.
+- libsecret (`gir1.2-secret-1`) is needed for the password manager. Without it the
+  password manager is off.
+
+If something required is missing, Devtox tells you the exact command for your
+distribution instead of crashing.
+
+### 2. Devtox
 
 ```sh
-git clone https://github.com/Tommaso-Palestini/devtox-browser.git && cd devtox-browser
-sh install.sh          # installs into ~/.local, no sudo
-devtox                       # or launch it from the applications menu
+git clone https://github.com/Tommaso-Palestini/devtox-browser.git
+cd devtox-browser
+sh install.sh
 ```
 
-`sh install.sh --uninstall` removes it again (your profile is kept).
-You can make it the default browser from the setup page, or with
-`xdg-settings set default-web-browser io.github.Tommaso_Palestini.devtox-browser.desktop`.
+`install.sh` copies the program into `~/.local` and adds the `devtox` and `dx`
+commands, an entry in the applications menu and the icon. Check that everything is in place:
 
-`gcc`, `pkg-config` and the GLib headers are only used once, to compile a tiny
-WebKit extension that sets the GPC header and trims the Referer. Without them
-Devtox still runs, just without those two protections. `devtox --check`
-shows what is active.
+```sh
+devtox --check
+```
+
+```
+Devtox       0.1.0
+WebKitGTK    2.52.6
+GTK          3.24.41
+VTE          0.76.0
+Python       3.12.3
+System       Linux-…
+Extension    active (~/.cache/devtox/webext/libdxprivacy.so)
+Log          ~/.local/state/devtox/devtox.log
+```
+
+If `devtox` is not found, `~/.local/bin` is not in your `PATH`: log out and back in,
+or add `export PATH="$HOME/.local/bin:$PATH"` to `~/.profile`.
+
+### 3. First start
+
+Launch **Devtox** from the applications menu, or type `devtox` (or just `dx`) in a terminal.
+The first window opens the setup page: pick the language, the search engine, the privacy
+level, the ports your dev servers use and whether Devtox should be your default browser.
+You can come back to it at any time from the menu (`devtox://setup`).
+
+![First-run setup: language, search engine, privacy level](docs/screenshots/setup-en.png)
+
+Coming from another browser? Open `devtox://import` (also in the menu and the command
+palette) to bring over bookmarks and recent history. Passwords come separately, from a CSV
+export, in `devtox://passwords`.
+
+![Import page listing the bookmarks and history found in Chrome, Brave and Firefox](docs/screenshots/import-en.png)
+
+### Default browser
+
+Choose it in the setup page, or from a terminal:
+
+```sh
+xdg-settings set default-web-browser io.github.Tommaso_Palestini.devtox-browser.desktop
+```
+
+Links from other apps and from the terminal then open in a new tab of the window that is
+already open.
+
+### Update
+
+```sh
+cd devtox-browser
+git pull
+sh install.sh
+```
+
+Your profile (settings, bookmarks, history, sessions) is kept.
+
+### Uninstall
+
+```sh
+sh install.sh --uninstall
+```
+
+This removes the program and the menu entry. Your profile stays in `~/.config/devtox`,
+`~/.local/share/devtox` and `~/.cache/devtox`: delete those folders too if you want
+nothing left behind. Saved passwords stay in the system keyring as entries named
+"Devtox: …" (open Passwords and Keys, or Seahorse, to remove them).
 
 ### Run from source
 

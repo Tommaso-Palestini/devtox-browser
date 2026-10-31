@@ -8,11 +8,14 @@ quello vero non viene toccato.
 """
 
 import atexit
+import json
 import os
+import sqlite3
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 
 OUT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else "docs/screenshots")
 LANG = sys.argv[2] if len(sys.argv) > 2 else "en"
@@ -66,6 +69,48 @@ for name, text in DEMO_FILES.items():
     with open(os.path.join(SITE, name), "w") as f:
         f.write(text)
 DEMO_URL = "http://localhost:5173/"
+
+# Profili finti di altri browser per la pagina di import. Non da tests/: il pacchetto
+# dei test imposta lingua e cartelle XDG sue.
+def fake_chromium(rel, bookmarks, visits):
+    profile = os.path.join(ROOT, rel, "Default")
+    os.makedirs(profile)
+    children = [{"type": "url", "name": n, "url": u} for n, u in bookmarks]
+    with open(os.path.join(profile, "Bookmarks"), "w") as f:
+        json.dump({"roots": {"bookmark_bar": {"type": "folder", "children": children}}}, f)
+    db = sqlite3.connect(os.path.join(profile, "History"))
+    db.execute("CREATE TABLE urls (id INTEGER PRIMARY KEY, url TEXT, title TEXT, visit_count INTEGER, "
+               "typed_count INTEGER, last_visit_time INTEGER, hidden INTEGER)")
+    when = (int(time.time()) - 3600 + 11_644_473_600) * 1_000_000  # epoca di Chrome: 1601
+    for i in range(visits):
+        db.execute("INSERT INTO urls VALUES (NULL, ?, ?, 1, 0, ?, 0)", (f"https://example.com/{i}", f"Page {i}", when))
+    db.commit()
+    db.close()
+
+
+def fake_firefox(rel, bookmarks, visits):
+    profile = os.path.join(ROOT, rel, "demo.default-release")
+    os.makedirs(profile)
+    db = sqlite3.connect(os.path.join(profile, "places.sqlite"))
+    db.execute("CREATE TABLE moz_places (id INTEGER PRIMARY KEY, url TEXT, title TEXT, visit_count INTEGER, "
+               "last_visit_date INTEGER)")
+    db.execute("CREATE TABLE moz_bookmarks (id INTEGER PRIMARY KEY, type INTEGER, fk INTEGER, title TEXT, "
+               "dateAdded INTEGER)")
+    when = (int(time.time()) - 600) * 1_000_000
+    for i, (name, url) in enumerate(bookmarks, 1):
+        db.execute("INSERT INTO moz_places VALUES (?, ?, ?, 1, ?)", (i, url, name, when))
+        db.execute("INSERT INTO moz_bookmarks VALUES (?, 1, ?, ?, 0)", (i, i, name))
+    for i in range(visits):
+        db.execute("INSERT INTO moz_places VALUES (NULL, ?, ?, 1, ?)", (f"https://example.org/{i}", f"Page {i}", when))
+    db.commit()
+    db.close()
+
+
+DEV_BOOKMARKS = [("MDN Web Docs", "https://developer.mozilla.org/"), ("Python docs", "https://docs.python.org/3/"),
+                 ("GitHub", "https://github.com/"), ("Can I use", "https://caniuse.com/")]
+fake_firefox(".mozilla/firefox", DEV_BOOKMARKS, 312)
+fake_chromium(".config/google-chrome", DEV_BOOKMARKS[:3], 128)
+fake_chromium(".config/BraveSoftware/Brave-Browser", DEV_BOOKMARKS[1:], 57)
 DEMO = subprocess.Popen([sys.executable, "-m", "http.server", "--bind", "127.0.0.1", "5173"],
                         cwd=SITE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 atexit.register(DEMO.terminate)
@@ -119,6 +164,8 @@ run([
     (0, lambda: window().palette.entry.set_text("term")),
     (1, lambda: shot("palette")),
     (0, lambda: window().palette.hide()),
+    (0, lambda: window().load_in_current("devtox://import")),
+    (5, lambda: shot("import")),
     (0, lambda: window().load_in_current("devtox://passwords")),
     (5, lambda: shot("passwords")),
     (0, lambda: window().load_in_current(DEMO_URL)),
