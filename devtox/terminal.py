@@ -13,6 +13,10 @@ from . import theme, utils
 from .i18n import _
 
 SCROLLBACK_LINES = 5000
+# Indirizzi web nell'output (il "Local: http://localhost:5173/" di vite, ecc.): Ctrl+clic li apre.
+# Stessa sintassi per PCRE2 (VTE) e per re (test): non finisce su punteggiatura o parentesi
+URL_PATTERN = r"""(?<![\w/])https?://[^\s<>"'`]*[^\s<>"'`.,;:!?)\]]"""
+_PCRE2_MULTILINE = 0x00000400
 
 
 def user_shell():
@@ -35,8 +39,10 @@ def shell_environment():
 
 
 class TerminalPanel(Gtk.Box):
-    def __init__(self, on_hide):
+    def __init__(self, on_hide, on_open_url=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
+        self._on_open_url = on_open_url  # on_open_url(url): nuova tab nel browser
+        self._url_regex = Vte.Regex.new_for_match(URL_PATTERN, -1, _PCRE2_MULTILINE)
         # on_hide: la finestra nasconde il pannello (con animazione); serve anche
         # quando si chiude l'ultimo terminale
         self._on_hide = on_hide
@@ -78,6 +84,10 @@ class TerminalPanel(Gtk.Box):
         theme.style_terminal(terminal)
         terminal.connect("child-exited", self._on_child_exited)
         terminal.connect("key-press-event", self._on_terminal_key)
+        terminal.set_allow_hyperlink(True)  # link OSC 8 (ls --hyperlink, compilatori, ...)
+        tag = terminal.match_add_regex(self._url_regex, 0)
+        terminal.match_set_cursor_name(tag, "pointer")
+        terminal.connect("button-press-event", self._on_terminal_click)
 
         label = Gtk.Label(label=os.path.basename(user_shell()))
         terminal.connect("window-title-changed", self._on_title_changed, label)
@@ -172,6 +182,18 @@ class TerminalPanel(Gtk.Box):
         title = terminal.get_window_title()
         if title:
             label.set_text(title[:24])
+
+    def _on_terminal_click(self, terminal, event):
+        """Ctrl+clic su un indirizzo: si apre in una nuova tab (il clic semplice seleziona)."""
+        if event.button != 1 or not event.state & Gdk.ModifierType.CONTROL_MASK or self._on_open_url is None:
+            return False
+        url = terminal.hyperlink_check_event(event)
+        if not url:
+            url, _tag = terminal.match_check_event(event)
+        if url and url.startswith(("http://", "https://")):
+            self._on_open_url(url)
+            return True
+        return False
 
     def _on_terminal_key(self, terminal, event):
         # Ctrl+Shift+C / Ctrl+Shift+V come nei terminali di GNOME

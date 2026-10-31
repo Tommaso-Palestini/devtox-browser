@@ -15,7 +15,8 @@ uses the web engine your distribution already keeps up to date.
 ## Why
 
 - **Browser + terminal, one window.** ``Ctrl+` `` slides a terminal up from the bottom;
-  ``Ctrl+Shift+` `` opens another one. No alt-tabbing between the dev server and the page.
+  ``Ctrl+Shift+` `` opens another one. Ctrl+click the `http://localhost:5173/` your dev server
+  prints and it opens in a new tab. No alt-tabbing between the dev server and the page.
 - **Drive the browser from the shell.** `dx open localhost:5173`, `dx tabs`, `dx mem`.
 - **Command palette.** `Ctrl+K` searches actions, open tabs, bookmarks and history.
 - **Your dev servers, found for you.** The start page lists every server you are running

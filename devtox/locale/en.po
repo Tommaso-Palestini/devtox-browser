@@ -33,7 +33,7 @@ msgstr "do not hand addresses to an already open window"
 msgid "Estensione"
 msgstr "Extension"
 
-#: devtox/about.py:75 devtox/actions.py:51 devtox/window.py:292
+#: devtox/about.py:75 devtox/actions.py:51 devtox/window.py:293
 msgid "Informazioni su Devtox"
 msgstr "About Devtox"
 
@@ -144,7 +144,7 @@ msgstr "Welcome to Devtox"
 msgid "Trenta secondi per le quattro cose che lo rendono diverso."
 msgstr "Thirty seconds on the four things that make it different."
 
-#: devtox/about.py:84 devtox/window.py:270
+#: devtox/about.py:84 devtox/window.py:271
 msgid "Palette dei comandi"
 msgstr "Command palette"
 
@@ -153,7 +153,7 @@ msgid ""
 "Tutte le azioni, le tab aperte, i preferiti e la cronologia in un solo campo."
 msgstr "Every action, open tab, bookmark and history entry in a single field."
 
-#: devtox/about.py:86 devtox/actions.py:27 devtox/monitor.py:77 devtox/terminal.py:48
+#: devtox/about.py:86 devtox/actions.py:27 devtox/monitor.py:77 devtox/terminal.py:54
 msgid "Terminale"
 msgstr "Terminal"
 
@@ -207,15 +207,15 @@ msgstr "AI: summarize the page"
 msgid "IA: spiega l'errore selezionato"
 msgstr "AI: explain the selected error"
 
-#: devtox/actions.py:23 devtox/tabs.py:10 devtox/window.py:272 devtox/resources/start.html:6
+#: devtox/actions.py:23 devtox/tabs.py:10 devtox/window.py:273 devtox/resources/start.html:6
 msgid "Nuova tab"
 msgstr "New tab"
 
-#: devtox/actions.py:24 devtox/window.py:273
+#: devtox/actions.py:24 devtox/window.py:274
 msgid "Nuova tab privata"
 msgstr "New private tab"
 
-#: devtox/actions.py:25 devtox/window.py:274
+#: devtox/actions.py:25 devtox/window.py:275
 msgid "Riapri tab chiusa"
 msgstr "Reopen closed tab"
 
@@ -223,7 +223,7 @@ msgstr "Reopen closed tab"
 msgid "Chiudi tab"
 msgstr "Close tab"
 
-#: devtox/actions.py:28 devtox/window.py:275
+#: devtox/actions.py:28 devtox/window.py:276
 msgid "Nuovo terminale"
 msgstr "New terminal"
 
@@ -239,7 +239,7 @@ msgstr "Page source"
 msgid "Aggiungi o togli dai preferiti"
 msgstr "Add or remove bookmark"
 
-#: devtox/actions.py:32 devtox/window.py:147
+#: devtox/actions.py:32 devtox/window.py:148
 msgid "Scudi e connessione del sito"
 msgstr "Site shields and connection"
 
@@ -255,7 +255,7 @@ msgstr "Memory and processes"
 msgid "Download"
 msgstr "Downloads"
 
-#: devtox/actions.py:38 devtox/window.py:277
+#: devtox/actions.py:38 devtox/window.py:278
 msgid "Vista responsive"
 msgstr "Responsive view"
 
@@ -291,19 +291,19 @@ msgstr "Copy address"
 msgid "Copia link in Markdown"
 msgstr "Copy Markdown link"
 
-#: devtox/actions.py:46 devtox/window.py:289
+#: devtox/actions.py:46 devtox/window.py:290
 msgid "Strumenti sviluppatore"
 msgstr "Developer tools"
 
-#: devtox/actions.py:47 devtox/window.py:285
+#: devtox/actions.py:47 devtox/window.py:286
 msgid "Modifica blocklist"
 msgstr "Edit blocklist"
 
-#: devtox/actions.py:48 devtox/window.py:286
+#: devtox/actions.py:48 devtox/window.py:287
 msgid "Ricarica blocklist"
 msgstr "Reload blocklist"
 
-#: devtox/actions.py:49 devtox/window.py:288
+#: devtox/actions.py:49 devtox/window.py:289
 msgid "Apri configurazione"
 msgstr "Open config file"
 
@@ -311,11 +311,11 @@ msgstr "Open config file"
 msgid "Cancella cronologia"
 msgstr "Clear history"
 
-#: devtox/actions.py:53 devtox/onboarding.py:243 devtox/onboarding.py:187 devtox/window.py:287
+#: devtox/actions.py:53 devtox/onboarding.py:243 devtox/onboarding.py:187 devtox/window.py:288
 msgid "Personalizza Devtox"
 msgstr "Customize Devtox"
 
-#: devtox/actions.py:55 devtox/window.py:291
+#: devtox/actions.py:55 devtox/window.py:292
 msgid "Guida rapida"
 msgstr "Quick tour"
 
@@ -756,7 +756,7 @@ msgstr "Block third-party cookies"
 msgid "I cookie dei siti incorporati non ti seguono da una pagina all'altra."
 msgstr "Cookies from embedded sites don't follow you from page to page."
 
-#: devtox/onboarding.py:31 devtox/ui.py:348 devtox/window.py:598
+#: devtox/onboarding.py:31 devtox/ui.py:348 devtox/window.py:604
 msgid "Anti-fingerprinting"
 msgstr "Anti-fingerprinting"
 
@@ -847,7 +847,7 @@ msgid ""
 msgstr ""
 "Couldn't set it as the default browser: do it from your system settings."
 
-#: devtox/onboarding.py:175 devtox/window.py:134
+#: devtox/onboarding.py:175 devtox/window.py:135
 msgid "Cerca con {engine} o scrivi un indirizzo"
 msgstr "Search with {engine} or type an address"
 
@@ -1108,15 +1108,15 @@ msgstr ""
 "Tab suspended to save memory.\n"
 "It reloads when you select it."
 
-#: devtox/terminal.py:54
+#: devtox/terminal.py:60
 msgid "Nuovo terminale (Ctrl+Shift+`)"
 msgstr "New terminal (Ctrl+Shift+`)"
 
-#: devtox/terminal.py:60
+#: devtox/terminal.py:66
 msgid "Nascondi pannello (Ctrl+`)"
 msgstr "Hide panel (Ctrl+`)"
 
-#: devtox/terminal.py:156
+#: devtox/terminal.py:166
 msgid "Impossibile avviare la shell: {error}"
 msgstr "Could not start the shell: {error}"
 
@@ -1238,173 +1238,181 @@ msgstr "active, just built ({path})"
 msgid "attiva ({path})"
 msgstr "active ({path})"
 
-#: devtox/window.py:122
+#: devtox/window.py:123
 msgid "Indietro (Alt+←)"
 msgstr "Back (Alt+←)"
 
-#: devtox/window.py:124
+#: devtox/window.py:125
 msgid "Avanti (Alt+→)"
 msgstr "Forward (Alt+→)"
 
-#: devtox/window.py:126
+#: devtox/window.py:127
 msgid "Ricarica (F5)"
 msgstr "Reload (F5)"
 
-#: devtox/window.py:161
+#: devtox/window.py:162
 msgid "Devtox: nuova tab (Ctrl+T)"
 msgstr "Devtox: new tab (Ctrl+T)"
 
-#: devtox/window.py:219
+#: devtox/window.py:220
 msgid "Terminale (Ctrl+`)"
 msgstr "Terminal (Ctrl+`)"
 
-#: devtox/window.py:223
+#: devtox/window.py:224
 msgid "Server locali (Ctrl+Shift+L)"
 msgstr "Local servers (Ctrl+Shift+L)"
 
-#: devtox/window.py:245
+#: devtox/window.py:246
 msgid "Vista responsive (Ctrl+Shift+M)"
 msgstr "Responsive view (Ctrl+Shift+M)"
 
-#: devtox/window.py:247
+#: devtox/window.py:248
 msgid "Screenshot della pagina (Ctrl+Shift+S)"
 msgstr "Page screenshot (Ctrl+Shift+S)"
 
-#: devtox/window.py:249
+#: devtox/window.py:250
 msgid "Cookie e dati del sito (Ctrl+Shift+Canc)"
 msgstr "Site cookies and data (Ctrl+Shift+Delete)"
 
-#: devtox/window.py:279
+#: devtox/window.py:280
 msgid "Disattivata"
 msgstr "Off"
 
-#: devtox/window.py:353
+#: devtox/window.py:354
 msgid ""
 "Tab privata: niente cronologia, i dati spariscono con l'ultima tab privata"
 msgstr "Private tab: no history, data disappears with the last private tab"
 
-#: devtox/window.py:598
+#: devtox/window.py:604
 msgid "Blocco tracker"
 msgstr "Tracker blocking"
 
-#: devtox/window.py:600
+#: devtox/window.py:606
 msgid "{shield} attivo su {host}"
 msgstr "{shield} on for {host}"
 
-#: devtox/window.py:600
+#: devtox/window.py:606
 msgid "{shield} spento su {host}"
 msgstr "{shield} off for {host}"
 
-#: devtox/window.py:701
+#: devtox/window.py:707
 msgid ""
 "Pagina chiusa: aveva superato il limite di memoria. F5 per ricaricare."
 msgstr "Page closed: it went over the memory limit. F5 to reload."
 
-#: devtox/window.py:825
+#: devtox/window.py:833
 msgid "Preferiti e cookie restano. Non si può annullare."
 msgstr "Bookmarks and cookies are kept. This cannot be undone."
 
-#: devtox/window.py:856
+#: devtox/window.py:868
 msgid "Invio"
 msgstr "Enter"
 
-#: devtox/window.py:233
+#: devtox/window.py:234
 msgid "Richieste di rete (Ctrl+Shift+E)"
 msgstr "Network requests (Ctrl+Shift+E)"
 
-#: devtox/window.py:235
+#: devtox/window.py:236
 msgid "Memoria e processi (Shift+Esc)"
 msgstr "Memory and processes (Shift+Esc)"
 
-#: devtox/window.py:237
+#: devtox/window.py:238
 msgid "Download (Ctrl+Shift+Y)"
 msgstr "Downloads (Ctrl+Shift+Y)"
 
-#: devtox/window.py:239
+#: devtox/window.py:240
 msgid "IA locale con Ollama (Ctrl+Shift+A)"
 msgstr "Local AI with Ollama (Ctrl+Shift+A)"
 
-#: devtox/window.py:374
+#: devtox/window.py:375
 msgid "Nessuna tab chiusa da riaprire"
 msgstr "No closed tab to reopen"
 
-#: devtox/window.py:703
+#: devtox/window.py:709
 msgid "Il processo della pagina si è bloccato. F5 per ricaricare."
 msgstr "The page process crashed. F5 to reload."
 
-#: devtox/window.py:775
+#: devtox/window.py:781
 msgid "Si possono salvare solo pagine web"
 msgstr "Only web pages can be bookmarked"
 
-#: devtox/window.py:778
+#: devtox/window.py:784
 msgid "Aggiunto ai preferiti"
 msgstr "Bookmark added"
 
-#: devtox/window.py:778
+#: devtox/window.py:784
 msgid "Tolto dai preferiti"
 msgstr "Bookmark removed"
 
-#: devtox/window.py:797
+#: devtox/window.py:803
 msgid "Il sorgente è disponibile per le pagine web"
 msgstr "Source is available for web pages"
 
-#: devtox/window.py:818
+#: devtox/window.py:826
 msgid "Link Markdown copiato"
 msgstr "Markdown link copied"
 
-#: devtox/window.py:818
+#: devtox/window.py:826
 msgid "Indirizzo copiato"
 msgstr "Address copied"
 
-#: devtox/window.py:823
+#: devtox/window.py:831
 msgid "Cancellare tutta la cronologia?"
 msgstr "Clear all history?"
 
-#: devtox/window.py:830
+#: devtox/window.py:838
 msgid "Cronologia cancellata"
 msgstr "History cleared"
 
-#: devtox/window.py:917
+#: devtox/window.py:856
+msgid "server locale"
+msgstr "local server"
+
+#: devtox/window.py:929
 msgid "Apri un sito web per vederne cookie e dati"
 msgstr "Open a website to see its cookies and data"
 
-#: devtox/window.py:937
+#: devtox/window.py:949
 msgid "Vista responsive disattivata"
 msgstr "Responsive view off"
 
-#: devtox/window.py:544
+#: devtox/window.py:415
+msgid "Aperto dal terminale: {url}"
+msgstr "Opened from the terminal: {url}"
+
+#: devtox/window.py:550
 msgid "Togli dai preferiti (Ctrl+D)"
 msgstr "Remove bookmark (Ctrl+D)"
 
-#: devtox/window.py:544
+#: devtox/window.py:550
 msgid "Aggiungi ai preferiti (Ctrl+D)"
 msgstr "Bookmark this page (Ctrl+D)"
 
-#: devtox/window.py:792
+#: devtox/window.py:798
 msgid "Zoom {level:.0%}"
 msgstr "Zoom {level:.0%}"
 
-#: devtox/window.py:845
+#: devtox/window.py:853
 msgid "tab aperta"
 msgstr "open tab"
 
-#: devtox/window.py:856
+#: devtox/window.py:868
 msgid "Apri o cerca «{text}»"
 msgstr "Open or search \"{text}\""
 
-#: devtox/window.py:935
+#: devtox/window.py:947
 msgid "Vista responsive {width}×{height}"
 msgstr "Responsive view {width}×{height}"
 
-#: devtox/window.py:924
+#: devtox/window.py:936
 msgid "Screenshot salvato in {path}"
 msgstr "Screenshot saved to {path}"
 
-#: devtox/window.py:926
+#: devtox/window.py:938
 msgid "Screenshot non riuscito: {error}"
 msgstr "Screenshot failed: {error}"
 
-#: devtox/window.py:948
+#: devtox/window.py:960
 msgid "Blocklist ricaricata: {count} domini"
 msgstr "Blocklist reloaded: {count} domains"
 

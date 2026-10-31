@@ -22,9 +22,14 @@
     x ^= x >>> 13;
     return x & 1;
   };
-  // Cambia il bit meno significativo del rosso di un pixel ogni 97: invisibile all'occhio
+  // Cambia il bit meno significativo del rosso di un pixel ogni 97: invisibile all'occhio.
+  // Più un pixel scelto dal seme che cambia sempre: senza, sui canvas piccoli usati per
+  // le impronte (16x16 = 3 pixel candidati) un sito su otto non riceveva alcun rumore
   const addNoise = (data) => {
+    const pixels = data.length / 4;
+    if (!pixels) return;
     for (let i = 0; i < data.length; i += 4 * 97) data[i] ^= noiseBit(i);
+    data[(seed % pixels) * 4 + 1] ^= 1;
   };
 
   const getImageData = CanvasRenderingContext2D.prototype.getImageData;

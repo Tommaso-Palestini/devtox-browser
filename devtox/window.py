@@ -6,7 +6,7 @@ import time
 
 from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk, WebKit2
 
-from . import actions, ai, devtools, monitor, navigation, privacy, theme, utils
+from . import actions, ai, devtools, monitor, navigation, privacy, startpage, theme, utils
 from .downloads import DownloadsPanel
 from .i18n import _
 from .tabs import BrowserTab
@@ -43,12 +43,13 @@ class BrowserWindow(Gtk.Window):
         self._terminal_open = False
         self._session_dirty = False
         self._restoring = False            # durante il ripristino nessuna tab si carica da sola
+        self._palette_servers = []         # server in ascolto, letti all'apertura della palette
 
         self.set_default_size(1280, 820)
         self.connect("key-press-event", lambda _w, event: actions.handle_key(self, event))
 
         # Pannelli (il terminale per primo: monitor e RAM ne leggono i PID delle shell)
-        self.terminal_panel = TerminalPanel(on_hide=self.hide_terminal)
+        self.terminal_panel = TerminalPanel(on_hide=self.hide_terminal, on_open_url=self.open_from_terminal)
         self.network_panel = devtools.NetworkPanel(self)
         self.memory_panel = monitor.MemoryPanel(self)
         self.downloads_panel = DownloadsPanel(self)
@@ -407,6 +408,11 @@ class BrowserWindow(Gtk.Window):
             self.new_tab(url, private=False)
             self.present()
         return url
+
+    def open_from_terminal(self, url):
+        """Ctrl+clic su un indirizzo nel terminale: tab nuova, il terminale resta aperto."""
+        self.new_tab(url, private=False)
+        self.show_status(_("Aperto dal terminale: {url}").format(url=url))
 
     def select_relative_tab(self, offset):
         count = self.notebook.get_n_pages()
@@ -805,6 +811,8 @@ class BrowserWindow(Gtk.Window):
     def open_palette(self):
         if self.find_bar.is_open():
             self.find_bar.close()
+        # I server si leggono una volta all'apertura, non a ogni tasto
+        self._palette_servers = startpage.collect_servers(self.config["dev_ports"])
         self.palette.open()
 
     def show_inspector(self):
@@ -844,6 +852,10 @@ class BrowserWindow(Gtk.Window):
         for tab in self._ordered_tabs():
             items.append(PaletteItem(tab.title, _("tab aperta"), "view-paged-symbolic",
                                      lambda t=tab: self._select_tab(t)))
+        for server in self._palette_servers:
+            name = " · ".join(part for part in (server.tool, server.project) if part) or _("server locale")
+            items.append(PaletteItem(name, f"localhost:{server.port}", "dx-servers-symbolic",
+                                     lambda u=server.url: self.new_tab(u)))
         if not text:
             return items
         for url, title in self.storage.bookmarks():
