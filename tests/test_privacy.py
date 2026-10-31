@@ -127,3 +127,16 @@ class SettingsTest(unittest.TestCase):
         settings = privacy.create_settings()
         self.assertFalse(settings.get_enable_webrtc())
         self.assertFalse(settings.get_enable_media_stream())
+
+
+class SandboxTest(unittest.TestCase):
+    """Le pagine girano isolate (bubblewrap): un exploit del motore non legge la tua home."""
+
+    def test_web_processes_are_sandboxed(self):
+        import tempfile as _tempfile
+
+        from devtox.config import Config
+        config = Config(os.path.join(_tempfile.mkdtemp(), "config.json"))
+        for private in (False, True):
+            with self.subTest(private=private):
+                self.assertTrue(privacy.create_web_context(config, private=private).get_sandbox_enabled())

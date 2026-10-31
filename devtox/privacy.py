@@ -86,6 +86,10 @@ def create_web_context(config, private=False):
         pressure.set_memory_limit(limit)
         properties["memory_pressure_settings"] = pressure
     context = WebKit2.WebContext(**properties)
+    # Sandbox dei processi delle pagine (bubblewrap): con l'API 4.1 è spenta se non la si
+    # chiede. Senza, un exploit del motore avrebbe gli stessi permessi dell'utente
+    # (~/.ssh, i progetti, i token). Va attivata prima che nasca il primo web process
+    context.set_sandbox_enabled(True)
 
     if config["disk_cache"]:
         context.set_cache_model(

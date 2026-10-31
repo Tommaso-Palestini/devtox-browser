@@ -49,6 +49,7 @@ embed it. `devtox://setup` changes settings only with a per-process random token
 | HTTP fallback after a failed upgrade | `privacy.HttpsGuard`: only after a click on the error page, in the same tab |
 | `Sec-GPC` header, Referer trimmed to the origin | C web extension, built at first start into the cache |
 | `navigator.globalPrivacyControl`, canvas/WebGL noise | user scripts injected before page scripts |
+| Web processes isolated with bubblewrap (opt-in with the 4.1 API) | `context.set_sandbox_enabled(True)` in `privacy.create_web_context` |
 | Third-party cookies, ITP, WebRTC off, permissions denied | WebKit settings in `privacy.py` |
 | Private tabs | a second, ephemeral `WebContext`, dropped with the last private tab |
 

@@ -68,6 +68,8 @@ shield in the address bar:
 - the `Referer` header trimmed to the site origin
 - camera, microphone, location and notification requests always denied
 - WebRTC turned off, so it cannot reveal your local IP address
+- every web page process runs in a bubblewrap sandbox: a page that exploited a bug
+  in the engine still could not read your home folder
 
 The GPC header and the Referer trimming come from a small WebKit extension that
 is compiled on first start; `devtox --check` tells you whether it is active.
