@@ -4,6 +4,7 @@ Protocollo: una riga JSON di richiesta, una riga JSON di risposta.
   {"cmd": "open", "url": "localhost:5173"}
   {"cmd": "tabs"}
   {"cmd": "mem"}
+  {"cmd": "servers"}
 """
 
 import json
@@ -12,7 +13,7 @@ import socket
 
 from gi.repository import Gio, GLib
 
-from . import monitor, utils
+from . import monitor, servers, startpage, utils
 from .i18n import _
 from .log import logger
 
@@ -113,6 +114,15 @@ class ControlServer:
                 "terminal_kb": terminal_kb,
                 "processes": [
                     {"pid": r.pid, "kind": monitor.kind_label(r.kind), "name": r.name, "pss_kb": r.pss_kb} for r in rows
+                ],
+            }
+        if command == "servers":
+            return {
+                "ok": True,
+                "servers": [
+                    {"port": s.port, "tool": s.tool, "project": s.project, "pid": s.pid,
+                     "uptime": servers.format_uptime(s.uptime), "url": s.url}
+                    for s in startpage.collect_servers(self.window.config["dev_ports"])
                 ],
             }
         return {"ok": False, "error": _("comando sconosciuto: {command}").format(command=command)}

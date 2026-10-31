@@ -30,12 +30,12 @@ def _e(text):
     return html.escape(str(text), quote=True)
 
 
-def collect_servers(watched_ports, scan=servers.scan, probe=listening_ports):
+def collect_servers(watched_ports):
     """Server dell'utente da /proc più le porte osservate in ascolto ma di altri (Docker, root)."""
-    found = scan()
+    found = servers.scan()
     known = {s.port for s in found}
     extra = [p for p in watched_ports if p not in known]
-    for port in probe(extra) if extra else []:
+    for port in listening_ports(extra) if extra else []:
         found.append(servers.Server(port=port, host="localhost"))
     return sorted(found, key=lambda s: s.port)
 

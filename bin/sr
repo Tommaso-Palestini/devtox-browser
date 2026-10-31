@@ -4,6 +4,7 @@
   sr open <indirizzo o ricerca>   apre una nuova tab
   sr tabs                         elenca le tab
   sr mem                          memoria dei processi del browser
+  sr servers                      server di sviluppo in ascolto su questo PC
 """
 
 import argparse
@@ -24,6 +25,8 @@ MESSAGES_EN = {
     "risposta non valida": "invalid response",
     "aperto": "opened",
     "terminale": "terminal",
+    "server di sviluppo in ascolto su questo PC": "development servers listening on this machine",
+    "nessun server in ascolto su localhost": "no server listening on localhost",
 }
 
 
@@ -86,6 +89,7 @@ def main():
     open_parser.add_argument("target", nargs="+")
     sub.add_parser("tabs", help=_("elenca le tab aperte"))
     sub.add_parser("mem", help=_("mostra la memoria usata dal browser"))
+    sub.add_parser("servers", help=_("server di sviluppo in ascolto su questo PC"))
     args = parser.parse_args()
 
     if args.cmd == "open":
@@ -95,6 +99,12 @@ def main():
         for tab in send({"cmd": "tabs"})["tabs"]:
             marks = ("*" if tab["current"] else " ") + ("z" if tab["suspended"] else " ")
             print(f"{tab['index']:>3} {marks} {tab['title'][:50]:<50}  {tab['uri'] or ''}")
+    elif args.cmd == "servers":
+        servers = send({"cmd": "servers"})["servers"]
+        if not servers:
+            print(_("nessun server in ascolto su localhost"))
+        for server in servers:
+            print(f"{server['port']:>6}  {server['tool'] or '-':<12} {server['project'] or '-':<36} {server['uptime']}")
     elif args.cmd == "mem":
         response = send({"cmd": "mem"})
         for proc in sorted(response["processes"], key=lambda p: -p["pss_kb"]):

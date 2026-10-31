@@ -29,6 +29,7 @@ class DepsTest(unittest.TestCase):
 class FakeWindow:
     def __init__(self):
         self.opened = []
+        self.config = {"dev_ports": []}
 
     def open_from_cli(self, text):
         self.opened.append(text)
@@ -53,6 +54,16 @@ class ControlTest(unittest.TestCase):
 
     def test_tabs(self):
         self.assertEqual(self.server._handle('{"cmd": "tabs"}')["tabs"][0]["uri"], "https://a.it/")
+
+    def test_servers(self):
+        from unittest import mock
+
+        from shellrunner import servers
+        found = [servers.Server(port=5173, host="127.0.0.1", pid=7, tool="vite", project="~/sito", uptime=90)]
+        with mock.patch.object(servers, "scan", return_value=found):
+            response = self.server._handle('{"cmd": "servers"}')
+        self.assertEqual(response["servers"], [{"port": 5173, "tool": "vite", "project": "~/sito", "pid": 7,
+                                                "uptime": "1 min", "url": "http://localhost:5173/"}])
 
     def test_unusable_socket_path_is_not_fatal(self):
         self.server.path = "/" + "x" * 200 + ".sock"
@@ -79,3 +90,23 @@ class PagesTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SamplerCacheTest(unittest.TestCase):
+    """L'albero dei processi si rilegge solo ogni tanto, o subito se richiesto."""
+
+    def test_tree_is_reused_then_refreshed(self):
+        import os
+        from unittest import mock
+
+        from shellrunner import monitor
+        sampler = monitor.ProcessSampler()
+        with mock.patch.object(monitor, "browser_processes", return_value={os.getpid(): None}) as tree:
+            sampler.sample()
+            sampler.sample()
+            self.assertEqual(tree.call_count, 1)
+            sampler.sample(fresh=True)
+            self.assertEqual(tree.call_count, 2)
+            sampler._tree_time -= monitor.ProcessSampler.TREE_SECONDS + 1
+            sampler.sample()
+            self.assertEqual(tree.call_count, 3)

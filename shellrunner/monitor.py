@@ -93,15 +93,29 @@ def _kind(pid, name, terminal_roots, parents):
 class ProcessSampler:
     """Ricorda la misura precedente per calcolare la CPU % tra due campioni."""
 
+    # Ricostruire l'albero legge /proc/*/stat di tutto il sistema (~20 ms con 400 processi):
+    # i processi del browser cambiano di rado, la memoria invece va letta a ogni giro
+    TREE_SECONDS = 15
+
     def __init__(self, terminal_pids=None):
         # terminal_pids(): PID delle shell aperte nel pannello terminale
         self._terminal_pids = terminal_pids or (lambda: set())
         self._previous = {}  # pid -> (tick, istante)
+        self._tree = None
+        self._tree_time = 0.0
 
-    def sample(self):
+    def _parents(self, now, fresh):
+        if fresh or self._tree is None or now - self._tree_time > self.TREE_SECONDS:
+            self._tree, self._tree_time = browser_processes(), now
+        return self._tree
+
+    def sample(self, fresh=False):
+        """fresh=True rilegge subito l'albero (sr mem, pannello Memoria aperto a mano)."""
         now = time.monotonic()
         current, rows = {}, []
-        parents = browser_processes()
+        parents = self._parents(now, fresh)
+        if any(not os.path.exists(f"/proc/{pid}") for pid in parents):
+            parents = self._parents(now, True)  # un processo è finito: l'albero è vecchio
         terminal_roots = self._terminal_pids()
         for pid in parents:
             try:
@@ -183,7 +197,7 @@ class MemoryPanel(Gtk.Box):
             self._timer = 0
 
     def refresh(self):
-        rows = self.sampler.sample()
+        rows = self.sampler.sample(fresh=True)
         self.store.clear()
         for row in rows:
             cpu = "…" if row.cpu is None else f"{row.cpu:.0f}%"

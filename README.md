@@ -119,6 +119,7 @@ shellrunner --new-instance   # do not hand URLs to the running window
 sr open <url or search>      # new tab in the running browser
 sr tabs                      # list tabs (* current, z suspended)
 sr mem                       # memory per process
+sr servers                   # dev servers listening: port, tool, folder, uptime
 ```
 
 ## Memory

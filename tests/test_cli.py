@@ -54,6 +54,24 @@ class SrTest(unittest.TestCase):
         browser.join(5)
         self.assertIn("*z Esempio", result.stdout)
 
+    def test_servers(self):
+        server = {"port": 5173, "tool": "vite", "project": "~/progetti/sito", "pid": 42,
+                  "uptime": "2 h 14 min", "url": "http://localhost:5173/"}
+        browser = FakeBrowser(self.path, {"ok": True, "servers": [server]})
+        browser.start()
+        result = self.run_sr("servers")
+        browser.join(5)
+        self.assertEqual(browser.requests, [{"cmd": "servers"}])
+        self.assertRegex(result.stdout, r"5173\s+vite\s+~/progetti/sito\s+2 h 14 min")
+
+    def test_no_servers(self):
+        browser = FakeBrowser(self.path, {"ok": True, "servers": []})
+        browser.start()
+        result = self.run_sr("servers")
+        browser.join(5)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("nessun server", result.stdout)
+
     def test_error_from_browser(self):
         browser = FakeBrowser(self.path, {"ok": False, "error": "indirizzo vuoto"})
         browser.start()
