@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "shellrunner-browser"
+name = "devtox-browser"
 dynamic = ["version"]
 description = "Browser leggero per sviluppatori Linux, con terminale integrato (GTK 3 + WebKitGTK)"
 readme = "README.md"
@@ -29,15 +29,15 @@ Issues = "https://github.com/Tommaso-Palestini/devtox-browser/issues"
 Changelog = "https://github.com/Tommaso-Palestini/devtox-browser/blob/main/CHANGELOG.md"
 
 [project.scripts]
-shellrunner = "shellrunner.__main__:main"
+devtox = "devtox.__main__:main"
 
 [tool.setuptools]
-packages = ["shellrunner", "shellrunner.webext"]
-script-files = ["bin/sr"]
+packages = ["devtox", "devtox.webext"]
+script-files = ["bin/dx"]
 
 [tool.setuptools.package-data]
-shellrunner = ["resources/*", "resources/icons/*", "locale/*.po"]
-"shellrunner.webext" = ["*.c", "*.sh"]
+devtox = ["resources/*", "resources/icons/*", "locale/*.po"]
+"devtox.webext" = ["*.c", "*.sh"]
 
 [tool.setuptools.dynamic]
-version = { attr = "shellrunner.__version__" }
+version = { attr = "devtox.__version__" }

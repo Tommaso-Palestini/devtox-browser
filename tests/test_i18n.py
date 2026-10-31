@@ -4,7 +4,7 @@ import sys
 import tempfile
 import unittest
 
-from shellrunner import i18n
+from devtox import i18n
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -55,7 +55,7 @@ class LanguageTest(unittest.TestCase):
                     os.environ[key] = value
 
     def test_resources_have_no_leftover_markers(self):
-        from shellrunner import utils
+        from devtox import utils
         i18n.setup("en")
         for name in ("start.html", "https_error.html", "json_viewer.js", "info.html"):
             text = utils.read_resource(name)
@@ -68,9 +68,9 @@ class EnglishProcessTest(unittest.TestCase):
 
     def test_module_constants_follow_language(self):
         env = dict(os.environ, LANGUAGE="en_US")
-        code = ("from shellrunner import tabs, ui, about; "
+        code = ("from devtox import tabs, ui, about; "
                 "print(tabs.DEFAULT_TITLE); print(ui.ShieldsPopover.SHIELDS[0][1]); "
-                "print('Welcome to Shellrunner' in about.render_welcome_page())")
+                "print('Welcome to Devtox' in about.render_welcome_page())")
         out = subprocess.run([sys.executable, "-c", code], cwd=ROOT, env=env, capture_output=True,
                              text=True, timeout=30)
         self.assertEqual(out.stdout.split(), ["New", "tab", "Block", "trackers", "True"], out.stderr)

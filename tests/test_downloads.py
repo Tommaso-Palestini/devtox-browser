@@ -4,7 +4,7 @@ import os
 import tempfile
 import unittest
 
-from shellrunner.downloads import safe_filename, unique_path
+from devtox.downloads import safe_filename, unique_path
 
 
 class SafeFilenameTest(unittest.TestCase):

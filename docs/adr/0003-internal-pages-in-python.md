@@ -9,8 +9,8 @@ history, settings) and must be able to change settings safely.
 
 ## Decision
 
-Serve them from a custom `sr://` scheme whose handler calls a Python function
-and returns HTML built from templates in `shellrunner/resources/`. Values are
+Serve them from a custom `devtox://` scheme whose handler calls a Python function
+and returns HTML built from templates in `devtox/resources/`. Values are
 escaped before they reach the template. The scheme is registered as local and
 secure, and settings change only with a random token created at start-up.
 

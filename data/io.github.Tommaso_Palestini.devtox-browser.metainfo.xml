@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Metadati AppStream: nome, descrizione e screenshot per i software center (GNOME Software, Discover, Flathub) -->
+<component type="desktop-application">
+  <id>io.github.Tommaso_Palestini.devtox-browser</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Devtox</name>
+  <summary>Lightweight browser for developers, with a built-in terminal</summary>
+  <summary xml:lang="it">Browser leggero per sviluppatori, con terminale integrato</summary>
+  <description>
+    <p>Devtox puts a WebKit browser and a real terminal in the same window,
+    with a command palette for every action and privacy protections on by default.</p>
+    <ul>
+      <li>Built-in terminal and the dx command to drive the browser from the shell</li>
+      <li>Command palette, local dev server detection, network log, responsive view</li>
+      <li>HTTPS-only, tracker blocklist, anti-fingerprinting, Global Privacy Control</li>
+      <li>Optional local AI assistant through Ollama</li>
+      <li>No telemetry, no accounts, no update pings</li>
+    </ul>
+  </description>
+  <url type="homepage">https://github.com/Tommaso-Palestini/devtox-browser</url>
+  <url type="bugtracker">https://github.com/Tommaso-Palestini/devtox-browser/issues</url>
+  <developer id="io.github.tommaso-palestini">
+    <name>XENON1354</name>
+  </developer>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browser with the built-in terminal open</caption>
+      <image>https://raw.githubusercontent.com/Tommaso-Palestini/devtox-browser/main/docs/screenshots/terminal-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Command palette</caption>
+      <image>https://raw.githubusercontent.com/Tommaso-Palestini/devtox-browser/main/docs/screenshots/palette-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>First-run setup</caption>
+      <image>https://raw.githubusercontent.com/Tommaso-Palestini/devtox-browser/main/docs/screenshots/setup-en.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.Tommaso_Palestini.devtox-browser.desktop</launchable>
+  <provides>
+    <binary>devtox</binary>
+    <binary>dx</binary>
+  </provides>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+    <category>Development</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-10-30"/>
+  </releases>
+</component>

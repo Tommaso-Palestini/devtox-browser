@@ -2,8 +2,8 @@ import os
 import tempfile
 import unittest
 
-from shellrunner import navigation, onboarding
-from shellrunner.config import Config
+from devtox import navigation, onboarding
+from devtox.config import Config
 
 
 class SetupPageTest(unittest.TestCase):

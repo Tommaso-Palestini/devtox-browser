@@ -25,10 +25,10 @@ jobs:
             pyflakes3 shellcheck desktop-file-utils appstream
       - name: Controlli statici
         run: |
-          python3 -m pyflakes shellrunner tests scripts bin/sr
-          shellcheck install.sh shellrunner/webext/build.sh scripts/check.sh
-          desktop-file-validate data/shellrunner.desktop
-          appstreamcli validate --no-net data/io.github.shellrunner.Shellrunner.metainfo.xml
+          python3 -m pyflakes devtox tests scripts bin/dx
+          shellcheck install.sh devtox/webext/build.sh scripts/check.sh
+          desktop-file-validate data/io.github.Tommaso_Palestini.devtox-browser.desktop
+          appstreamcli validate --no-net data/io.github.Tommaso_Palestini.devtox-browser.metainfo.xml
       - name: Traduzioni complete
         run: python3 scripts/update_po.py --check
       - name: Test (compresa la prova d'avvio in Xvfb)

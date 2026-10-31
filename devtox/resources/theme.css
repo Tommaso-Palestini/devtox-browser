@@ -1,0 +1,754 @@
+/* Tema GTK di Devtox.
+ * Grigi neutri, un solo accento: il verde del prompt. L'accento non riempie
+ * mai niente: è la linea di 1px che segna ciò che è selezionato (tab, rail,
+ * campo con il focus). Ambra e rosso solo per gli stati che lo meritano.
+ * Niente bagliori e niente gradienti; le ombre solo su ciò che galleggia. */
+
+@define-color page #0e0e10;
+@define-color chrome #161618;
+@define-color raised #1f1f22;
+@define-color rule #26262a;
+@define-color control #3a3a3f;
+@define-color text #ececee;
+@define-color muted #94969d;
+@define-color accent #73c991;
+@define-color warning #d9a441;
+@define-color negative #e5566f;
+@define-color term_bg #0e0e10;
+
+/* Colori con nome usati dal tema di sistema (adw-gtk3): li riallineiamo */
+@define-color accent_color @accent;
+@define-color accent_bg_color @text;
+@define-color accent_fg_color @page;
+@define-color window_bg_color @page;
+@define-color window_fg_color @text;
+@define-color view_bg_color @chrome;
+@define-color view_fg_color @text;
+@define-color headerbar_bg_color @chrome;
+@define-color headerbar_fg_color @text;
+@define-color popover_bg_color @raised;
+@define-color popover_fg_color @text;
+@define-color card_bg_color @raised;
+@define-color theme_bg_color @page;
+@define-color theme_fg_color @text;
+@define-color theme_base_color @chrome;
+@define-color theme_text_color @text;
+@define-color theme_selected_bg_color @raised;
+@define-color theme_selected_fg_color @text;
+
+* {
+  font-family: "Fira Sans", "Inter", "Cantarell", sans-serif;
+  outline-color: alpha(@accent, 0.8);
+  outline-width: 1px;
+}
+
+window,
+.background {
+  background-color: @page;
+  color: @text;
+}
+
+selection,
+*:selected {
+  background-color: alpha(@accent, 0.28);
+  color: @text;
+}
+
+.dim-label {
+  color: @muted;
+  opacity: 1;
+}
+
+/* --- Pulsanti ---------------------------------------------------------- */
+
+button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: @muted;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+  transition: background-color 140ms ease-out, color 140ms ease-out,
+              border-color 140ms ease-out;
+}
+
+button:hover {
+  background-color: alpha(@text, 0.07);
+  color: @text;
+}
+
+button:active {
+  background-color: alpha(@text, 0.12);
+  color: @text;
+}
+
+button:checked {
+  background-color: alpha(@text, 0.06);
+  color: @text;
+}
+
+button:disabled {
+  color: alpha(@muted, 0.45);
+}
+
+/* Azione principale del pannello: invertita, mai colorata */
+button.destructive-action,
+button.suggested-action {
+  background-color: @text;
+  border-color: @text;
+  color: @page;
+  font-weight: 600;
+}
+
+button.destructive-action:hover,
+button.suggested-action:hover {
+  background-color: #ffffff;
+  color: @page;
+}
+
+/* --- Header ------------------------------------------------------------ */
+
+headerbar.deck-header {
+  background: @chrome;
+  border: none;
+  box-shadow: none;
+  min-height: 46px;
+  padding: 0 8px;
+}
+
+headerbar.deck-header:backdrop {
+  background: @chrome;
+}
+
+headerbar.deck-header button {
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0 2px;
+}
+
+/* Il marchio: largo quanto il rail sotto di lui, così rail e header fanno un angolo solo */
+headerbar.deck-header button#mark {
+  min-width: 52px;
+  min-height: 46px;
+  margin: 0 6px 0 -8px;
+  padding: 0;
+  border-radius: 0;
+  border-right: 1px solid @rule;
+}
+
+headerbar.deck-header button#mark:hover {
+  background-color: alpha(@text, 0.04);
+}
+
+/* La barra degli indirizzi: indirizzi in monospazio, come nel terminale */
+entry.url-entry {
+  font-family: "Fira Mono", "JetBrains Mono", monospace;
+  font-size: 10pt;
+  background: @raised;
+  color: @text;
+  caret-color: @accent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  min-height: 32px;
+  padding: 0 14px;
+  box-shadow: none;
+  transition: border-color 160ms ease-out, background-color 160ms ease-out;
+}
+
+entry.url-entry:hover {
+  background: #242428;
+}
+
+entry.url-entry:focus {
+  background: @page;
+  border-color: @accent;
+}
+
+entry.url-entry image {
+  color: @muted;
+}
+
+button.reload.loading {
+  color: @accent;
+}
+
+button.js-toggle {
+  font-family: "Fira Mono", monospace;
+  font-weight: 600;
+  font-size: 9pt;
+  min-width: 40px;
+}
+
+button.js-toggle:checked {
+  color: @muted;
+  background-color: transparent;
+}
+
+button.js-toggle:checked:hover {
+  color: @text;
+  background-color: alpha(@text, 0.07);
+}
+
+button.js-toggle:not(:checked):not(:disabled) {
+  color: @warning;
+  background-color: #2a2416;
+}
+
+/* Sulle pagine interne (devtox://) il JS non si può spegnere: pulsante muto */
+button.js-toggle:disabled {
+  color: alpha(@muted, 0.45);
+  background-color: transparent;
+}
+
+/* --- Barra laterale (rail) --------------------------------------------- */
+
+#rail {
+  background: @chrome;
+  border-right: 1px solid @rule;
+  padding: 8px 0;
+}
+
+/* Tasti a tutta larghezza: la selezione è una linea di 1px sul bordo del rail */
+#rail button {
+  min-width: 52px;
+  min-height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  color: @muted;
+}
+
+#rail button:hover {
+  background-color: alpha(@text, 0.04);
+  color: @text;
+}
+
+#rail button:checked {
+  color: @text;
+  background-color: alpha(@text, 0.04);
+  box-shadow: inset 1px 0 @accent;
+}
+
+#rail separator {
+  background: @rule;
+  min-height: 1px;
+  margin: 6px 16px;
+}
+
+#ram-button {
+  padding: 8px 0 2px;
+}
+
+#ram-button:hover {
+  background-color: alpha(@text, 0.04);
+}
+
+#ram-label {
+  font-family: "Fira Mono", monospace;
+  font-size: 8pt;
+  color: @muted;
+}
+
+/* --- Tab del browser --------------------------------------------------- */
+
+/* La tab attiva ha il colore della pagina: tab e contenuto sono un pezzo solo */
+notebook.browser-tabs > header {
+  background: @chrome;
+  border: none;
+  box-shadow: inset 0 -1px @rule;
+  padding: 0 6px;
+}
+
+notebook.browser-tabs > header tab {
+  min-height: 34px;
+  padding: 0 12px;
+  margin: 0 1px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: @muted;
+  box-shadow: none;
+  transition: background-color 140ms ease-out, color 140ms ease-out;
+}
+
+notebook.browser-tabs > header tab:hover {
+  background-color: alpha(@text, 0.04);
+  color: @text;
+}
+
+notebook.browser-tabs > header tab:checked {
+  background-color: @page;
+  color: @text;
+  box-shadow: inset 0 1px @accent, inset 1px 0 @rule, inset -1px 0 @rule;
+}
+
+notebook.browser-tabs > header tab button {
+  min-width: 20px;
+  min-height: 20px;
+  padding: 0;
+  color: @muted;
+}
+
+notebook.browser-tabs > header tab button:hover {
+  color: @text;
+}
+
+notebook.browser-tabs > header > tabs > arrow {
+  color: @muted;
+}
+
+notebook.browser-tabs > stack {
+  background: @page;
+}
+
+/* --- Pannello laterale ------------------------------------------------- */
+
+.side-panel {
+  background: @chrome;
+  border-left: 1px solid @rule;
+}
+
+/* Pulsanti dentro i pannelli: un contorno, così si leggono come azioni */
+.side-panel stack button {
+  border-color: @control;
+  background-color: transparent;
+  color: @text;
+  padding: 4px 14px;
+}
+
+.side-panel stack button:hover {
+  border-color: @muted;
+  background-color: alpha(@text, 0.05);
+}
+
+.side-panel stack button.destructive-action,
+.side-panel stack button.suggested-action {
+  border-color: @text;
+  background-color: @text;
+  color: @page;
+}
+
+.side-panel stack > box {
+  padding: 4px 4px 8px;
+}
+
+.side-panel stackswitcher button {
+  padding: 2px 12px;
+  border: none;
+  border-radius: 0;
+  color: @muted;
+  font-weight: 500;
+}
+
+.side-panel stackswitcher button:hover {
+  background: transparent;
+  color: @text;
+}
+
+.side-panel stackswitcher button:checked {
+  color: @text;
+  background-color: transparent;
+  box-shadow: inset 0 -1px @accent;
+}
+
+/* --- Terminale --------------------------------------------------------- */
+
+.terminal-panel {
+  background: @term_bg;
+  border-top: 1px solid @rule;
+}
+
+.terminal-panel .terminal-title {
+  color: @text;
+  font-weight: 600;
+}
+
+notebook.terminal-tabs > header {
+  background: @term_bg;
+  border: none;
+  box-shadow: inset 0 -1px @rule;
+  padding: 0 4px;
+}
+
+notebook.terminal-tabs > header tab {
+  min-height: 26px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 0;
+  color: @muted;
+  background: transparent;
+  box-shadow: none;
+  font-family: "Fira Mono", monospace;
+  font-size: 9pt;
+  transition: color 140ms ease-out;
+}
+
+notebook.terminal-tabs > header tab:hover {
+  color: @text;
+}
+
+notebook.terminal-tabs > header tab:checked {
+  color: @text;
+  box-shadow: inset 0 -1px @accent;
+}
+
+notebook.terminal-tabs > stack {
+  background: @term_bg;
+}
+
+paned > separator {
+  background: @rule;
+  min-width: 1px;
+  min-height: 1px;
+  transition: background-color 160ms ease-out;
+}
+
+paned > separator:hover {
+  background: @control;
+}
+
+/* --- Liste, testo, popover --------------------------------------------- */
+
+treeview.view {
+  background-color: @chrome;
+  color: @text;
+}
+
+treeview.view:hover {
+  background-color: alpha(@text, 0.04);
+}
+
+treeview.view:selected {
+  background-color: @raised;
+  color: @text;
+}
+
+treeview.view header button {
+  background: @chrome;
+  color: @muted;
+  border: none;
+  border-bottom: 1px solid @rule;
+  border-radius: 0;
+  font-weight: 500;
+}
+
+textview text {
+  background-color: @chrome;
+  color: @text;
+}
+
+textview.ai-output text {
+  font-size: 10.5pt;
+}
+
+scrollbar {
+  background: transparent;
+  border: none;
+}
+
+scrollbar slider {
+  background-color: alpha(@muted, 0.35);
+  min-width: 5px;
+  min-height: 5px;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 160ms ease-out;
+}
+
+scrollbar slider:hover {
+  background-color: @muted;
+}
+
+popover,
+menu,
+.menu {
+  background-color: @raised;
+  border: 1px solid @rule;
+  border-radius: 10px;
+  color: @text;
+}
+
+popover.background {
+  box-shadow: 0 12px 32px alpha(black, 0.45);
+}
+
+menuitem {
+  border-radius: 6px;
+  transition: background-color 100ms ease-out;
+}
+
+menuitem:hover {
+  background-color: alpha(@text, 0.08);
+  color: @text;
+}
+
+menuitem accelerator {
+  color: @muted;
+  font-family: "Fira Mono", monospace;
+}
+
+menu separator,
+.menu separator {
+  background: @rule;
+}
+
+tooltip,
+tooltip.background {
+  background-color: @raised;
+  color: @text;
+  border: 1px solid @rule;
+  border-radius: 6px;
+}
+
+combobox button,
+entry {
+  background-color: @page;
+  border: 1px solid @control;
+  border-radius: 6px;
+  color: @text;
+  box-shadow: none;
+}
+
+entry:focus {
+  border-color: @accent;
+}
+
+/* --- Avvisi ------------------------------------------------------------ */
+
+.status-toast {
+  background-color: @raised;
+  color: @text;
+  border: 1px solid @rule;
+  border-radius: 999px;
+  padding: 8px 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 28px alpha(black, 0.45);
+}
+
+/* --- Vista responsive -------------------------------------------------- */
+
+frame.device-frame > border {
+  border: 1px solid @control;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.device-size {
+  font-family: "Fira Mono", monospace;
+  font-size: 10pt;
+  color: @muted;
+}
+
+.suspended-placeholder {
+  color: @muted;
+  font-size: 12pt;
+}
+
+/* --- Barra indirizzi: stato della connessione -------------------------- */
+
+entry.url-entry image.left {
+  color: @muted;
+  margin-right: 6px;
+}
+
+entry.url-entry.insecure image.left {
+  color: @warning;
+}
+
+entry.url-entry image.right {
+  color: @muted;
+  transition: color 140ms ease-out;
+}
+
+entry.url-entry image.right:hover {
+  color: @text;
+}
+
+/* Scudi: ambra quando su questo sito qualcosa è spento */
+button.shields.shields-down {
+  color: @warning;
+  background-color: #2a2416;
+}
+
+.shields-host {
+  font-family: "Fira Mono", monospace;
+  font-weight: 600;
+  font-size: 13pt;
+}
+
+popover label.insecure {
+  color: @warning;
+}
+
+.private-note {
+  color: @warning;
+}
+
+switch {
+  background-color: @control;
+  border: 1px solid @control;
+  border-radius: 999px;
+  transition: background-color 160ms ease-out;
+}
+
+switch:checked {
+  background-color: @accent;
+  border-color: @accent;
+}
+
+switch slider {
+  background-color: @text;
+  border: none;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+switch:checked slider {
+  background-color: @page;
+}
+
+/* --- Tab private ------------------------------------------------------- */
+
+notebook.browser-tabs > header tab box.private label,
+notebook.browser-tabs > header tab box.private image {
+  color: @warning;
+}
+
+/* --- Command palette --------------------------------------------------- */
+
+.palette {
+  background-color: @raised;
+  border: 1px solid @rule;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 24px 60px alpha(black, 0.55);
+}
+
+entry.palette-entry {
+  font-family: "Fira Mono", monospace;
+  font-size: 12pt;
+  min-height: 40px;
+  padding: 0 12px;
+  background: @page;
+  border: 1px solid @rule;
+  border-radius: 8px;
+  caret-color: @accent;
+}
+
+entry.palette-entry:focus {
+  border-color: @accent;
+}
+
+.palette list {
+  background: transparent;
+}
+
+.palette list row {
+  border-radius: 6px;
+  transition: background-color 90ms ease-out;
+}
+
+.palette list row label {
+  color: @text;
+}
+
+.palette list row label.dim-label,
+.palette list row image {
+  color: @muted;
+}
+
+.palette list row label.dim-label {
+  font-family: "Fira Mono", monospace;
+  font-size: 9pt;
+}
+
+.palette list row:selected {
+  background-color: alpha(@text, 0.07);
+  box-shadow: inset 1px 0 @accent;
+}
+
+.palette list row:selected image {
+  color: @text;
+}
+
+/* --- Ricerca nella pagina ---------------------------------------------- */
+
+.findbar {
+  background-color: @raised;
+  border: 1px solid @rule;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 12px 32px alpha(black, 0.45);
+}
+
+.find-count {
+  color: @muted;
+  font-family: "Fira Mono", monospace;
+  font-size: 9pt;
+  margin: 0 6px;
+  min-width: 90px;
+}
+
+.find-count.error {
+  color: @warning;
+}
+
+/* --- Download ---------------------------------------------------------- */
+
+progressbar trough {
+  background-color: @rule;
+  min-height: 4px;
+  border-radius: 4px;
+}
+
+progressbar progress {
+  background-image: none;
+  background-color: @accent;
+  min-height: 4px;
+  border-radius: 4px;
+}
+
+list {
+  background-color: @chrome;
+}
+
+/* --- Server locali (popover del rail) ----------------------------------- */
+
+.servers-popover {
+  min-width: 460px;
+}
+
+.servers-popover > label {
+  margin: 2px 6px 6px;
+  font-size: 9pt;
+}
+
+button.server-row {
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: @text;
+}
+
+button.server-row:hover,
+button.server-row:focus {
+  background-color: alpha(@text, 0.06);
+}
+
+.server-key {
+  font-family: "Fira Mono", monospace;
+  font-size: 8pt;
+  color: @muted;
+  min-width: 10px;
+}
+
+.server-port {
+  font-family: "Fira Mono", monospace;
+  font-size: 12pt;
+  font-weight: 500;
+  color: @text;
+}
+
+.server-tool {
+  font-weight: 600;
+}

@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Devtox
+GenericName=Web Browser
+GenericName[it]=Browser web
+Comment=Lightweight browser for developers, with a built-in terminal
+Comment[it]=Browser leggero per sviluppatori, con terminale integrato
+Exec=devtox %U
+Icon=io.github.Tommaso_Palestini.devtox-browser
+Terminal=false
+Categories=Network;WebBrowser;
+MimeType=text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+StartupWMClass=devtox
+Keywords=browser;web;terminal;developer;

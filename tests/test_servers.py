@@ -4,7 +4,7 @@ import os
 import tempfile
 import unittest
 
-from shellrunner import servers
+from devtox import servers
 
 UID = os.getuid()
 

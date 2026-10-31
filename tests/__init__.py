@@ -1,4 +1,4 @@
-"""Test di Shellrunner: python -m unittest (dalla cartella del progetto).
+"""Test di Devtox: python -m unittest (dalla cartella del progetto).
 
 Il profilo dei test vive in una cartella temporanea: le variabili XDG vanno
 impostate prima del primo import di GLib, che le legge una volta sola.
@@ -9,7 +9,7 @@ import os
 import shutil
 import tempfile
 
-_ROOT = tempfile.mkdtemp(prefix="shellrunner-test-")
+_ROOT = tempfile.mkdtemp(prefix="devtox-test-")
 atexit.register(shutil.rmtree, _ROOT, True)
 tempfile.tempdir = _ROOT  # anche le cartelle create dai singoli test spariscono a fine corsa
 for name in ("XDG_CONFIG_HOME", "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME", "XDG_RUNTIME_DIR"):

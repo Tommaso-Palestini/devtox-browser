@@ -16,12 +16,12 @@ import tempfile
 
 OUT = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else "docs/screenshots")
 LANG = sys.argv[2] if len(sys.argv) > 2 else "en"
-ROOT = tempfile.mkdtemp(prefix="shellrunner-shots-")
+ROOT = tempfile.mkdtemp(prefix="devtox-shots-")
 atexit.register(shutil.rmtree, ROOT, True)
 for name in ("XDG_CONFIG_HOME", "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME"):
     os.makedirs(os.path.join(ROOT, name.lower()))
     os.environ[name] = os.path.join(ROOT, name.lower())
-os.environ["SHELLRUNNER_SOCKET"] = os.path.join(ROOT, "sr.sock")
+os.environ["DEVTOX_SOCKET"] = os.path.join(ROOT, "dx.sock")
 os.environ["LANGUAGE"] = LANG
 # Sempre dentro Xvfb: senza queste due righe GTK sceglierebbe il desktop Wayland vero
 os.environ["GDK_BACKEND"] = "x11"
@@ -38,9 +38,9 @@ DEMO = subprocess.Popen([sys.executable, "-m", "http.server", "--bind", "127.0.0
                         cwd=SITE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 atexit.register(DEMO.terminate)
 
-from shellrunner import __main__ as app  # noqa: E402  (fissa le versioni di GTK prima di gi.repository)
+from devtox import __main__ as app  # noqa: E402  (fissa le versioni di GTK prima di gi.repository)
 from gi.repository import GLib, Gtk  # noqa: E402
-from shellrunner.window import BrowserWindow  # noqa: E402
+from devtox.window import BrowserWindow  # noqa: E402
 
 
 def window():
@@ -70,7 +70,7 @@ def run(steps):
 def type_in_terminal():
     terminal = window().terminal_panel.current_terminal()
     # Prompt e titolo neutri: niente nome utente o hostname nelle immagini pubblicate
-    terminal.feed_child(b"PROMPT_COMMAND=; PS1='$ '; printf '\\033]0;bash\\007'; clear; sr tabs; sr mem | tail -3\r")
+    terminal.feed_child(b"PROMPT_COMMAND=; PS1='$ '; printf '\\033]0;bash\\007'; clear; dx tabs; dx mem | tail -3\r")
 
 
 run([

@@ -3,7 +3,7 @@ import os
 import tempfile
 import unittest
 
-from shellrunner.config import DEFAULTS, Config
+from devtox.config import DEFAULTS, Config
 
 
 class ConfigTest(unittest.TestCase):
@@ -32,14 +32,14 @@ class ConfigTest(unittest.TestCase):
 
     def test_wrong_types_are_ignored(self):
         self.write({"history_days": "tanti", "https_only": 1})
-        with self.assertLogs("shellrunner", "WARNING"):
+        with self.assertLogs("devtox", "WARNING"):
             config = Config(self.path)
         self.assertEqual(config["history_days"], DEFAULTS["history_days"])
         self.assertIs(config["https_only"], DEFAULTS["https_only"])
 
     def test_broken_json_uses_defaults(self):
         self.write("{ non è json")
-        with self.assertLogs("shellrunner", "WARNING"):
+        with self.assertLogs("devtox", "WARNING"):
             config = Config(self.path)
         self.assertEqual(config["dev_ports"], DEFAULTS["dev_ports"])
         self.assertFalse(config.first_run)

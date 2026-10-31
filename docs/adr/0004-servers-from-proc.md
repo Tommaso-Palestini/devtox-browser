@@ -22,4 +22,4 @@ the user, such as Docker or root services; those are probed with a connect.
   developer recognises at a glance.
 - Linux only, like the rest of the browser. Reads only the user's own `/proc`
   entries: no privileges and no network.
-- The same data feeds the start page, the rail popover and `sr servers`.
+- The same data feeds the start page, the rail popover and `dx servers`.

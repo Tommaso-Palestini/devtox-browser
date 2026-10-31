@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Raccoglie i testi da tradurre e aggiorna shellrunner/locale/<lingua>.po.
+"""Raccoglie i testi da tradurre e aggiorna devtox/locale/<lingua>.po.
 
   python3 scripts/update_po.py           aggiorna tutti i .po esistenti
   python3 scripts/update_po.py --check   esce con errore se mancano traduzioni
@@ -16,7 +16,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PACKAGE = os.path.join(ROOT, "shellrunner")
+PACKAGE = os.path.join(ROOT, "devtox")
 LOCALE_DIR = os.path.join(PACKAGE, "locale")
 TRANSLATABLE_RE = re.compile(r"\{\{(.+?)\}\}", re.DOTALL)
 PLACEHOLDER_RE = re.compile(r"\{[a-z_]*(?::[^}]*)?\}|\$[a-z_]+|<[^>]+>")
@@ -66,7 +66,7 @@ def quote(text):
 
 def write_po(path, language, found, existing):
     out = [
-        f"# Traduzione di Shellrunner: {language}.",
+        f"# Traduzione di Devtox: {language}.",
         "# Il testo sorgente (msgid) è in italiano. Aggiorna con: python3 scripts/update_po.py",
         'msgid ""',
         'msgstr ""',

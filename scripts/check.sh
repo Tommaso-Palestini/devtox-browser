@@ -7,7 +7,7 @@ python="${PYTHON:-.venv/bin/python}"
 [ -x "$python" ] || python=python3
 if command -v xvfb-run >/dev/null 2>&1; then
     # GDK_BACKEND e WAYLAND_DISPLAY: la finestra deve aprirsi in Xvfb, non sul desktop vero
-    env -u WAYLAND_DISPLAY GDK_BACKEND=x11 SHELLRUNNER_GUI_TESTS=1 \
+    env -u WAYLAND_DISPLAY GDK_BACKEND=x11 DEVTOX_GUI_TESTS=1 \
         xvfb-run -a "$python" -m unittest -v "$@"
 else
     echo "xvfb-run non trovato: salto la prova d'avvio (sudo apt install xvfb)" >&2

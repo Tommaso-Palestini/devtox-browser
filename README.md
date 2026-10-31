@@ -1,10 +1,10 @@
-# Shellrunner
+# Devtox
 
 A lightweight web browser for Linux developers, with the terminal built in.
 
-![Shellrunner with the built-in terminal open](docs/screenshots/terminal-en.png)
+![Devtox with the built-in terminal open](docs/screenshots/terminal-en.png)
 
-Shellrunner puts a WebKit browser and a real terminal (VTE) in the same window,
+Devtox puts a WebKit browser and a real terminal (VTE) in the same window,
 adds a command palette for everything, and ships with privacy defaults that you
 can tune per site. It is written in Python on top of GTK 3 and WebKitGTK, so it
 uses the web engine your distribution already keeps up to date.
@@ -16,7 +16,7 @@ uses the web engine your distribution already keeps up to date.
 
 - **Browser + terminal, one window.** ``Ctrl+` `` slides a terminal up from the bottom;
   ``Ctrl+Shift+` `` opens another one. No alt-tabbing between the dev server and the page.
-- **Drive the browser from the shell.** `sr open localhost:5173`, `sr tabs`, `sr mem`.
+- **Drive the browser from the shell.** `dx open localhost:5173`, `dx tabs`, `dx mem`.
 - **Command palette.** `Ctrl+K` searches actions, open tabs, bookmarks and history.
 - **Your dev servers, found for you.** The start page lists every server you are running
   (read from `/proc`, no configuration): port, tool (vite, next, django, http.server…),
@@ -46,7 +46,7 @@ uses the web engine your distribution already keeps up to date.
 | Camera, microphone, location, notifications | always denied |
 | Private tabs (ephemeral profile, gone with the last private tab) | `Ctrl+Shift+N` |
 
-On first start a setup page (`sr://setup`) lets you pick the language, the search
+On first start a setup page (`devtox://setup`) lets you pick the language, the search
 engine (DuckDuckGo, Startpage, Brave Search, Mojeek, Ecosia or Google), a balanced
 or maximum-privacy preset, your dev server ports and whether to show the AI panel.
 Every protection can also be turned off per site from the shield in the address bar.
@@ -54,7 +54,7 @@ The blocklist is a plain text file that you own: nothing is downloaded behind yo
 
 ## Install
 
-Shellrunner needs a few system libraries (they cannot come from pip):
+Devtox needs a few system libraries (they cannot come from pip):
 
 ```sh
 # Debian, Ubuntu, Pop!_OS, Mint
@@ -72,27 +72,27 @@ Then clone the repository and run the installer:
 ```sh
 git clone https://github.com/Tommaso-Palestini/devtox-browser.git && cd devtox-browser
 sh install.sh          # installs into ~/.local, no sudo
-shellrunner            # or launch it from the applications menu
+devtox            # or launch it from the applications menu
 ```
 
 `sh install.sh --uninstall` removes it again (your profile is kept).
 You can make it the default browser from the setup page, or with
-`xdg-settings set default-web-browser shellrunner.desktop`.
+`xdg-settings set default-web-browser io.github.Tommaso_Palestini.devtox-browser.desktop`.
 
 `gcc`, `pkg-config` and the GLib headers are only used once, to compile a tiny
 WebKit extension that sets the GPC header and trims the Referer. Without them
-Shellrunner still runs, just without those two protections. `shellrunner --check`
+Devtox still runs, just without those two protections. `devtox --check`
 shows what is active.
 
 ### Run from source
 
 ```sh
 python3 -m venv --system-site-packages .venv
-.venv/bin/python -m shellrunner
+.venv/bin/python -m devtox
 ```
 
-The Python package is called `shellrunner-browser` (the name `shellrunner` on
-PyPI belongs to an unrelated project).
+The Python package is called `devtox-browser`, like the repository; the program
+it installs is `devtox`, and the shell command is `dx`.
 
 ## Keyboard
 
@@ -113,18 +113,18 @@ PyPI belongs to an unrelated project).
 ## Command line
 
 ```sh
-shellrunner [URL ...]        # opens URLs; reuses the running window if there is one
-shellrunner --check          # versions, privacy extension status, log path
-shellrunner --new-instance   # do not hand URLs to the running window
-sr open <url or search>      # new tab in the running browser
-sr tabs                      # list tabs (* current, z suspended)
-sr mem                       # memory per process
-sr servers                   # dev servers listening: port, tool, folder, uptime
+devtox [URL ...]        # opens URLs; reuses the running window if there is one
+devtox --check          # versions, privacy extension status, log path
+devtox --new-instance   # do not hand URLs to the running window
+dx open <url or search>      # new tab in the running browser
+dx tabs                      # list tabs (* current, z suspended)
+dx mem                       # memory per process
+dx servers                   # dev servers listening: port, tool, folder, uptime
 ```
 
 ## Memory
 
-Measured with `sr mem` (PSS, so shared memory is counted once), WebKitGTK 2.52,
+Measured with `dx mem` (PSS, so shared memory is counted once), WebKitGTK 2.52,
 Pop!_OS 24.04, fresh profile:
 
 | Open | Total |
@@ -139,13 +139,13 @@ Each tab gets its own web process. Background tabs are suspended after
 
 | What | Where |
 |---|---|
-| Settings (JSON, edit by hand or from `sr://setup`) | `~/.config/shellrunner/config.json` |
-| Blocklist | `~/.config/shellrunner/blocklist.txt` |
-| History, bookmarks, cookies, session | `~/.local/share/shellrunner/` |
-| Cache and compiled extension | `~/.cache/shellrunner/` |
-| Log (attach it to bug reports) | `~/.local/state/shellrunner/shellrunner.log` |
+| Settings (JSON, edit by hand or from `devtox://setup`) | `~/.config/devtox/config.json` |
+| Blocklist | `~/.config/devtox/blocklist.txt` |
+| History, bookmarks, cookies, session | `~/.local/share/devtox/` |
+| Cache and compiled extension | `~/.cache/devtox/` |
+| Log (attach it to bug reports) | `~/.local/state/devtox/devtox.log` |
 
-`sr://about` inside the browser shows versions, paths and the license.
+`devtox://about` inside the browser shows versions, paths and the license.
 
 ## Known limitations
 
@@ -172,12 +172,12 @@ sh scripts/check.sh          # all tests, including a real start-up inside Xvfb
 
 Copyright © 2026 XENON1354.
 
-Shellrunner is free software, released under the
+Devtox is free software, released under the
 [GNU General Public License v3.0 or later](LICENSE). It comes with no warranty.
 It uses WebKitGTK, GTK, VTE and PyGObject (LGPL) from your system; none of their
 code is bundled here.
 
 Names of other products and services mentioned here (DuckDuckGo, Startpage,
 Brave Search, Mojeek, Ecosia, Google, Ollama, Tor Browser, uBlock Origin) are
-trademarks of their respective owners. Shellrunner is not affiliated with or
+trademarks of their respective owners. Devtox is not affiliated with or
 endorsed by any of them.

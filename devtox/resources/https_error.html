@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="{{it}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{HTTPS non disponibile}}</title>
+<style>
+  :root {
+    --page: #0e0e10; --chrome: #161618; --rule: #26262a; --control: #3a3a3f;
+    --text: #ececee; --muted: #94969d; --accent: #73c991; --warning: #d9a441;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background: var(--page);
+    color: var(--text);
+    font: 400 15px/1.6 "Fira Sans", "Inter", system-ui, sans-serif;
+  }
+  main {
+    max-width: 600px;
+    padding: 32px;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--chrome);
+  }
+  h1 { margin: 0 0 16px; font: 600 24px/1.25 "Fira Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.01em; }
+  h1::before {
+    content: ""; display: inline-block; width: 8px; height: 8px; margin: 0 12px 3px 0;
+    border-radius: 50%; background: var(--warning);
+  }
+  p { margin: 0 0 12px; }
+  .reason {
+    padding: 10px 12px; border-radius: 6px; background: var(--page);
+    color: var(--muted); font: 400 13px/1.5 "Fira Mono", ui-monospace, monospace;
+  }
+  a.continue {
+    display: inline-flex; align-items: center; min-height: 36px; margin-top: 8px; padding: 0 18px;
+    border: 1px solid var(--warning); border-radius: 999px;
+    color: var(--warning); text-decoration: none; font-weight: 500;
+    transition: background-color 120ms ease-out;
+  }
+  a.continue:hover { background: #2a2416; }
+  a.continue:focus-visible { outline: 1px solid var(--warning); outline-offset: 2px; }
+  .note { color: var(--muted); font-size: 13px; margin-top: 16px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+  <main>
+    <h1>{{$host non risponde in HTTPS}}</h1>
+    <p>{{Devtox ha provato a collegarsi in modo cifrato, ma non ci è riuscito.}}</p>
+    <p class="reason">$reason</p>
+    <p>{{In HTTP la connessione non è cifrata: chi è sulla tua rete può leggere e modificare la pagina.}}</p>
+    <a class="continue" href="$http_uri">{{Continua in HTTP su $host}}</a>
+    <p class="note">$note</p>
+  </main>
+</body>
+</html>

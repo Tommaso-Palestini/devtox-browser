@@ -1,6 +1,6 @@
 import unittest
 
-from shellrunner import navigation
+from devtox import navigation
 
 
 class ResolveInputTest(unittest.TestCase):
@@ -8,7 +8,7 @@ class ResolveInputTest(unittest.TestCase):
         self.assertIsNone(navigation.resolve_input("   "))
 
     def test_full_urls_kept(self):
-        for url in ("https://example.com/a?b=1", "http://localhost:3000", "sr://start", "about:blank"):
+        for url in ("https://example.com/a?b=1", "http://localhost:3000", "devtox://start", "about:blank"):
             self.assertEqual(navigation.resolve_input(url), url)
 
     def test_domains_get_https(self):
@@ -37,7 +37,7 @@ class HostsTest(unittest.TestCase):
 
     def test_http_host(self):
         self.assertEqual(navigation.http_host("https://Example.com:8443/x"), "example.com")
-        self.assertIsNone(navigation.http_host("sr://start"))
+        self.assertIsNone(navigation.http_host("devtox://start"))
         self.assertIsNone(navigation.http_host(None))
 
     def test_display_uri(self):
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
 
 class InternalRequestTest(unittest.TestCase):
-    """Una pagina sr:// che fallisce chiude comunque la richiesta (niente tab appese)."""
+    """Una pagina devtox:// che fallisce chiude comunque la richiesta (niente tab appese)."""
 
     class Request:
         def __init__(self, uri):
@@ -80,12 +80,12 @@ class InternalRequestTest(unittest.TestCase):
         def broken(_params):
             raise RuntimeError("boom")
 
-        request = self.Request("sr://start")
-        with self.assertLogs("shellrunner", "ERROR"):
+        request = self.Request("devtox://start")
+        with self.assertLogs("devtox", "ERROR"):
             navigation._handle_internal_request(request, {"start": broken})
         self.assertIsNotNone(request.error)
 
     def test_page_is_served(self):
-        request = self.Request("sr://start?x=1")
+        request = self.Request("devtox://start?x=1")
         navigation._handle_internal_request(request, {"start": lambda params: "<p>" + params["x"]})
         self.assertEqual(request.data, len("<p>1"))

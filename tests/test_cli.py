@@ -1,4 +1,4 @@
-"""Il comando sr contro un socket finto: protocollo e messaggi d'errore."""
+"""Il comando dx contro un socket finto: protocollo e messaggi d'errore."""
 
 import json
 import os
@@ -9,7 +9,7 @@ import tempfile
 import threading
 import unittest
 
-SR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bin", "sr")
+SR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bin", "dx")
 
 
 class FakeBrowser(threading.Thread):
@@ -31,10 +31,10 @@ class FakeBrowser(threading.Thread):
 
 class SrTest(unittest.TestCase):
     def setUp(self):
-        self.path = os.path.join(tempfile.mkdtemp(), "sr.sock")
+        self.path = os.path.join(tempfile.mkdtemp(), "dx.sock")
 
     def run_sr(self, *args):
-        env = dict(os.environ, SHELLRUNNER_SOCKET=self.path)
+        env = dict(os.environ, DEVTOX_SOCKET=self.path)
         return subprocess.run([sys.executable, SR, *args], env=env, capture_output=True, text=True, timeout=10)
 
     def test_open_joins_words(self):

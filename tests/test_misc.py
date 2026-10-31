@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from shellrunner import about, deps, ui
-from shellrunner.control import ControlServer
+from devtox import about, deps, ui
+from devtox.control import ControlServer
 
 
 class FuzzyScoreTest(unittest.TestCase):
@@ -58,7 +58,7 @@ class ControlTest(unittest.TestCase):
     def test_servers(self):
         from unittest import mock
 
-        from shellrunner import servers
+        from devtox import servers
         found = [servers.Server(port=5173, host="127.0.0.1", pid=7, tool="vite", project="~/sito", uptime=90)]
         with mock.patch.object(servers, "scan", return_value=found):
             response = self.server._handle('{"cmd": "servers"}')
@@ -67,7 +67,7 @@ class ControlTest(unittest.TestCase):
 
     def test_unusable_socket_path_is_not_fatal(self):
         self.server.path = "/" + "x" * 200 + ".sock"
-        with self.assertLogs("shellrunner", "WARNING"):
+        with self.assertLogs("devtox", "WARNING"):
             self.server.start()
         self.assertIsNone(self.server.service)
         self.server.stop()
@@ -99,7 +99,7 @@ class SamplerCacheTest(unittest.TestCase):
         import os
         from unittest import mock
 
-        from shellrunner import monitor
+        from devtox import monitor
         sampler = monitor.ProcessSampler()
         with mock.patch.object(monitor, "browser_processes", return_value={os.getpid(): None}) as tree:
             sampler.sample()

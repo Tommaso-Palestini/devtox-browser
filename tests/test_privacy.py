@@ -2,7 +2,7 @@ import os
 import tempfile
 import unittest
 
-from shellrunner import privacy
+from devtox import privacy
 
 
 class BlocklistTest(unittest.TestCase):
@@ -16,7 +16,7 @@ class BlocklistTest(unittest.TestCase):
         path = os.path.join(tempfile.mkdtemp(), "blocklist.txt")
         with open(path, "w") as f:
             f.write("# commento\nTracker.COM\n*.ads.example.org  # nota\n\nnon valido!\ntracker.com\n")
-        with self.assertLogs("shellrunner", "WARNING"):
+        with self.assertLogs("devtox", "WARNING"):
             domains = privacy.load_blocklist(path)
         self.assertEqual(domains, ["ads.example.org", "tracker.com"])
 

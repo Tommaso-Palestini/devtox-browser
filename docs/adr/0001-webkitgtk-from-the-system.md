@@ -11,7 +11,7 @@ and taking on the duty of releasing every engine security fix ourselves.
 ## Decision
 
 Use WebKitGTK 4.1, GTK 3 and VTE from the distribution, through PyGObject.
-Shellrunner ships only Python, a few resources and a small C web extension.
+Devtox ships only Python, a few resources and a small C web extension.
 
 ## Consequences
 

@@ -1,20 +1,20 @@
 # Architecture
 
-Shellrunner is one Python process that drives GTK 3, WebKitGTK 4.1 and VTE through
+Devtox is one Python process that drives GTK 3, WebKitGTK 4.1 and VTE through
 PyGObject. WebKit runs each page in its own web process and does networking in a
 network process; everything else (window, panels, internal pages, terminal) lives
 in the UI process.
 
 ```
                  ┌─────────────── UI process (Python) ───────────────┐
- sr (CLI) ──────►│ control.py   Unix socket, one JSON line each way  │
+ dx (CLI) ──────►│ control.py   Unix socket, one JSON line each way  │
                  │ window.py    header, rail, tabs, panels, palette  │
                  │   ├ tabs.py        one WebView per tab, suspension │
                  │   ├ terminal.py    VTE panel                       │
                  │   ├ devtools.py    network, site data, screenshots │
                  │   ├ monitor.py     memory per process (from /proc) │
                  │   ├ downloads.py   ai.py   ui.py   actions.py      │
-                 │ navigation.py  address bar + sr:// pages           │
+                 │ navigation.py  address bar + devtox:// pages       │
                  │   ├ startpage.py   servers.py (from /proc)         │
                  │   ├ onboarding.py  about.py                        │
                  │ privacy.py   profile, content filter, HTTPS guard  │
@@ -28,17 +28,17 @@ in the UI process.
 
 `__main__.main` checks the system libraries (`deps.py`), loads `config.json`,
 picks the language (`i18n.py`), installs the theme, creates the `WebContext`
-(`privacy.create_web_context`), registers `sr://`, compiles the content filter and
+(`privacy.create_web_context`), registers `devtox://`, compiles the content filter and
 only then creates the window. No page can load before the blocklist and the HTTPS
 rules are in place.
 
-## Internal pages (`sr://`)
+## Internal pages (`devtox://`)
 
-`navigation.register_internal_scheme` maps `sr://<name>?<query>` to a Python
-function that returns HTML. Pages are templates in `shellrunner/resources/`
+`navigation.register_internal_scheme` maps `devtox://<name>?<query>` to a Python
+function that returns HTML. Pages are templates in `devtox/resources/`
 (`{{text}}` is translated, `$name` is filled with values that are already
 HTML-escaped). The scheme is registered as *local*, so web pages cannot open or
-embed it. `sr://setup` changes settings only with a per-process random token.
+embed it. `devtox://setup` changes settings only with a per-process random token.
 
 ## Privacy layers
 

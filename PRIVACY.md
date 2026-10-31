@@ -1,49 +1,49 @@
 # Privacy policy
 
-_Last updated: 30 October 2026. Applies to Shellrunner 0.1.0 and later._
+_Last updated: 30 October 2026. Applies to Devtox 0.1.0 and later._
 
-Shellrunner is a program that runs on your computer. Its authors do not run any
+Devtox is a program that runs on your computer. Its authors do not run any
 server for it, so there is nobody on our side who could receive your data.
 
-## What Shellrunner does not do
+## What Devtox does not do
 
 - **No telemetry, analytics or crash reporting.** Nothing about how you use the
   browser is sent anywhere.
-- **No update checks.** Shellrunner never contacts its authors or any update server.
+- **No update checks.** Devtox never contacts its authors or any update server.
   You get new versions by updating your copy yourself.
 - **No accounts and no sync.**
 - **No downloaded lists.** The tracker blocklist is a local file that you edit.
 
 ## Network connections
 
-Shellrunner only opens these connections:
+Devtox only opens these connections:
 
 | Connection | When |
 |---|---|
 | The websites you open | when you open them (including links, pages restored from your session, and resources those pages load) |
-| Your search engine (DuckDuckGo by default, you can change it in `sr://setup`) | when you type something that is not an address in the address bar, the start page or the command palette |
+| Your search engine (DuckDuckGo by default, you can change it in `devtox://setup`) | when you type something that is not an address in the address bar, the start page or the command palette |
 | Ollama on `127.0.0.1:11434` (your own computer) | only when you open the AI panel or use an AI action |
 | `localhost` ports listed in `dev_ports` | when the start page or the local servers popup checks which dev servers are running (connections to your own computer only) |
 
 The websites you visit and the search engine you choose have their own privacy
-policies. Shellrunner tries to limit what they learn (see below), but it cannot
+policies. Devtox tries to limit what they learn (see below), but it cannot
 control what they do with the data you send them.
 
 ## Data stored on your computer
 
 | Data | Where | How to delete it |
 |---|---|---|
-| Settings and per-site shields | `~/.config/shellrunner/config.json` | delete the file |
-| Tracker blocklist | `~/.config/shellrunner/blocklist.txt` | delete the file |
-| History and bookmarks | `~/.local/share/shellrunner/shellrunner.sqlite` | palette → "Clear history"; history older than 90 days is deleted on start (`history_days`) |
-| Open tabs (session) | `~/.local/share/shellrunner/session.json` | turn off "Reopen tabs on start" |
-| Cookies, local storage, site data | `~/.local/share/shellrunner/` | `Ctrl+Shift+Delete` per site; turn off "Stay signed in to sites" to keep nothing between runs |
-| Web cache, compiled filters and privacy extension | `~/.cache/shellrunner/` | delete the folder |
-| Log (errors and warnings, no browsing history) | `~/.local/state/shellrunner/shellrunner.log` | delete the file |
+| Settings and per-site shields | `~/.config/devtox/config.json` | delete the file |
+| Tracker blocklist | `~/.config/devtox/blocklist.txt` | delete the file |
+| History and bookmarks | `~/.local/share/devtox/devtox.sqlite` | palette → "Clear history"; history older than 90 days is deleted on start (`history_days`) |
+| Open tabs (session) | `~/.local/share/devtox/session.json` | turn off "Reopen tabs on start" |
+| Cookies, local storage, site data | `~/.local/share/devtox/` | `Ctrl+Shift+Delete` per site; turn off "Stay signed in to sites" to keep nothing between runs |
+| Web cache, compiled filters and privacy extension | `~/.cache/devtox/` | delete the folder |
+| Log (errors and warnings, no browsing history) | `~/.local/state/devtox/devtox.log` | delete the file |
 | Screenshots you take | your Pictures folder | delete the files |
 | Downloads | your Downloads folder | delete the files |
 
-To remove everything, delete the four `shellrunner` folders listed above.
+To remove everything, delete the four `devtox` folders listed above.
 
 **Private tabs** (`Ctrl+Shift+N`) use a separate, in-memory profile: no history,
 no session entry, and their cookies and site data disappear when you close the
@@ -52,7 +52,7 @@ only and is never written to `config.json`.
 
 ## Protections that limit what websites learn
 
-These are on by default and can be changed in `sr://setup` or per site from the
+These are on by default and can be changed in `devtox://setup` or per site from the
 shield in the address bar:
 
 - HTTPS-only connections (except localhost and private networks)
@@ -65,7 +65,7 @@ shield in the address bar:
 - WebRTC turned off, so it cannot reveal your local IP address
 
 The GPC header and the Referer trimming come from a small WebKit extension that
-is compiled on first start; `shellrunner --check` tells you whether it is active.
+is compiled on first start; `devtox --check` tells you whether it is active.
 
 None of these makes you anonymous. If you need anonymity, use Tor Browser.
 

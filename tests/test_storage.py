@@ -3,7 +3,7 @@ import tempfile
 import time
 import unittest
 
-from shellrunner.storage import Storage
+from devtox.storage import Storage
 
 
 class StorageTest(unittest.TestCase):

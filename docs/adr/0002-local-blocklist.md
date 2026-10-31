@@ -11,7 +11,7 @@ dependency on a third party, which conflicts with the promise in PRIVACY.md.
 ## Decision
 
 Block trackers with a short plain-text list of domains in
-`~/.config/shellrunner/blocklist.txt`, compiled into a WebKit content filter.
+`~/.config/devtox/blocklist.txt`, compiled into a WebKit content filter.
 Nothing is downloaded. The user edits the file and reloads it from the menu.
 
 ## Consequences

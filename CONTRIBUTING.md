@@ -7,9 +7,9 @@ requests are the most useful contributions right now.
 
 Open an issue with:
 
-- the output of `shellrunner --check`
+- the output of `devtox --check`
 - what you did, what you expected and what happened
-- the relevant part of `~/.local/state/shellrunner/shellrunner.log`
+- the relevant part of `~/.local/state/devtox/devtox.log`
 
 Security problems go through [SECURITY.md](SECURITY.md), not public issues.
 
@@ -19,7 +19,7 @@ Install the system libraries listed in the README, then:
 
 ```sh
 python3 -m venv --system-site-packages .venv
-.venv/bin/python -m shellrunner --new-instance
+.venv/bin/python -m devtox --new-instance
 ```
 
 Run the tests before sending a pull request:
@@ -43,14 +43,14 @@ when you make a choice that a future contributor would otherwise have to guess.
 - Match the style of the surrounding code. Comments and docstrings are written in
   Italian (the project's original language); English comments in new code are fine.
 - Every user-visible string goes through `_()` (Python) or `{{...}}` (files in
-  `shellrunner/resources/`). The source text is Italian.
+  `devtox/resources/`). The source text is Italian.
 - Keep the browser light: no background work when a panel is hidden, no network
   access that the user did not ask for. See [PRIVACY.md](PRIVACY.md); a change
   that adds a network connection must update it.
 
 ## Translations
 
-Translations live in `shellrunner/locale/<language>.po` (standard gettext format,
+Translations live in `devtox/locale/<language>.po` (standard gettext format,
 read directly at runtime, no compilation step).
 
 ```sh
@@ -59,7 +59,7 @@ python3 scripts/update_po.py --check   # list missing translations
 ```
 
 To add a language, copy `en.po` to `<code>.po`, translate the `msgstr` lines and
-add the language to `LANGUAGES` in `shellrunner/i18n.py`. Placeholders such as
+add the language to `LANGUAGES` in `devtox/i18n.py`. Placeholders such as
 `{name}`, `$host` and HTML tags must stay exactly as in the original; the test
 suite checks this.
 

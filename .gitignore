@@ -12,7 +12,7 @@ dist/
 htmlcov/
 
 # Estensione privacy compilata localmente
-shellrunner/webext/build/
+devtox/webext/build/
 *.so
 *.mo
 
