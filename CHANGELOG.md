@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (non ancora pubblicata)
+## 0.1.0 (2026-10-31)
 
 Prima versione pubblica.
 

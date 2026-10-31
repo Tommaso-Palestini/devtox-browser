@@ -35,6 +35,14 @@ uses the web engine your distribution already keeps up to date.
 |---|---|---|
 | ![Start page with local dev servers and bookmarks](docs/screenshots/start-en.png) | ![Command palette](docs/screenshots/palette-en.png) | ![Setup page](docs/screenshots/setup-en.png) |
 
+| Network log | Responsive view | JSON viewer |
+|---|---|---|
+| ![Network panel listing the requests of a local page](docs/screenshots/network-en.png) | ![A local page in the 390×844 responsive view](docs/screenshots/responsive-en.png) | ![JSON response shown as a collapsible tree](docs/screenshots/json-en.png) |
+
+| Memory per process | Password manager |
+|---|---|
+| ![Memory panel with RAM and CPU of every browser process](docs/screenshots/memory-en.png) | ![Passwords page with CSV import](docs/screenshots/passwords-en.png) |
+
 ## Safe by default
 
 - **Phishing protection.** Navigations are checked against the public

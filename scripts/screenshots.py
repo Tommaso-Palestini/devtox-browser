@@ -27,6 +27,8 @@ os.environ["DEVTOX_NO_NETWORK"] = "1"  # niente download della lista anti-phishi
 # Sempre dentro Xvfb: senza queste due righe GTK sceglierebbe il desktop Wayland vero
 os.environ["GDK_BACKEND"] = "x11"
 os.environ.pop("WAYLAND_DISPLAY", None)
+# Xvfb non ha GPU: col compositing il GL software sposta la pagina nella vista responsive
+os.environ["WEBKIT_DISABLE_COMPOSITING_MODE"] = "1"
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Un server di sviluppo vero (solo su 127.0.0.1, in una cartella vuota del profilo
@@ -35,6 +37,35 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ["HOME"] = ROOT
 SITE = os.path.join(ROOT, "projects", "demo-site")
 os.makedirs(SITE)
+# Una pagina finta con stile e un'API JSON: serve a rete, vista responsive e visualizzatore JSON
+DEMO_FILES = {
+    "index.html": """<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Demo site</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header><b>demo-site</b><nav><a href="#">Docs</a><a href="#">Pricing</a><a href="#">Blog</a></nav></header>
+<main><h1>Ship faster, locally.</h1><p>A tiny demo page served by <code>python -m http.server</code>.</p>
+<a class="cta" href="api.json">See the API</a>
+<section class="cards"><div><h3>Fast</h3><p>Hot reload in milliseconds.</p></div>
+<div><h3>Private</h3><p>Nothing leaves your machine.</p></div>
+<div><h3>Simple</h3><p>One command to start.</p></div></section></main>
+<script src="app.js"></script></body></html>""",
+    "style.css": """body{margin:0;font:16px/1.5 system-ui,sans-serif;color:#1d2433;background:#f6f7fb}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:#fff;border-bottom:1px solid #e3e6ee}
+nav a{margin-left:18px;color:#4a5571;text-decoration:none}
+main{max-width:880px;margin:0 auto;padding:48px 24px}h1{font-size:44px;line-height:1.1;margin:0 0 12px}
+.cta{display:inline-block;margin:16px 0 32px;padding:10px 18px;border-radius:8px;background:#3b5bdb;color:#fff;text-decoration:none}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.cards div{background:#fff;border:1px solid #e3e6ee;border-radius:10px;padding:4px 18px}""",
+    "app.js": "fetch('api.json').then(r => r.json()).then(d => console.log(d.name));\n",
+    "api.json": '{"name": "demo-site", "version": "1.4.2", "ok": true, "uptime_s": 5231, '
+                '"routes": [{"path": "/", "method": "GET"}, {"path": "/api/users", "method": "GET"}, '
+                '{"path": "/api/users", "method": "POST"}], "db": {"engine": "sqlite", "size_mb": 3.2}, '
+                '"features": ["hot-reload", "https-dev", "mock-api"], "maintainer": null}',
+}
+for name, text in DEMO_FILES.items():
+    with open(os.path.join(SITE, name), "w") as f:
+        f.write(text)
+DEMO_URL = "http://localhost:5173/"
 DEMO = subprocess.Popen([sys.executable, "-m", "http.server", "--bind", "127.0.0.1", "5173"],
                         cwd=SITE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 atexit.register(DEMO.terminate)
@@ -87,5 +118,20 @@ run([
     (1, lambda: window().open_palette()),
     (0, lambda: window().palette.entry.set_text("term")),
     (1, lambda: shot("palette")),
+    (0, lambda: window().palette.hide()),
+    (0, lambda: window().load_in_current("devtox://passwords")),
+    (5, lambda: shot("passwords")),
+    (0, lambda: window().load_in_current(DEMO_URL)),
+    (0, lambda: window().toggle_side_panel("rete")),
+    (3, lambda: window().current_webview().reload()),
+    (3, lambda: shot("network")),
+    (0, lambda: window().toggle_side_panel("rete")),
+    (0, lambda: window().set_responsive((390, 844))),
+    (6, lambda: shot("responsive")),
+    (0, lambda: window().set_responsive(None)),
+    (0, lambda: window().load_in_current(DEMO_URL + "api.json")),
+    (6, lambda: shot("json")),
+    (0, lambda: window().toggle_side_panel("memoria")),
+    (3, lambda: shot("memory")),
 ])
 sys.exit(app.main(["--new-instance"]))
