@@ -118,3 +118,48 @@ class FormatTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DesktopAppsTest(unittest.TestCase):
+    """Le app desktop in ascolto (Steam, Syncthing, l'editor) non sono server di sviluppo."""
+
+    def test_known_apps_are_not_dev_servers(self):
+        for comm, argv in [("steam", ["/home/u/.steam/steam"]), ("syncthing", ["syncthing", "serve"]),
+                           ("code", ["/usr/share/code/code"]), ("kdeconnectd", ["kdeconnectd"])]:
+            with self.subTest(comm=comm):
+                self.assertFalse(servers.is_dev_process(comm, argv))
+        self.assertTrue(servers.is_dev_process("node", ["node", "vite"]))
+        self.assertTrue(servers.is_dev_process("myapi", ["./myapi"]))
+
+
+class StopTest(unittest.TestCase):
+    def test_sends_sigterm_only_to_known_processes(self):
+        import signal
+        from unittest import mock
+        found = [servers.Server(5173, "127.0.0.1", pid=101, tool="vite"),
+                 servers.Server(3000, "localhost")]  # di un altro utente: niente pid
+        with mock.patch.object(servers.os, "kill") as kill:
+            results = servers.stop(found)
+        kill.assert_called_once_with(101, signal.SIGTERM)
+        self.assertIsNone(results[0][1])
+        self.assertIsNotNone(results[1][1])
+
+    def test_never_stops_devtox_itself(self):
+        from unittest import mock
+        with mock.patch.object(servers.os, "kill") as kill:
+            results = servers.stop([servers.Server(8000, "::1", pid=os.getpid(), tool="python3")])
+        kill.assert_not_called()
+        self.assertIsNotNone(results[0][1])
+
+    def test_process_already_gone(self):
+        from unittest import mock
+        with mock.patch.object(servers.os, "kill", side_effect=ProcessLookupError):
+            self.assertIsNone(servers.stop([servers.Server(1, "x", pid=5)])[0][1])
+
+
+class NewServersTest(unittest.TestCase):
+    def test_only_servers_that_appeared(self):
+        before = {5173}
+        found = [servers.Server(5173, "x", pid=1), servers.Server(8000, "x", pid=2), servers.Server(3000, "x")]
+        self.assertEqual([s.port for s in servers.appeared(before, found)], [8000])
+        self.assertEqual(servers.appeared({5173, 8000}, found), [])

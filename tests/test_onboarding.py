@@ -31,6 +31,17 @@ class SetupPageTest(unittest.TestCase):
         self.assertIn('value="duckduckgo" checked', page)
         self.assertIn("5173, 3000, 8000, 4321", page)
 
+    def test_tool_switches_need_restart(self):
+        current = {field: "on" for field, keys, *_rest in onboarding.PRIVACY_SWITCHES
+                   if all(self.config[k] for k in keys)}
+        current.update({key: "on" for key, *_rest in onboarding.TOOL_SWITCHES if self.config[key]})
+        current["server_alerts"] = "on"
+        current.pop("docker_enabled")
+        page = self.save(**current)
+        self.assertTrue(self.config["server_alerts"])
+        self.assertFalse(self.config["docker_enabled"])
+        self.assertIn("restart=1", page)
+
     def test_wrong_token_changes_nothing(self):
         page = self.setup.render({"token": "falso", "save": "1", "search_engine": "google"})
         self.assertEqual(self.config["search_engine"], "duckduckgo")
@@ -40,7 +51,8 @@ class SetupPageTest(unittest.TestCase):
     def test_save_without_restart_goes_to_welcome(self):
         current = {field: "on" for field, keys, *_rest in onboarding.PRIVACY_SWITCHES
                    if all(self.config[k] for k in keys)}
-        page = self.save(search_engine="startpage", ai_enabled="on", dev_ports="9000; 9000, 3000", **current)
+        current.update({key: "on" for key, *_rest in onboarding.TOOL_SWITCHES if self.config[key]})
+        page = self.save(search_engine="startpage", dev_ports="9000; 9000, 3000", **current)
         self.assertIn("location.replace", page)
         self.assertIn(navigation.WELCOME_URL, page)
         self.assertEqual(self.config["search_engine"], "startpage")

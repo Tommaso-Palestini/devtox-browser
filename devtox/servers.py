@@ -8,6 +8,7 @@ Si leggono solo file di /proc dell'utente stesso: niente privilegi, niente rete.
 
 import ipaddress
 import os
+import signal
 import socket
 import struct
 import time
@@ -46,6 +47,14 @@ _TOOLS = [
     ("deno", ("deno",)),
     ("bun", ("bun",)),
 ]
+# App desktop che stanno in ascolto su localhost ma non sono server di sviluppo:
+# non compaiono nell'elenco e "Ferma tutti" non le tocca mai
+_DESKTOP_APPS = {
+    "steam", "steamwebhelper", "spotify", "syncthing", "kdeconnectd", "code", "code-oss", "codium",
+    "cursor", "slack", "discord", "zoom", "teams", "telegram-desktop", "signal-desktop", "dropbox",
+    "nextcloud", "obsidian", "jetbrains-toolbox", "chrome", "chromium", "firefox", "opera", "brave",
+    "thunderbird", "gnome-shell", "plasmashell", "kdeconnect", "warp-svc", "tailscaled", "devtox",
+}
 _GENERIC = {"node", "python", "python3", "ruby", "java", "sh", "bash", "npm", "npx", "pnpm", "yarn"}
 
 
@@ -57,6 +66,7 @@ class Server:
     tool: str = ""
     project: str = ""
     uptime: float | None = None
+    dev: bool = True
 
     @property
     def url(self):
@@ -86,6 +96,12 @@ def guess_tool(comm, argv):
         return comm
     first = os.path.basename(argv[0]) if argv else ""
     return first or comm or "?"
+
+
+def is_dev_process(comm, argv):
+    """False per le app desktop note (Steam, Syncthing, l'editor...), True per tutto il resto."""
+    names = {comm.lower(), os.path.basename(argv[0]).lower() if argv else ""}
+    return not names & _DESKTOP_APPS
 
 
 def _listeners(proc, uid):
@@ -135,6 +151,7 @@ def _describe(server, proc, pid, boot, now):
     argv = [a.decode(errors="replace") for a in raw.split(b"\0") if a]
     server.pid = pid
     server.tool = guess_tool(comm, argv)
+    server.dev = is_dev_process(comm, argv)
     try:
         cwd = os.readlink(os.path.join(base, "cwd"))
     except OSError:
@@ -185,7 +202,32 @@ def scan(proc="/proc", now=None):
                 _describe(by_port[port], proc, int(pid), boot, now)
         if not wanted:
             break
-    return sorted(by_port.values(), key=lambda s: s.port)
+    return sorted((s for s in by_port.values() if s.dev), key=lambda s: s.port)
+
+
+def stop(found):
+    """SIGTERM al processo di ogni server (la chiusura pulita, come Ctrl+C).
+
+    Restituisce [(server, errore o None)]. Si fermano solo i processi trovati in /proc
+    (quindi dell'utente) e mai Devtox stesso; un processo già finito non è un errore.
+    """
+    results = []
+    for server in found:
+        if server.pid is None:
+            results.append((server, _("di un altro utente o di sistema: non si può fermare da qui")))
+            continue
+        if server.pid == os.getpid():
+            results.append((server, _("è Devtox stesso")))
+            continue
+        try:
+            os.kill(server.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass  # già finito
+        except PermissionError:
+            results.append((server, _("permesso negato")))
+            continue
+        results.append((server, None))
+    return results
 
 
 def format_uptime(seconds):
@@ -202,3 +244,16 @@ def format_uptime(seconds):
         return _("{h} h {m} min").format(h=hours, m=minutes) if minutes else _("{n} h").format(n=hours)
     days, hours = divmod(hours, 24)
     return _("{d} g {h} h").format(d=days, h=hours) if hours else _("{n} g").format(n=days)
+
+
+def select(found, ports):
+    """I server da fermare: ports è "all" oppure un elenco di porte."""
+    if ports == "all":
+        return list(found)
+    wanted = {int(p) for p in ports}
+    return [s for s in found if s.port in wanted]
+
+
+def appeared(previous_ports, found):
+    """Server tuoi (con un processo) che non c'erano al controllo precedente."""
+    return [s for s in found if s.port not in previous_ports and s.pid is not None]

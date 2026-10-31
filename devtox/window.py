@@ -6,7 +6,8 @@ import time
 
 from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk, WebKit2
 
-from . import actions, ai, devtools, monitor, navigation, privacy, startpage, theme, utils
+from . import actions, ai, devtools, monitor, navigation, privacy, servers, startpage, theme, utils
+from .dockerpanel import DockerPanel
 from .downloads import DownloadsPanel
 from .i18n import _
 from .tabs import BrowserTab
@@ -14,6 +15,7 @@ from .terminal import TerminalPanel
 from .ui import CommandPalette, FindBar, PaletteItem, ShieldsPopover, SidePanel, connection_summary
 
 SUSPEND_CHECK_SECONDS = 30
+SERVER_ALERT_SECONDS = 5
 SESSION_SAVE_SECONDS = 15
 TERMINAL_SHARE = 0.38       # quota di altezza del terminale quando si apre
 TERMINAL_SLIDE_MS = 260
@@ -55,9 +57,14 @@ class BrowserWindow(Gtk.Window):
         self.downloads_panel = DownloadsPanel(self)
         self.downloads_panel.attach(context)
         self.ai_panel = ai.AIPanel(self)
+        self.docker_panel = DockerPanel(self)
+        panels = {"rete": self.network_panel, "memoria": self.memory_panel, "download": self.downloads_panel}
+        if config["docker_enabled"]:
+            panels["docker"] = self.docker_panel
+        if config["ai_enabled"]:
+            panels["ia"] = self.ai_panel
         self.side_panel = SidePanel(
-            {"rete": self.network_panel, "memoria": self.memory_panel,
-             "download": self.downloads_panel, "ia": self.ai_panel},
+            panels,
             on_change=self._sync_rail,
         )
 
@@ -70,13 +77,22 @@ class BrowserWindow(Gtk.Window):
         self.notebook.connect("page-reordered", lambda *_: self._mark_session_dirty())
 
         self.status_label = Gtk.Label()
-        self.status_label.get_style_context().add_class("status-toast")
+        self.status_action = Gtk.Button()
+        self.status_action.get_style_context().add_class("status-action")
+        self.status_action.connect("clicked", self._on_status_action)
+        self._status_callback = None
+        status_box = Gtk.Box(spacing=12)
+        status_box.get_style_context().add_class("status-toast")
+        status_box.pack_start(self.status_label, False, False, 0)
+        status_box.pack_start(self.status_action, False, False, 0)
+        status_box.show_all()
+        self.status_action.set_no_show_all(True)
         self.status_revealer = Gtk.Revealer()
         self.status_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_UP)
         self.status_revealer.set_transition_duration(200)
         self.status_revealer.set_halign(Gtk.Align.CENTER)
         self.status_revealer.set_valign(Gtk.Align.END)
-        self.status_revealer.add(self.status_label)
+        self.status_revealer.add(status_box)
         self.find_bar = FindBar(self.current_webview)
         self.palette = CommandPalette(self._palette_items, on_closed=self._focus_page)
 
@@ -84,6 +100,7 @@ class BrowserWindow(Gtk.Window):
         overlay.add(self.notebook)
         overlay.add_overlay(self.status_revealer)
         overlay.set_overlay_pass_through(self.status_revealer, True)
+        self._overlay = overlay
         overlay.add_overlay(self.find_bar)
         overlay.add_overlay(self.palette)
 
@@ -114,6 +131,10 @@ class BrowserWindow(Gtk.Window):
         self._sync_rail()
 
         GLib.timeout_add_seconds(SUSPEND_CHECK_SECONDS, self._suspend_inactive_tabs)
+        if config["server_alerts"]:
+            # Solo se attivato nelle impostazioni: un controllo di /proc ogni pochi secondi
+            self._known_ports = {s.port for s in servers.scan()}
+            GLib.timeout_add_seconds(SERVER_ALERT_SECONDS, self._check_new_servers)
         GLib.timeout_add_seconds(SESSION_SAVE_SECONDS, self._save_session_if_dirty)
 
     # --- Costruzione interfaccia ----------------------------------------
@@ -237,11 +258,14 @@ class BrowserWindow(Gtk.Window):
                                    lambda: self.toggle_side_panel("memoria")),
             "download": rail_toggle("dx-downloads-symbolic", _("Download (Ctrl+Shift+Y)"),
                                     lambda: self.toggle_side_panel("download")),
+            "docker": rail_toggle("dx-docker-symbolic", _("Container Docker (Ctrl+Shift+D)"),
+                                  lambda: self.toggle_side_panel("docker")),
             "ia": rail_toggle("dx-assistant-symbolic", _("IA locale con Ollama (Ctrl+Shift+A)"),
                               lambda: self.toggle_side_panel("ia")),
         }
-        if not self.config["ai_enabled"]:
-            self.rail_panels["ia"].set_no_show_all(True)
+        for name, key in (("ia", "ai_enabled"), ("docker", "docker_enabled")):
+            if not self.config[key]:
+                self.rail_panels[name].set_no_show_all(True)
         rail.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 0)
         self.rail_responsive = rail_toggle("dx-responsive-symbolic", _("Vista responsive (Ctrl+Shift+M)"),
                                            self.toggle_responsive)
@@ -501,6 +525,20 @@ class BrowserWindow(Gtk.Window):
                 if tab is not current and tab.last_active < limit and tab.can_suspend():
                     self._view_tabs.pop(tab.webview, None)
                     tab.suspend()
+        return GLib.SOURCE_CONTINUE
+
+    # --- Avviso dei server nuovi ----------------------------------------
+
+    def _check_new_servers(self):
+        found = servers.scan()
+        new = servers.appeared(self._known_ports, found)
+        self._known_ports = {s.port for s in found}
+        if new:
+            server = new[0]
+            self.show_status(
+                _("{tool} è pronto su localhost:{port}").format(tool=server.tool or _("Un server"), port=server.port),
+                seconds=12, action=(_("Apri"), lambda: self.new_tab(server.url)),
+            )
         return GLib.SOURCE_CONTINUE
 
     # --- Sincronizzazione con la tab attiva -----------------------------
@@ -874,8 +912,8 @@ class BrowserWindow(Gtk.Window):
     # --- Pannelli e strumenti -------------------------------------------
 
     def toggle_side_panel(self, name):
-        if name == "ia" and not self.config["ai_enabled"]:
-            return
+        if name not in self.side_panel.panels:
+            return  # pannello spento dalle impostazioni
         self.side_panel.toggle(name)
 
     def show_terminal(self):
@@ -961,14 +999,38 @@ class BrowserWindow(Gtk.Window):
             )
         )
 
-    def show_status(self, text, seconds=4):
+    def show_status(self, text, seconds=4, action=None):
+        """Messaggio in basso; action=(etichetta, funzione) aggiunge un pulsante cliccabile."""
         self.status_label.set_text(text)
+        self._status_callback = action[1] if action else None
+        if action:
+            self.status_action.set_label(action[0])
+            self.status_action.show()
+        else:
+            self.status_action.hide()
+        # Senza azione il messaggio lascia passare i clic alla pagina sotto
+        self._overlay.set_overlay_pass_through(self.status_revealer, action is None)
         self.status_revealer.set_reveal_child(True)
         if self._status_timer:
             GLib.source_remove(self._status_timer)
-        self._status_timer = GLib.timeout_add_seconds(seconds, self._hide_status)
+        self._status_timer = GLib.timeout_add_seconds(seconds, self._on_status_timeout)
+
+    def _on_status_timeout(self):
+        self._status_timer = 0  # la sorgente finisce da sola: non va rimossa
+        self._hide_status()
+        return GLib.SOURCE_REMOVE
+
+    def _on_status_action(self, _button):
+        callback = self._status_callback
+        self._hide_status()
+        if callback is not None:
+            callback()
 
     def _hide_status(self):
         self.status_revealer.set_reveal_child(False)
+        self._status_callback = None
+        self._overlay.set_overlay_pass_through(self.status_revealer, True)
+        if self._status_timer:
+            GLib.source_remove(self._status_timer)
         self._status_timer = 0
         return GLib.SOURCE_REMOVE

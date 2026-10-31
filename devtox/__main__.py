@@ -67,6 +67,7 @@ def main(argv=None):
 
     pages = {
         "start": lambda _params: startpage.render(config, storage, filters_active=content_filter.active),
+        "stop": lambda params: startpage.render_stop(params, config),
         "source": devtools.render_source_page,
         "about": lambda _params: about.render_about_page(config.path),
         "welcome": about.render_welcome_page,

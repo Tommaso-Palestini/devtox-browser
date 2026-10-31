@@ -33,13 +33,13 @@ msgstr "do not hand addresses to an already open window"
 msgid "Estensione"
 msgstr "Extension"
 
-#: devtox/__main__.py:104
+#: devtox/__main__.py:105
 msgid ""
 "Blocklist e HTTPS-only NON attivi: le regole non si sono compilate (vedi il log)"
 msgstr ""
 "Blocklist and HTTPS-only are NOT active: the rules did not compile (see the log)"
 
-#: devtox/about.py:75 devtox/actions.py:51 devtox/window.py:293
+#: devtox/about.py:75 devtox/actions.py:54 devtox/window.py:317
 msgid "Informazioni su Devtox"
 msgstr "About Devtox"
 
@@ -47,7 +47,7 @@ msgstr "About Devtox"
 msgid "Benvenuto"
 msgstr "Welcome"
 
-#: devtox/about.py:28 devtox/onboarding.py:208
+#: devtox/about.py:28 devtox/onboarding.py:221
 msgid "Sistema"
 msgstr "System"
 
@@ -106,7 +106,7 @@ msgid ""
 "Se apri una segnalazione, copia la tabella delle versioni e allega il log."
 msgstr "If you file a bug report, copy the versions table and attach the log."
 
-#: devtox/about.py:57 devtox/onboarding.py:198
+#: devtox/about.py:57 devtox/onboarding.py:212
 msgid "Privacy"
 msgstr "Privacy"
 
@@ -150,7 +150,7 @@ msgstr "Welcome to Devtox"
 msgid "Trenta secondi per le quattro cose che lo rendono diverso."
 msgstr "Thirty seconds on the four things that make it different."
 
-#: devtox/about.py:84 devtox/window.py:271
+#: devtox/about.py:84 devtox/window.py:295
 msgid "Palette dei comandi"
 msgstr "Command palette"
 
@@ -167,7 +167,7 @@ msgstr "Terminal"
 msgid "Il browser dal terminale"
 msgstr "The browser from your shell"
 
-#: devtox/about.py:90 devtox/actions.py:37
+#: devtox/about.py:90 devtox/actions.py:40
 msgid "Server locali"
 msgstr "Local servers"
 
@@ -213,15 +213,79 @@ msgstr "AI: summarize the page"
 msgid "IA: spiega l'errore selezionato"
 msgstr "AI: explain the selected error"
 
-#: devtox/actions.py:23 devtox/tabs.py:10 devtox/window.py:273 devtox/resources/start.html:6
+#: devtox/actions.py:41 devtox/window.py:302
+msgid "Vista responsive"
+msgstr "Responsive view"
+
+#: devtox/actions.py:42
+msgid "Screenshot della pagina"
+msgstr "Page screenshot"
+
+#: devtox/actions.py:43
+msgid "Cookie e dati del sito"
+msgstr "Site cookies and data"
+
+#: devtox/actions.py:43
+msgid "Ctrl+Shift+Canc"
+msgstr "Ctrl+Shift+Delete"
+
+#: devtox/actions.py:44
+msgid "Zoom avanti"
+msgstr "Zoom in"
+
+#: devtox/actions.py:45
+msgid "Zoom indietro"
+msgstr "Zoom out"
+
+#: devtox/actions.py:46
+msgid "Zoom 100%"
+msgstr "Zoom 100%"
+
+#: devtox/actions.py:47
+msgid "Copia indirizzo"
+msgstr "Copy address"
+
+#: devtox/actions.py:48
+msgid "Copia link in Markdown"
+msgstr "Copy Markdown link"
+
+#: devtox/actions.py:49 devtox/window.py:314
+msgid "Strumenti sviluppatore"
+msgstr "Developer tools"
+
+#: devtox/actions.py:50 devtox/window.py:310
+msgid "Modifica blocklist"
+msgstr "Edit blocklist"
+
+#: devtox/actions.py:51 devtox/window.py:311
+msgid "Ricarica blocklist"
+msgstr "Reload blocklist"
+
+#: devtox/actions.py:52 devtox/window.py:313
+msgid "Apri configurazione"
+msgstr "Open config file"
+
+#: devtox/actions.py:53
+msgid "Cancella cronologia"
+msgstr "Clear history"
+
+#: devtox/actions.py:56 devtox/onboarding.py:256 devtox/onboarding.py:201 devtox/window.py:312
+msgid "Personalizza Devtox"
+msgstr "Customize Devtox"
+
+#: devtox/actions.py:58 devtox/window.py:316
+msgid "Guida rapida"
+msgstr "Quick tour"
+
+#: devtox/actions.py:23 devtox/tabs.py:10 devtox/window.py:297 devtox/resources/start.html:6
 msgid "Nuova tab"
 msgstr "New tab"
 
-#: devtox/actions.py:24 devtox/window.py:274
+#: devtox/actions.py:24 devtox/window.py:298
 msgid "Nuova tab privata"
 msgstr "New private tab"
 
-#: devtox/actions.py:25 devtox/window.py:275
+#: devtox/actions.py:25 devtox/window.py:299
 msgid "Riapri tab chiusa"
 msgstr "Reopen closed tab"
 
@@ -229,7 +293,7 @@ msgstr "Reopen closed tab"
 msgid "Chiudi tab"
 msgstr "Close tab"
 
-#: devtox/actions.py:28 devtox/window.py:276
+#: devtox/actions.py:28 devtox/window.py:300
 msgid "Nuovo terminale"
 msgstr "New terminal"
 
@@ -245,7 +309,7 @@ msgstr "Page source"
 msgid "Aggiungi o togli dai preferiti"
 msgstr "Add or remove bookmark"
 
-#: devtox/actions.py:32 devtox/window.py:148
+#: devtox/actions.py:32 devtox/window.py:169
 msgid "Scudi e connessione del sito"
 msgstr "Site shields and connection"
 
@@ -261,69 +325,9 @@ msgstr "Memory and processes"
 msgid "Download"
 msgstr "Downloads"
 
-#: devtox/actions.py:38 devtox/window.py:278
-msgid "Vista responsive"
-msgstr "Responsive view"
-
-#: devtox/actions.py:39
-msgid "Screenshot della pagina"
-msgstr "Page screenshot"
-
-#: devtox/actions.py:40
-msgid "Cookie e dati del sito"
-msgstr "Site cookies and data"
-
-#: devtox/actions.py:40
-msgid "Ctrl+Shift+Canc"
-msgstr "Ctrl+Shift+Delete"
-
-#: devtox/actions.py:41
-msgid "Zoom avanti"
-msgstr "Zoom in"
-
-#: devtox/actions.py:42
-msgid "Zoom indietro"
-msgstr "Zoom out"
-
-#: devtox/actions.py:43
-msgid "Zoom 100%"
-msgstr "Zoom 100%"
-
-#: devtox/actions.py:44
-msgid "Copia indirizzo"
-msgstr "Copy address"
-
-#: devtox/actions.py:45
-msgid "Copia link in Markdown"
-msgstr "Copy Markdown link"
-
-#: devtox/actions.py:46 devtox/window.py:290
-msgid "Strumenti sviluppatore"
-msgstr "Developer tools"
-
-#: devtox/actions.py:47 devtox/window.py:286
-msgid "Modifica blocklist"
-msgstr "Edit blocklist"
-
-#: devtox/actions.py:48 devtox/window.py:287
-msgid "Ricarica blocklist"
-msgstr "Reload blocklist"
-
-#: devtox/actions.py:49 devtox/window.py:289
-msgid "Apri configurazione"
-msgstr "Open config file"
-
-#: devtox/actions.py:50
-msgid "Cancella cronologia"
-msgstr "Clear history"
-
-#: devtox/actions.py:53 devtox/onboarding.py:243 devtox/onboarding.py:187 devtox/window.py:288
-msgid "Personalizza Devtox"
-msgstr "Customize Devtox"
-
-#: devtox/actions.py:55 devtox/window.py:292
-msgid "Guida rapida"
-msgstr "Quick tour"
+#: devtox/actions.py:38
+msgid "Container Docker"
+msgstr "Docker containers"
 
 #: devtox/ai.py:25
 msgid ""
@@ -445,19 +449,27 @@ msgstr "[error] {error}"
 msgid "Ollama non raggiungibile su {address} ({error})"
 msgstr "Ollama not reachable on {address} ({error})"
 
-#: devtox/control.py:85
+#: devtox/control.py:86
 msgid "richiesta vuota o troppo lunga"
 msgstr "empty or too long request"
 
-#: devtox/control.py:100
+#: devtox/control.py:101
 msgid "JSON non valido"
 msgstr "invalid JSON"
 
-#: devtox/control.py:105
+#: devtox/control.py:106
 msgid "indirizzo vuoto"
 msgstr "empty address"
 
-#: devtox/control.py:132
+#: devtox/control.py:111
+msgid "porte non valide"
+msgstr "invalid ports"
+
+#: devtox/control.py:114
+msgid "nessun server in ascolto su quelle porte"
+msgstr "no server listening on those ports"
+
+#: devtox/control.py:146
 msgid "comando sconosciuto: {command}"
 msgstr "unknown command: {command}"
 
@@ -473,7 +485,7 @@ msgstr "Install them with:"
 msgid "Devtox: mancano librerie di sistema ({names})."
 msgstr "Devtox: missing system libraries ({names})."
 
-#: devtox/devtools.py:253 devtox/monitor.py:76
+#: devtox/devtools.py:287 devtox/monitor.py:76
 msgid "Rete"
 msgstr "Network"
 
@@ -497,55 +509,59 @@ msgstr "Looking for local servers…"
 msgid "Server in ascolto (Alt+numero per aprire)"
 msgstr "Servers listening (Alt+number to open)"
 
-#: devtox/devtools.py:230
+#: devtox/devtools.py:264
 msgid "errore"
 msgstr "error"
 
-#: devtox/devtools.py:327
+#: devtox/devtools.py:361
 msgid "Comando curl copiato negli appunti"
 msgstr "curl command copied to the clipboard"
 
-#: devtox/devtools.py:364
+#: devtox/devtools.py:398
 msgid "Cancella dati del sito"
 msgstr "Clear site data"
 
-#: devtox/devtools.py:366
+#: devtox/devtools.py:400
 msgid "Chiudi"
 msgstr "Close"
 
-#: devtox/devtools.py:439
+#: devtox/devtools.py:473
 msgid "Verrai disconnesso dal sito. Non si può annullare."
 msgstr "You will be signed out of the site. This cannot be undone."
 
-#: devtox/devtools.py:161 devtox/startpage.py:46
+#: devtox/devtools.py:161 devtox/startpage.py:50
 msgid "Niente è in ascolto su localhost in questo momento."
 msgstr "Nothing is listening on localhost right now."
 
-#: devtox/devtools.py:265
+#: devtox/devtools.py:217 devtox/startpage.py:131
+msgid "Fermare tutti i server di sviluppo?"
+msgstr "Stop all development servers?"
+
+#: devtox/devtools.py:299
 msgid "Metodo"
 msgstr "Method"
 
-#: devtox/devtools.py:265
+#: devtox/devtools.py:299
 msgid "Stato"
 msgstr "Status"
 
-#: devtox/devtools.py:265 devtox/monitor.py:170
+#: devtox/devtools.py:299 devtox/monitor.py:170
 msgid "Tipo"
 msgstr "Type"
 
-#: devtox/devtools.py:265
+#: devtox/devtools.py:299
 msgid "Tempo"
 msgstr "Time"
 
-#: devtox/devtools.py:279
+#: devtox/devtools.py:313
 msgid "Pulisci"
 msgstr "Clear"
 
-#: devtox/devtools.py:281
+#: devtox/devtools.py:315
 msgid "Copia come curl"
 msgstr "Copy as curl"
 
-#: devtox/devtools.py:323
+#: devtox/devtools.py:357
 msgid "Seleziona prima una richiesta"
 msgstr "Select a request first"
 
@@ -557,39 +573,43 @@ msgstr "Source no longer available: reopen it with Ctrl+U from the page."
 msgid "Mostrati solo i primi 2 MB."
 msgstr "Only the first 2 MB are shown."
 
-#: devtox/devtools.py:357
+#: devtox/devtools.py:194 devtox/startpage.py:67
+msgid "Ferma il server (come Ctrl+C)"
+msgstr "Stop the server (like Ctrl+C)"
+
+#: devtox/devtools.py:391
 msgid "Nome"
 msgstr "Name"
 
-#: devtox/devtools.py:357 devtox/devtools.py:361
+#: devtox/devtools.py:391 devtox/devtools.py:395
 msgid "Valore"
 msgstr "Value"
 
-#: devtox/devtools.py:357
+#: devtox/devtools.py:391
 msgid "Dominio"
 msgstr "Domain"
 
-#: devtox/devtools.py:357
+#: devtox/devtools.py:391
 msgid "Percorso"
 msgstr "Path"
 
-#: devtox/devtools.py:357
+#: devtox/devtools.py:391
 msgid "Scadenza"
 msgstr "Expires"
 
-#: devtox/devtools.py:358
+#: devtox/devtools.py:392
 msgid "Flag"
 msgstr "Flags"
 
-#: devtox/devtools.py:359
+#: devtox/devtools.py:393
 msgid "Cookie"
 msgstr "Cookies"
 
-#: devtox/devtools.py:361
+#: devtox/devtools.py:395
 msgid "Chiave"
 msgstr "Key"
 
-#: devtox/devtools.py:460
+#: devtox/devtools.py:494
 msgid "Dati di {host} cancellati"
 msgstr "Data for {host} cleared"
 
@@ -597,29 +617,135 @@ msgstr "Data for {host} cleared"
 msgid "Sorgente: {url}"
 msgstr "Source: {url}"
 
-#: devtox/devtools.py:347
+#: devtox/devtools.py:381
 msgid "Dati del sito: {host}"
 msgstr "Site data: {host}"
 
-#: devtox/devtools.py:413
+#: devtox/devtools.py:447
 msgid "sessione"
 msgstr "session"
 
-#: devtox/devtools.py:437
+#: devtox/devtools.py:471
 msgid "Cancellare cookie, storage e cache di {host}?"
 msgstr "Clear cookies, storage and cache for {host}?"
 
-#: devtox/devtools.py:405
+#: devtox/devtools.py:203
+msgid "Ferma tutti ({n})"
+msgstr "Stop all ({n})"
+
+#: devtox/devtools.py:439
 msgid "Cookie non leggibili: {error}"
 msgstr "Can't read cookies: {error}"
 
-#: devtox/devtools.py:450
+#: devtox/devtools.py:484
 msgid "Dati del sito non leggibili: {error}"
 msgstr "Can't read site data: {error}"
 
-#: devtox/devtools.py:458
+#: devtox/devtools.py:492
 msgid "Dati del sito non cancellati: {error}"
 msgstr "Site data not cleared: {error}"
+
+#: devtox/docker.py:94
+msgid "Docker non risponde: {error}"
+msgstr "Docker is not responding: {error}"
+
+#: devtox/dockerpanel.py:59
+msgid "Ferma tutti i container accesi"
+msgstr "Stop every running container"
+
+#: devtox/dockerpanel.py:220
+msgid "Log nel terminale"
+msgstr "Logs in the terminal"
+
+#: devtox/dockerpanel.py:226
+msgid "Azioni"
+msgstr "Actions"
+
+#: devtox/dockerpanel.py:254
+msgid "Avvio"
+msgstr "Start"
+
+#: devtox/dockerpanel.py:254
+msgid "Arresto"
+msgstr "Stop"
+
+#: devtox/dockerpanel.py:254
+msgid "Riavvio"
+msgstr "Restart"
+
+#: devtox/dockerpanel.py:57 devtox/startpage.py:133
+msgid "Ferma tutti"
+msgstr "Stop all"
+
+#: devtox/dockerpanel.py:88
+msgid ""
+"Docker non trovato. Se è installato, il tuo utente deve poter usare il socket: sudo usermod -aG docker $USER, poi esci e rientra."
+msgstr "Docker not found. If it is installed, your user needs access to its socket: sudo usermod -aG docker $USER, then log out and back in."
+
+#: devtox/dockerpanel.py:133
+msgid ""
+"Nessun container. Quelli che crei con docker o docker compose compaiono qui."
+msgstr "No containers. The ones you create with docker or docker compose show up here."
+
+#: devtox/dockerpanel.py:216 devtox/startpage.py:80
+msgid "Ferma"
+msgstr "Stop"
+
+#: devtox/dockerpanel.py:217
+msgid "Riavvia"
+msgstr "Restart"
+
+#: devtox/dockerpanel.py:219
+msgid "Avvia"
+msgstr "Start"
+
+#: devtox/dockerpanel.py:279
+msgid "Per i log serve il comando docker"
+msgstr "Logs need the docker command"
+
+#: devtox/dockerpanel.py:61
+msgid "Fermare tutti i container accesi?"
+msgstr "Stop every running container?"
+
+#: devtox/dockerpanel.py:105
+msgid "{running} accesi su {total}"
+msgstr "{running} running of {total}"
+
+#: devtox/dockerpanel.py:144
+msgid "Senza progetto"
+msgstr "No project"
+
+#: devtox/dockerpanel.py:152
+msgid "Ferma il progetto"
+msgstr "Stop the project"
+
+#: devtox/dockerpanel.py:156
+msgid "Avvia il progetto"
+msgstr "Start the project"
+
+#: devtox/dockerpanel.py:255
+msgid "{action} di {n} container…"
+msgstr "{action}: {n} container(s)…"
+
+#: devtox/dockerpanel.py:198
+msgid "Apri http://localhost:{port}/"
+msgstr "Open http://localhost:{port}/"
+
+#: devtox/dockerpanel.py:269 devtox/downloads.py:180
+msgid "Non riuscito: {error}"
+msgstr "Failed: {error}"
+
+#: devtox/dockerpanel.py:271
+msgid "Fatto: {action} di {n} container"
+msgstr "Done: {action}, {n} container(s)"
+
+#: devtox/dockerpanel.py:170
+msgid "{n} fermi"
+msgstr "{n} stopped"
+
+#: devtox/dockerpanel.py:154
+msgid "Fermare il progetto {name}?"
+msgstr "Stop the {name} project?"
 
 #: devtox/downloads.py:69
 msgid "Mostra nella cartella"
@@ -667,10 +793,6 @@ msgstr "Download cancelled: {name}"
 #: devtox/downloads.py:157
 msgid "«{name}» può eseguire programmi sul tuo PC"
 msgstr "\"{name}\" can run programs on your computer"
-
-#: devtox/downloads.py:180
-msgid "Non riuscito: {error}"
-msgstr "Failed: {error}"
 
 #: devtox/downloads.py:160
 msgid "Origine: {source}"
@@ -720,27 +842,27 @@ msgstr "Browser: {memory} ({fraction:.0%} of RAM)"
 msgid "Pagina interna sconosciuta: {name}"
 msgstr "Unknown internal page: {name}"
 
-#: devtox/onboarding.py:52
+#: devtox/onboarding.py:64
 msgid "Non profila le ricerche. Predefinito."
 msgstr "Does not profile your searches. Default."
 
-#: devtox/onboarding.py:53
+#: devtox/onboarding.py:65
 msgid "Risultati di Google senza tracciamento."
 msgstr "Google results without the tracking."
 
-#: devtox/onboarding.py:54
+#: devtox/onboarding.py:66
 msgid "Indice proprio, senza profilazione."
 msgstr "Its own index, no profiling."
 
-#: devtox/onboarding.py:55
+#: devtox/onboarding.py:67
 msgid "Indice proprio, piccolo e indipendente."
 msgstr "Its own index, small and independent."
 
-#: devtox/onboarding.py:56
+#: devtox/onboarding.py:68
 msgid "Usa i ricavi per piantare alberi."
 msgstr "Uses its profits to plant trees."
 
-#: devtox/onboarding.py:57
+#: devtox/onboarding.py:69
 msgid "I risultati migliori per molti, ma le ricerche vengono profilate."
 msgstr "The best results for many, but your searches are profiled."
 
@@ -762,7 +884,7 @@ msgstr "Block third-party cookies"
 msgid "I cookie dei siti incorporati non ti seguono da una pagina all'altra."
 msgstr "Cookies from embedded sites don't follow you from page to page."
 
-#: devtox/onboarding.py:31 devtox/ui.py:348 devtox/window.py:604
+#: devtox/onboarding.py:31 devtox/ui.py:348 devtox/window.py:642
 msgid "Anti-fingerprinting"
 msgstr "Anti-fingerprinting"
 
@@ -809,155 +931,172 @@ msgid ""
 msgstr ""
 "Cookies and site data are kept between runs. Off: every start is a clean slate."
 
-#: devtox/onboarding.py:277
+#: devtox/onboarding.py:45
+msgid "Pannello Docker"
+msgstr "Docker panel"
+
+#: devtox/onboarding.py:46
+msgid ""
+"Container per progetto, con avvio, arresto, riavvio e log. Parla solo con il socket locale di Docker o Podman, e solo a pannello aperto."
+msgstr "Containers by project, with start, stop, restart and logs. Talks only to the local Docker or Podman socket, and only while the panel is open."
+
+#: devtox/onboarding.py:48
+msgid "Avviso quando parte un server"
+msgstr "Tell me when a server starts"
+
+#: devtox/onboarding.py:49
+msgid ""
+"Un messaggio con «Apri» appena un server di sviluppo inizia ad ascoltare. Controlla /proc ogni 5 secondi, per questo è spento di base."
+msgstr "A message with “Open” as soon as a development server starts listening. It checks /proc every 5 seconds, so it is off by default."
+
+#: devtox/onboarding.py:51
+msgid "Assistente IA locale"
+msgstr "Local AI assistant"
+
+#: devtox/onboarding.py:52
+msgid ""
+"Riassunti e spiegazioni con Ollama, sul tuo PC. Spento: il pannello IA sparisce."
+msgstr ""
+"Summaries and explanations with Ollama, on your computer. Off: the AI panel disappears."
+
+#: devtox/onboarding.py:290
 msgid "Devtox è ora il browser predefinito."
 msgstr "Devtox is now the default browser."
 
-#: devtox/onboarding.py:131 devtox/onboarding.py:120
+#: devtox/onboarding.py:144 devtox/onboarding.py:133
 msgid "Impostazioni salvate"
 msgstr "Settings saved"
 
-#: devtox/onboarding.py:177 devtox/startpage.py:98
+#: devtox/onboarding.py:191 devtox/startpage.py:108
 msgid "solo HTTPS"
 msgstr "HTTPS only"
 
-#: devtox/onboarding.py:177 devtox/startpage.py:103
+#: devtox/onboarding.py:191 devtox/startpage.py:113
 msgid "anti-fingerprinting"
 msgstr "anti-fingerprinting"
 
-#: devtox/onboarding.py:178
+#: devtox/onboarding.py:192
 msgid "cookie di terze parti bloccati"
 msgstr "third-party cookies blocked"
 
-#: devtox/onboarding.py:270
+#: devtox/onboarding.py:283
 msgid ""
 "xdg-settings non trovato: imposta il browser predefinito dalle impostazioni di sistema."
 msgstr ""
 "xdg-settings not found: set the default browser from your system settings."
 
-#: devtox/onboarding.py:75 devtox/onboarding.py:75
+#: devtox/onboarding.py:87 devtox/onboarding.py:87
 msgid "Riavvio…"
 msgstr "Restarting…"
 
-#: devtox/onboarding.py:164
+#: devtox/onboarding.py:177
 msgid "Imposta Devtox come browser predefinito"
 msgstr "Make Devtox the default browser"
 
-#: devtox/onboarding.py:165
+#: devtox/onboarding.py:178
 msgid "I link aperti da altre applicazioni arrivano qui."
 msgstr "Links opened from other applications land here."
 
-#: devtox/onboarding.py:276
+#: devtox/onboarding.py:289
 msgid ""
 "Non sono riuscito a impostarlo come browser predefinito: fallo dalle impostazioni di sistema."
 msgstr ""
 "Couldn't set it as the default browser: do it from your system settings."
 
-#: devtox/onboarding.py:175 devtox/window.py:135
+#: devtox/onboarding.py:189 devtox/window.py:156
 msgid "Cerca con {engine} o scrivi un indirizzo"
 msgstr "Search with {engine} or type an address"
 
-#: devtox/onboarding.py:188
+#: devtox/onboarding.py:202
 msgid ""
 "Un minuto per scegliere come deve comportarsi. Puoi cambiare tutto più tardi dal menu."
 msgstr ""
 "One minute to choose how it should behave. You can change everything later from the menu."
 
-#: devtox/onboarding.py:192
+#: devtox/onboarding.py:206
 msgid "Lingua"
 msgstr "Language"
 
-#: devtox/onboarding.py:192
+#: devtox/onboarding.py:206
 msgid "Menu, pagine interne e messaggi. Cambia dopo un riavvio."
 msgstr "Menus, internal pages and messages. Changes after a restart."
 
-#: devtox/onboarding.py:194
+#: devtox/onboarding.py:208
 msgid "Motore di ricerca"
 msgstr "Search engine"
 
-#: devtox/onboarding.py:194
+#: devtox/onboarding.py:208
 msgid ""
 "Dove finisce quello che scrivi nella barra degli indirizzi quando non è un indirizzo."
 msgstr ""
 "Where what you type in the address bar goes when it is not an address."
 
-#: devtox/onboarding.py:198
+#: devtox/onboarding.py:212
 msgid ""
 "Tutto resta su questo PC. Ogni protezione si può spegnere per un solo sito dallo scudo nella barra."
 msgstr ""
 "Everything stays on this computer. Any protection can be turned off for one site from the shield in the address bar."
 
-#: devtox/onboarding.py:201
+#: devtox/onboarding.py:215
 msgid "Sviluppo"
 msgstr "Development"
 
-#: devtox/onboarding.py:201
+#: devtox/onboarding.py:215
 msgid ""
-"I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto."
-msgstr ""
-"Servers you start show up on the start page by themselves, with their project folder."
+"I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto. Gli strumenti qui sotto si accendono e spengono uno per uno."
+msgstr "Servers you start show up on the start page by themselves, with their project folder. The tools below can be turned on and off one by one."
 
-#: devtox/onboarding.py:208
+#: devtox/onboarding.py:221
 msgid "Come si comporta Devtox con il resto del desktop."
 msgstr "How Devtox works with the rest of the desktop."
 
-#: devtox/onboarding.py:211
+#: devtox/onboarding.py:224
 msgid "Salva e inizia"
 msgstr "Save and start"
 
-#: devtox/onboarding.py:212
+#: devtox/onboarding.py:225
 msgid "Salta"
 msgstr "Skip"
 
-#: devtox/onboarding.py:225
+#: devtox/onboarding.py:238
 msgid "Nessuna protezione accesa"
 msgstr "No protection turned on"
 
-#: devtox/onboarding.py:129
+#: devtox/onboarding.py:142
 msgid "Continua"
 msgstr "Continue"
 
-#: devtox/onboarding.py:167
+#: devtox/onboarding.py:180
 msgid "Per impostarlo come browser predefinito installalo con install.sh."
 msgstr "To make it the default browser, install it with install.sh."
 
-#: devtox/onboarding.py:126
+#: devtox/onboarding.py:139
 msgid ""
 "Lingua e alcune protezioni cambiano dopo un riavvio. Le tab aperte vengono ripristinate."
 msgstr ""
 "Language and some protections change after a restart. Open tabs are restored."
 
-#: devtox/onboarding.py:128
+#: devtox/onboarding.py:141
 msgid "Riavvia ora"
 msgstr "Restart now"
 
-#: devtox/onboarding.py:171
+#: devtox/onboarding.py:184
 msgid "Bilanciata (consigliata)"
 msgstr "Balanced (recommended)"
 
-#: devtox/onboarding.py:171
+#: devtox/onboarding.py:184
 msgid "Massima privacy"
 msgstr "Maximum privacy"
 
-#: devtox/onboarding.py:202
+#: devtox/onboarding.py:217
 msgid "Porte da controllare comunque"
 msgstr "Ports to check anyway"
 
-#: devtox/onboarding.py:204
+#: devtox/onboarding.py:219
 msgid ""
 "Separate da virgole. Servono per i server di Docker, di root o di altri utenti, che non si vedono da /proc."
 msgstr ""
 "Comma-separated. For servers run by Docker, root or other users, which /proc does not show."
-
-#: devtox/onboarding.py:205
-msgid "Assistente IA locale"
-msgstr "Local AI assistant"
-
-#: devtox/onboarding.py:206
-msgid ""
-"Riassunti e spiegazioni con Ollama, sul tuo PC. Spento: il pannello IA sparisce."
-msgstr ""
-"Summaries and explanations with Ollama, on your computer. Off: the AI panel disappears."
 
 #: devtox/privacy.py:42
 msgid ""
@@ -983,128 +1122,144 @@ msgstr "Private tab: the exception only lasts until the browser is closed."
 msgid "L'eccezione resta salvata in config.json, alla voce https_exceptions."
 msgstr "The exception is saved in config.json, under https_exceptions."
 
-#: devtox/servers.py:196
+#: devtox/servers.py:238
 msgid "{n} s"
 msgstr "{n} s"
 
-#: devtox/servers.py:199
+#: devtox/servers.py:241
 msgid "{n} min"
 msgstr "{n} min"
 
-#: devtox/servers.py:204
+#: devtox/servers.py:246
 msgid "{d} g {h} h"
 msgstr "{d} d {h} h"
 
-#: devtox/servers.py:204
+#: devtox/servers.py:246
 msgid "{n} g"
 msgstr "{n} d"
 
-#: devtox/servers.py:202
+#: devtox/servers.py:217
+msgid "di un altro utente o di sistema: non si può fermare da qui"
+msgstr "run by another user or the system: cannot be stopped from here"
+
+#: devtox/servers.py:220
+msgid "è Devtox stesso"
+msgstr "it is Devtox itself"
+
+#: devtox/servers.py:244
 msgid "{h} h {m} min"
 msgstr "{h} h {m} min"
 
-#: devtox/servers.py:202
+#: devtox/servers.py:244
 msgid "{n} h"
 msgstr "{n} h"
 
-#: devtox/startpage.py:19
+#: devtox/servers.py:227
+msgid "permesso negato"
+msgstr "permission denied"
+
+#: devtox/startpage.py:23
 msgid "tutti i comandi"
 msgstr "every command"
 
-#: devtox/startpage.py:20
+#: devtox/startpage.py:24
 msgid "terminale"
 msgstr "terminal"
 
-#: devtox/startpage.py:21
+#: devtox/startpage.py:25
 msgid "server locali"
 msgstr "local servers"
 
-#: devtox/startpage.py:22
+#: devtox/startpage.py:26
 msgid "richieste di rete"
 msgstr "network requests"
 
-#: devtox/startpage.py:23
+#: devtox/startpage.py:27
 msgid "vista responsive"
 msgstr "responsive view"
 
-#: devtox/startpage.py:24
+#: devtox/startpage.py:28
 msgid "sorgente"
 msgstr "source"
 
-#: devtox/startpage.py:25
+#: devtox/startpage.py:29
 msgid "strumenti sviluppatore"
 msgstr "developer tools"
 
-#: devtox/startpage.py:47
+#: devtox/startpage.py:51
 msgid ""
 "Avvia un server dal terminale (<kbd>Ctrl+`</kbd>), per esempio <code>npm run dev</code> o <code>python3 -m http.server</code>: comparirà qui."
 msgstr ""
 "Start one from the terminal (<kbd>Ctrl+`</kbd>), for example <code>npm run dev</code> or <code>python3 -m http.server</code>, and it shows up here."
 
-#: devtox/startpage.py:121
-msgid "nessun server"
-msgstr "no servers"
-
-#: devtox/startpage.py:105
+#: devtox/startpage.py:115
 msgid "niente su disco"
 msgstr "nothing on disk"
 
-#: devtox/startpage.py:118
-msgid "1 server in ascolto"
-msgstr "1 server listening"
+#: devtox/startpage.py:135
+msgid "nessun server"
+msgstr "no servers"
 
-#: devtox/startpage.py:68
+#: devtox/startpage.py:77
 msgid "Porta"
 msgstr "Port"
 
-#: devtox/startpage.py:68
+#: devtox/startpage.py:77
 msgid "Strumento"
 msgstr "Tool"
 
-#: devtox/startpage.py:69
+#: devtox/startpage.py:78
 msgid "Cartella"
 msgstr "Folder"
 
-#: devtox/startpage.py:69
+#: devtox/startpage.py:78
 msgid "Attivo da"
 msgstr "Up for"
 
-#: devtox/startpage.py:99
+#: devtox/startpage.py:109
 msgid "{n} domini bloccati"
 msgstr "{n} domains blocked"
 
-#: devtox/startpage.py:133
+#: devtox/startpage.py:128
+msgid "1 server in ascolto"
+msgstr "1 server listening"
+
+#: devtox/startpage.py:147
 msgid "Nessun preferito: Ctrl+D salva la pagina aperta."
 msgstr "No bookmarks yet: Ctrl+D saves the open page."
 
-#: devtox/startpage.py:91
+#: devtox/startpage.py:101
 msgid "blocklist e HTTPS-only non attivi: vedi il log"
 msgstr "blocklist and HTTPS-only are not active: see the log"
 
-#: devtox/startpage.py:119
-msgid "{n} server in ascolto"
-msgstr "{n} servers listening"
-
-#: devtox/startpage.py:131
+#: devtox/startpage.py:145
 msgid "Le pagine che apri compariranno qui."
 msgstr "Pages you open will show up here."
 
-#: devtox/startpage.py:132
+#: devtox/startpage.py:146
 msgid "Cronologia spenta in config.json."
 msgstr "History is turned off in config.json."
 
-#: devtox/startpage.py:49
+#: devtox/startpage.py:53
 msgid "Porte sempre controllate anche se di altri utenti:"
 msgstr "Ports always checked, even when another user runs them:"
 
-#: devtox/startpage.py:126
+#: devtox/startpage.py:129
+msgid "{n} server in ascolto"
+msgstr "{n} servers listening"
+
+#: devtox/startpage.py:140
 msgid ""
 "Le ricerche vanno su {engine}. Indirizzi e porte locali si aprono direttamente."
 msgstr "Searches go to {engine}. Addresses and local ports open directly."
 
-#: devtox/startpage.py:58
+#: devtox/startpage.py:62
 msgid "di un altro utente o di sistema"
 msgstr "run by another user or the system"
+
+#: devtox/startpage.py:68
+msgid "Ferma il server sulla porta {port}"
+msgstr "Stop the server on port {port}"
 
 #: devtox/tabs.py:74
 msgid "Chiudi tab (Ctrl+W)"
@@ -1248,181 +1403,197 @@ msgstr "active, just built ({path})"
 msgid "attiva ({path})"
 msgstr "active ({path})"
 
-#: devtox/window.py:123
+#: devtox/window.py:144
 msgid "Indietro (Alt+←)"
 msgstr "Back (Alt+←)"
 
-#: devtox/window.py:125
+#: devtox/window.py:146
 msgid "Avanti (Alt+→)"
 msgstr "Forward (Alt+→)"
 
-#: devtox/window.py:127
+#: devtox/window.py:148
 msgid "Ricarica (F5)"
 msgstr "Reload (F5)"
 
-#: devtox/window.py:162
+#: devtox/window.py:183
 msgid "Devtox: nuova tab (Ctrl+T)"
 msgstr "Devtox: new tab (Ctrl+T)"
 
-#: devtox/window.py:220
+#: devtox/window.py:241
 msgid "Terminale (Ctrl+`)"
 msgstr "Terminal (Ctrl+`)"
 
-#: devtox/window.py:224
+#: devtox/window.py:245
 msgid "Server locali (Ctrl+Shift+L)"
 msgstr "Local servers (Ctrl+Shift+L)"
 
-#: devtox/window.py:246
+#: devtox/window.py:270
 msgid "Vista responsive (Ctrl+Shift+M)"
 msgstr "Responsive view (Ctrl+Shift+M)"
 
-#: devtox/window.py:248
+#: devtox/window.py:272
 msgid "Screenshot della pagina (Ctrl+Shift+S)"
 msgstr "Page screenshot (Ctrl+Shift+S)"
 
-#: devtox/window.py:250
+#: devtox/window.py:274
 msgid "Cookie e dati del sito (Ctrl+Shift+Canc)"
 msgstr "Site cookies and data (Ctrl+Shift+Delete)"
 
-#: devtox/window.py:280
+#: devtox/window.py:304
 msgid "Disattivata"
 msgstr "Off"
 
-#: devtox/window.py:354
+#: devtox/window.py:378
 msgid ""
 "Tab privata: niente cronologia, i dati spariscono con l'ultima tab privata"
 msgstr "Private tab: no history, data disappears with the last private tab"
 
-#: devtox/window.py:604
+#: devtox/window.py:642
 msgid "Blocco tracker"
 msgstr "Tracker blocking"
 
-#: devtox/window.py:606
+#: devtox/window.py:644
 msgid "{shield} attivo su {host}"
 msgstr "{shield} on for {host}"
 
-#: devtox/window.py:606
+#: devtox/window.py:644
 msgid "{shield} spento su {host}"
 msgstr "{shield} off for {host}"
 
-#: devtox/window.py:707
+#: devtox/window.py:745
 msgid ""
 "Pagina chiusa: aveva superato il limite di memoria. F5 per ricaricare."
 msgstr "Page closed: it went over the memory limit. F5 to reload."
 
-#: devtox/window.py:833
+#: devtox/window.py:871
 msgid "Preferiti e cookie restano. Non si può annullare."
 msgstr "Bookmarks and cookies are kept. This cannot be undone."
 
-#: devtox/window.py:868
+#: devtox/window.py:906
 msgid "Invio"
 msgstr "Enter"
 
-#: devtox/window.py:234
+#: devtox/window.py:255
 msgid "Richieste di rete (Ctrl+Shift+E)"
 msgstr "Network requests (Ctrl+Shift+E)"
 
-#: devtox/window.py:236
+#: devtox/window.py:257
 msgid "Memoria e processi (Shift+Esc)"
 msgstr "Memory and processes (Shift+Esc)"
 
-#: devtox/window.py:238
+#: devtox/window.py:259
 msgid "Download (Ctrl+Shift+Y)"
 msgstr "Downloads (Ctrl+Shift+Y)"
 
-#: devtox/window.py:240
+#: devtox/window.py:261
+msgid "Container Docker (Ctrl+Shift+D)"
+msgstr "Docker containers (Ctrl+Shift+D)"
+
+#: devtox/window.py:263
 msgid "IA locale con Ollama (Ctrl+Shift+A)"
 msgstr "Local AI with Ollama (Ctrl+Shift+A)"
 
-#: devtox/window.py:375
+#: devtox/window.py:399
 msgid "Nessuna tab chiusa da riaprire"
 msgstr "No closed tab to reopen"
 
-#: devtox/window.py:709
+#: devtox/window.py:747
 msgid "Il processo della pagina si è bloccato. F5 per ricaricare."
 msgstr "The page process crashed. F5 to reload."
 
-#: devtox/window.py:781
+#: devtox/window.py:819
 msgid "Si possono salvare solo pagine web"
 msgstr "Only web pages can be bookmarked"
 
-#: devtox/window.py:784
+#: devtox/window.py:822
 msgid "Aggiunto ai preferiti"
 msgstr "Bookmark added"
 
-#: devtox/window.py:784
+#: devtox/window.py:822
 msgid "Tolto dai preferiti"
 msgstr "Bookmark removed"
 
-#: devtox/window.py:803
+#: devtox/window.py:841
 msgid "Il sorgente è disponibile per le pagine web"
 msgstr "Source is available for web pages"
 
-#: devtox/window.py:826
+#: devtox/window.py:864
 msgid "Link Markdown copiato"
 msgstr "Markdown link copied"
 
-#: devtox/window.py:826
+#: devtox/window.py:864
 msgid "Indirizzo copiato"
 msgstr "Address copied"
 
-#: devtox/window.py:831
+#: devtox/window.py:869
 msgid "Cancellare tutta la cronologia?"
 msgstr "Clear all history?"
 
-#: devtox/window.py:838
+#: devtox/window.py:876
 msgid "Cronologia cancellata"
 msgstr "History cleared"
 
-#: devtox/window.py:856
+#: devtox/window.py:894
 msgid "server locale"
 msgstr "local server"
 
-#: devtox/window.py:929
+#: devtox/window.py:967
 msgid "Apri un sito web per vederne cookie e dati"
 msgstr "Open a website to see its cookies and data"
 
-#: devtox/window.py:949
+#: devtox/window.py:987
 msgid "Vista responsive disattivata"
 msgstr "Responsive view off"
 
-#: devtox/window.py:415
+#: devtox/window.py:439
 msgid "Aperto dal terminale: {url}"
 msgstr "Opened from the terminal: {url}"
 
-#: devtox/window.py:550
+#: devtox/window.py:588
 msgid "Togli dai preferiti (Ctrl+D)"
 msgstr "Remove bookmark (Ctrl+D)"
 
-#: devtox/window.py:550
+#: devtox/window.py:588
 msgid "Aggiungi ai preferiti (Ctrl+D)"
 msgstr "Bookmark this page (Ctrl+D)"
 
-#: devtox/window.py:798
+#: devtox/window.py:836
 msgid "Zoom {level:.0%}"
 msgstr "Zoom {level:.0%}"
 
-#: devtox/window.py:853
+#: devtox/window.py:891
 msgid "tab aperta"
 msgstr "open tab"
 
-#: devtox/window.py:868
+#: devtox/window.py:906
 msgid "Apri o cerca «{text}»"
 msgstr "Open or search \"{text}\""
 
-#: devtox/window.py:947
+#: devtox/window.py:539
+msgid "{tool} è pronto su localhost:{port}"
+msgstr "{tool} is ready on localhost:{port}"
+
+#: devtox/window.py:540
+msgid "Apri"
+msgstr "Open"
+
+#: devtox/window.py:985
 msgid "Vista responsive {width}×{height}"
 msgstr "Responsive view {width}×{height}"
 
-#: devtox/window.py:936
+#: devtox/window.py:539
+msgid "Un server"
+msgstr "A server"
+
+#: devtox/window.py:974
 msgid "Screenshot salvato in {path}"
 msgstr "Screenshot saved to {path}"
 
-#: devtox/window.py:938
+#: devtox/window.py:976
 msgid "Screenshot non riuscito: {error}"
 msgstr "Screenshot failed: {error}"
 
-#: devtox/window.py:960
+#: devtox/window.py:998
 msgid "Blocklist ricaricata: {count} domini"
 msgstr "Blocklist reloaded: {count} domains"
 
@@ -1468,30 +1639,35 @@ msgstr "Expand all"
 msgid "Comprimi tutto"
 msgstr "Collapse all"
 
-#: devtox/resources/start.html:223
+#: devtox/resources/start.html:238
 msgid "cerca, oppure localhost:5173"
 msgstr "search, or localhost:5173"
 
-#: devtox/resources/start.html:223
+#: devtox/resources/start.html:238
 msgid "Cerca o apri un indirizzo"
 msgstr "Search or open an address"
 
-#: devtox/resources/start.html:227
+#: devtox/resources/start.html:242
 msgid "Cambia le impostazioni"
 msgstr "Change settings"
 
-#: devtox/resources/start.html:234
+#: devtox/resources/start.html:249
 msgid "In esecuzione su questo PC"
 msgstr "Running on this machine"
 
-#: devtox/resources/start.html:240
+#: devtox/resources/start.html:255
 msgid "Preferiti"
 msgstr "Bookmarks"
 
-#: devtox/resources/start.html:246
+#: devtox/resources/start.html:261
 msgid "Pagine recenti"
 msgstr "Recent pages"
 
-#: devtox/resources/start.html:252
+#: devtox/resources/start.html:267
 msgid "Tasti"
 msgstr "Keys"
+
+#~ msgid ""
+#~ "I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto."
+#~ msgstr ""
+#~ "Servers you start show up on the start page by themselves, with their project folder."

@@ -6,6 +6,7 @@ Protocollo: una riga JSON di richiesta, una riga JSON di risposta.
   {"cmd": "mem"}
   {"cmd": "servers"}
   {"cmd": "present"}     porta la finestra in primo piano
+  {"cmd": "stop", "ports": [5173] | "all"}
 """
 
 import json
@@ -104,6 +105,19 @@ class ControlServer:
             if url is None:
                 return {"ok": False, "error": _("indirizzo vuoto")}
             return {"ok": True, "url": url}
+        if command == "stop":
+            ports = request.get("ports")
+            if ports != "all" and not (isinstance(ports, list) and all(isinstance(p, int) for p in ports)):
+                return {"ok": False, "error": _("porte non valide")}
+            chosen = servers.select(startpage.collect_servers(self.window.config["dev_ports"]), ports)
+            if not chosen:
+                return {"ok": False, "error": _("nessun server in ascolto su quelle porte")}
+            results = servers.stop(chosen)
+            return {
+                "ok": True,
+                "stopped": [{"port": s.port, "tool": s.tool} for s, error in results if error is None],
+                "errors": [{"port": s.port, "error": error} for s, error in results if error is not None],
+            }
         if command == "present":
             self.window.present()
             return {"ok": True}

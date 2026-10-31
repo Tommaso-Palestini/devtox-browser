@@ -34,6 +34,9 @@ def commands(win):
         (_("Richieste di rete"), "Ctrl+Shift+E", "dx-network-symbolic", lambda: side("rete")),
         (_("Memoria e processi"), "Shift+Esc", "dx-memory-symbolic", lambda: side("memoria")),
         (_("Download"), "Ctrl+Shift+Y", "dx-downloads-symbolic", lambda: side("download")),
+    ] + ([
+        (_("Container Docker"), "Ctrl+Shift+D", "dx-docker-symbolic", lambda: side("docker")),
+    ] if win.config["docker_enabled"] else []) + [
         (_("Server locali"), "Ctrl+Shift+L", "dx-servers-symbolic", win.show_local_servers),
         (_("Vista responsive"), "Ctrl+Shift+M", "dx-responsive-symbolic", win.toggle_responsive),
         (_("Screenshot della pagina"), "Ctrl+Shift+S", "dx-screenshot-symbolic", win.take_screenshot),
@@ -88,6 +91,7 @@ def handle_key(win, event):
             Gdk.KEY_e: lambda: win.toggle_side_panel("rete"),
             Gdk.KEY_a: lambda: win.toggle_side_panel("ia"),
             Gdk.KEY_y: lambda: win.toggle_side_panel("download"),
+            Gdk.KEY_d: lambda: win.toggle_side_panel("docker"),
             Gdk.KEY_l: win.show_local_servers,
             Gdk.KEY_s: win.take_screenshot,
             Gdk.KEY_m: win.toggle_responsive,

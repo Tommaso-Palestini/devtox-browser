@@ -6,6 +6,7 @@
   dx tabs                         elenca le tab
   dx mem                          memoria dei processi del browser
   dx servers                      server di sviluppo in ascolto su questo PC
+  dx stop <porta...> | all        ferma i server (SIGTERM, come Ctrl+C)
 """
 
 import argparse
@@ -32,6 +33,9 @@ MESSAGES_EN = {
         "With no arguments, start Devtox or bring the open window forward.",
     "dx: comando devtox non trovato: esegui install.sh": "dx: devtox command not found: run install.sh",
     "Devtox avviato": "Devtox started",
+    "ferma i server di sviluppo (SIGTERM, come Ctrl+C)": "stop development servers (SIGTERM, like Ctrl+C)",
+    "porte da fermare, oppure all": "ports to stop, or all",
+    "fermato": "stopped",
     "server di sviluppo in ascolto su questo PC": "development servers listening on this machine",
     "nessun server in ascolto su localhost": "no server listening on localhost",
 }
@@ -118,6 +122,8 @@ def main():
     sub.add_parser("tabs", help=_("elenca le tab aperte"))
     sub.add_parser("mem", help=_("mostra la memoria usata dal browser"))
     sub.add_parser("servers", help=_("server di sviluppo in ascolto su questo PC"))
+    stop_parser = sub.add_parser("stop", help=_("ferma i server di sviluppo (SIGTERM, come Ctrl+C)"))
+    stop_parser.add_argument("ports", nargs="+", help=_("porte da fermare, oppure all"))
     args = parser.parse_args()
 
     if args.cmd is None:
@@ -136,6 +142,19 @@ def main():
             print(_("nessun server in ascolto su localhost"))
         for server in servers:
             print(f"{server['port']:>6}  {server['tool'] or '-':<12} {server['project'] or '-':<36} {server['uptime']}")
+    elif args.cmd == "stop":
+        if args.ports == ["all"]:
+            ports = "all"
+        else:
+            try:
+                ports = [int(p.lstrip(":")) for p in args.ports]
+            except ValueError:
+                parser.error(_("porte da fermare, oppure all"))
+        response = send({"cmd": "stop", "ports": ports})
+        for server in response["stopped"]:
+            print(f"{_('fermato')}: {server['port']:>6}  {server['tool'] or '-'}")
+        for item in response["errors"]:
+            print(f"dx: {item['port']}: {item['error']}", file=sys.stderr)
     elif args.cmd == "mem":
         response = send({"cmd": "mem"})
         for proc in sorted(response["processes"], key=lambda p: -p["pss_kb"]):

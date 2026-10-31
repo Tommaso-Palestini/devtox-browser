@@ -34,6 +34,8 @@ DEFAULTS = {
     "web_process_memory_limit_mb": 0,  # 0 = limite automatico di WebKit
     # Strumenti
     "dev_ports": [5173, 3000, 8000, 4321],
+    "docker_enabled": True,           # pannello Docker (interroga il socket locale solo a pannello aperto)
+    "server_alerts": False,           # avviso quando un server di sviluppo inizia ad ascoltare
     # IA locale
     "ai_enabled": True,               # False = niente pannello IA e niente comandi IA
     "ollama_model": "",               # vuoto = il modello più piccolo installato

@@ -1,6 +1,6 @@
 # Privacy policy
 
-_Last updated: 30 October 2026. Applies to Devtox 0.1.0 and later._
+_Last updated: 31 October 2026. Applies to Devtox 0.1.0 and later._
 
 Devtox is a program that runs on your computer. Its authors do not run any
 server for it, so there is nobody on our side who could receive your data.
@@ -24,6 +24,11 @@ Devtox only opens these connections:
 | Your search engine (DuckDuckGo by default, you can change it in `devtox://setup`) | when you type something that is not an address in the address bar, the start page or the command palette |
 | Ollama on `127.0.0.1:11434` (your own computer) | only when you open the AI panel or use an AI action |
 | `localhost` ports listed in `dev_ports` | when the start page or the local servers popup checks which dev servers are running (connections to your own computer only) |
+| The Docker or Podman socket on your computer (a Unix socket, never the network) | only while the Docker panel is open, or when you press one of its buttons. A remote `DOCKER_HOST` (`tcp://`, `ssh://`) is ignored on purpose |
+
+Devtox also reads your own entries in `/proc` to list the servers you are running
+(port, program, folder, uptime). Nothing leaves your computer. Stopping a server
+sends it `SIGTERM`, the same signal as Ctrl+C, and only after you click a stop button.
 
 The websites you visit and the search engine you choose have their own privacy
 policies. Devtox tries to limit what they learn (see below), but it cannot

@@ -185,14 +185,48 @@ class LocalServersPopover(Gtk.Popover):
             button.add(row)
             button.set_tooltip_text(server.url)
             button.connect("clicked", self._on_button_clicked, server.url)
-            self.list_box.pack_start(button, False, False, 0)
-            button.show_all()
+            line = Gtk.Box(spacing=2)
+            line.pack_start(button, True, True, 0)
+            if server.pid:
+                stop = Gtk.Button.new_from_icon_name("media-playback-stop-symbolic", Gtk.IconSize.MENU)
+                stop.set_relief(Gtk.ReliefStyle.NONE)
+                stop.get_style_context().add_class("server-stop")
+                stop.set_tooltip_text(_("Ferma il server (come Ctrl+C)"))
+                stop.connect("clicked", lambda _b, s=server: self._stop([s]))
+                line.pack_end(stop, False, False, 0)
+            self.list_box.pack_start(line, False, False, 0)
+            line.show_all()
             if number == 1:
                 button.grab_focus()
+        stoppable = [s for s in self._found.values() if s.pid]
+        if len(stoppable) > 1:
+            stop_all = Gtk.Button(label=_("Ferma tutti ({n})").format(n=len(stoppable)))
+            stop_all.get_style_context().add_class("danger")
+            stop_all.set_halign(Gtk.Align.END)
+            stop_all.connect("clicked", lambda _b: self._confirm_stop_all(stoppable))
+            self.list_box.pack_start(stop_all, False, False, 6)
+            stop_all.show()
 
     def _on_button_clicked(self, _button, url):
         self.popdown()
         self.on_open(url)
+
+    def _confirm_stop_all(self, found):
+        dialog = Gtk.MessageDialog(transient_for=self.get_toplevel(), modal=True,
+                                   message_type=Gtk.MessageType.QUESTION, buttons=Gtk.ButtonsType.OK_CANCEL,
+                                   text=_("Fermare tutti i server di sviluppo?"))
+        dialog.format_secondary_text("\n".join(f"{s.port}  {s.tool}  {s.project}" for s in found))
+        answer = dialog.run()
+        dialog.destroy()
+        if answer == Gtk.ResponseType.OK:
+            self._stop(found)
+
+    def _stop(self, found):
+        """SIGTERM ai processi, poi si rilegge /proc quando hanno avuto il tempo di chiudere."""
+        errors = [error for _server, error in servers.stop(found) if error]
+        if errors:
+            self.status.set_text(errors[0])
+        GLib.timeout_add(600, lambda: self.scan() and False)
 
 
 # --- Pannello rete -------------------------------------------------------

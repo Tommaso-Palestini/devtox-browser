@@ -64,6 +64,21 @@ class SrTest(unittest.TestCase):
         self.assertEqual(browser.requests, [{"cmd": "servers"}])
         self.assertRegex(result.stdout, r"5173\s+vite\s+~/progetti/sito\s+2 h 14 min")
 
+    def test_stop(self):
+        browser = FakeBrowser(self.path, {"ok": True, "stopped": [{"port": 5173, "tool": "vite"}], "errors": []})
+        browser.start()
+        result = self.run_sr("stop", "all")
+        browser.join(5)
+        self.assertEqual(browser.requests, [{"cmd": "stop", "ports": "all"}])
+        self.assertIn("5173", result.stdout)
+
+    def test_stop_ports(self):
+        browser = FakeBrowser(self.path, {"ok": True, "stopped": [], "errors": []})
+        browser.start()
+        self.run_sr("stop", "5173", "3000")
+        browser.join(5)
+        self.assertEqual(browser.requests, [{"cmd": "stop", "ports": [5173, 3000]}])
+
     def test_no_servers(self):
         browser = FakeBrowser(self.path, {"ok": True, "servers": []})
         browser.start()

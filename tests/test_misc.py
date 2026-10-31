@@ -58,6 +58,22 @@ class ControlTest(unittest.TestCase):
     def test_tabs(self):
         self.assertEqual(self.server._handle('{"cmd": "tabs"}')["tabs"][0]["uri"], "https://a.it/")
 
+    def test_stop(self):
+        from unittest import mock
+
+        from devtox import servers
+        found = [servers.Server(5173, "127.0.0.1", pid=11, tool="vite"),
+                 servers.Server(8000, "127.0.0.1", pid=12, tool="django")]
+        with mock.patch.object(servers, "scan", return_value=found), \
+                mock.patch.object(servers.os, "kill") as kill:
+            one = self.server._handle('{"cmd": "stop", "ports": [8000]}')
+            self.assertEqual(kill.call_count, 1)
+            every = self.server._handle('{"cmd": "stop", "ports": "all"}')
+        self.assertEqual([s["port"] for s in one["stopped"]], [8000])
+        self.assertEqual([s["port"] for s in every["stopped"]], [5173, 8000])
+        none = self.server._handle('{"cmd": "stop", "ports": [9999]}')
+        self.assertFalse(none["ok"])
+
     def test_present(self):
         self.assertTrue(self.server._handle('{"cmd": "present"}')["ok"])
         self.assertTrue(self.window.presented)

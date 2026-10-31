@@ -39,6 +39,18 @@ PRIVACY_SWITCHES = [
     ("persistent_data", ("persistent_data",), _("Resta connesso ai siti"),
      _("Cookie e dati dei siti restano tra un avvio e l'altro. Spento: ogni avvio parte da zero.")),
 ]
+# Strumenti per sviluppatori che si possono spegnere: (voce di config.json, titolo, spiegazione).
+# Ognuno dice cosa costa: niente lavoro in background se non serve, niente rete
+TOOL_SWITCHES = [
+    ("docker_enabled", _("Pannello Docker"),
+     _("Container per progetto, con avvio, arresto, riavvio e log. Parla solo con il socket locale "
+       "di Docker o Podman, e solo a pannello aperto.")),
+    ("server_alerts", _("Avviso quando parte un server"),
+     _("Un messaggio con «Apri» appena un server di sviluppo inizia ad ascoltare. "
+       "Controlla /proc ogni 5 secondi, per questo è spento di base.")),
+    ("ai_enabled", _("Assistente IA locale"),
+     _("Riassunti e spiegazioni con Ollama, sul tuo PC. Spento: il pannello IA sparisce.")),
+]
 # Le preimpostazioni accendono o spengono gli interruttori qui sopra (lato pagina, con JS)
 PRESETS = {
     "balanced": {"https_only", "third_party_cookies", "fingerprint", "gpc", "history", "restore_session",
@@ -93,7 +105,8 @@ class Setup:
         for field, keys, _title, _hint in PRIVACY_SWITCHES:
             for key in keys:
                 changes[key] = params.get(field) == "on"
-        changes["ai_enabled"] = params.get("ai_enabled") == "on"
+        for key, _title, _note in TOOL_SWITCHES:
+            changes[key] = params.get(key) == "on"
         ports = parse_ports(params.get("dev_ports", ""))
         if ports is not None:
             changes["dev_ports"] = ports
@@ -101,7 +114,7 @@ class Setup:
         restart_needed = (
             changes.get("language", i18n.language) != i18n.language
             or any(self.config[k] != v for k, v in changes.items() if k in RESTART_KEYS and k != "language")
-            or changes["ai_enabled"] != self.config["ai_enabled"]
+            or any(changes[key] != self.config[key] for key, _title, _note in TOOL_SWITCHES)
         )
         for key, value in changes.items():
             self.config.set(key, value)
@@ -172,6 +185,7 @@ class Setup:
         )
         preset_data = {name: sorted(fields) for name, fields in PRESETS.items()}
         all_fields = [field for field, *_rest in PRIVACY_SWITCHES]
+        tools = "".join(switch(key, title, note, config[key]) for key, title, note in TOOL_SWITCHES)
         placeholders = {key: _("Cerca con {engine} o scrivi un indirizzo").format(engine=name)
                         for key, (name, _url) in navigation.SEARCH_ENGINES.items()}
         summary_words = {"https_only": _("solo HTTPS"), "fingerprint": _("anti-fingerprinting"),
@@ -198,13 +212,12 @@ class Setup:
   {row(_("Privacy"), _("Tutto resta su questo PC. Ogni protezione si può spegnere per un solo sito dallo scudo nella barra."),
        f'<p class="presets">{presets}</p><div class="switches">{privacy}</div>',
        f'<p class="summary" id="privacy-summary" aria-live="polite"></p>')}
-  {row(_("Sviluppo"), _("I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto."),
+  {row(_("Sviluppo"), _("I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto. "
+             "Gli strumenti qui sotto si accendono e spengono uno per uno."),
        f'''<label class="field"><strong>{e(_("Porte da controllare comunque"))}</strong>
     <input name="dev_ports" value="{e(ports)}" inputmode="numeric" spellcheck="false">
     <small>{e(_("Separate da virgole. Servono per i server di Docker, di root o di altri utenti, che non si vedono da /proc."))}</small></label>
-  <div class="switches">{switch("ai_enabled", _("Assistente IA locale"),
-            _("Riassunti e spiegazioni con Ollama, sul tuo PC. Spento: il pannello IA sparisce."),
-            config["ai_enabled"])}</div>''')}
+  <div class="switches">{tools}</div>''')}
   {row(_("Sistema"), _("Come si comporta Devtox con il resto del desktop."),
        f'<div class="switches">{default_browser}</div>')}
   <p class="actions sticky">

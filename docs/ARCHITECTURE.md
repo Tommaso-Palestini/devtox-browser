@@ -14,6 +14,7 @@ in the UI process.
                  │   ├ devtools.py    network, site data, screenshots │
                  │   ├ monitor.py     memory per process (from /proc) │
                  │   ├ downloads.py   ai.py   ui.py   actions.py      │
+                 │   ├ dockerpanel.py docker.py (local socket only)   │
                  │ navigation.py  address bar + devtox:// pages       │
                  │   ├ startpage.py   servers.py (from /proc)         │
                  │   ├ onboarding.py  about.py                        │

@@ -17,6 +17,13 @@ installazione e, se Shellrunner era il browser predefinito, lo sostituisce con D
 - Browser WebKitGTK con terminale VTE integrato, command palette, comando `dx`.
 - Pagina iniziale con i server in esecuzione sul PC letti da `/proc` (porta, strumento,
   cartella del progetto, uptime), pagine recenti, preferiti e barra dei tasti.
+- Ferma i server di sviluppo uno per uno o tutti insieme (pagina iniziale, popup del rail,
+  `dx stop`), con SIGTERM come Ctrl+C. Le app desktop in ascolto (Steam, Syncthing,
+  l'editor...) non compaiono e non vengono mai fermate.
+- Pannello Docker (`Ctrl+Shift+D`): container per progetto, avvio, arresto, riavvio, log nel
+  terminale, porte pubblicate. Solo il socket locale di Docker o Podman, solo a pannello aperto.
+- Strumenti attivabili in `devtox://setup`: pannello Docker, avviso quando parte un server
+  (spento di base), assistente IA.
 - Configurazione a righe (spiegazione e controlli) con anteprima del motore di ricerca
   e riepilogo della privacy che si aggiorna mentre scegli.
 - Interfaccia in inglese e in italiano (file `.po`, scelta automatica dalla lingua del sistema).

@@ -21,7 +21,10 @@ uses the web engine your distribution already keeps up to date.
 - **Command palette.** `Ctrl+K` searches actions, open tabs, bookmarks and history.
 - **Your dev servers, found for you.** The start page lists every server you are running
   (read from `/proc`, no configuration): port, tool (vite, next, django, http.server…),
-  project folder and uptime. One click opens it.
+  project folder and uptime. One click opens it, one click stops it (or all of them).
+- **Docker in the sidebar.** `Ctrl+Shift+D` shows your containers grouped by compose
+  project: start, stop, restart, logs in the terminal, published ports one click away.
+  It talks only to the local Docker or Podman socket, and only while the panel is open.
 - **Dev tools where you need them.** Network log with "copy as curl", responsive view, full-page screenshots, view source,
   JSON viewer, per-site cookies and storage, memory per process.
 - **Local AI, optional.** Summarise a page or explain a selected error with a model
@@ -106,6 +109,7 @@ it installs is `devtox`, and the shell command is `dx`.
 | `Ctrl+L`, `Ctrl+F`, `Ctrl+D`, `Ctrl+U` | address bar, find, bookmark, source |
 | `Ctrl+Shift+L` | local dev servers |
 | `Ctrl+Shift+E`, `Shift+Esc`, `Ctrl+Shift+Y` | network, memory, downloads |
+| `Ctrl+Shift+D` | Docker containers |
 | `Ctrl+Shift+M`, `Ctrl+Shift+S` | responsive view, screenshot |
 | `Ctrl+Shift+A` | local AI panel |
 | `Ctrl+Shift+Delete` | site cookies and data |
@@ -122,6 +126,7 @@ dx open <url or search>      # new tab in the running browser
 dx tabs                      # list tabs (* current, z suspended)
 dx mem                       # memory per process
 dx servers                   # dev servers listening: port, tool, folder, uptime
+dx stop 5173 | dx stop all   # stop dev servers (SIGTERM, like Ctrl+C)
 ```
 
 ## Memory

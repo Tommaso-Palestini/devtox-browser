@@ -116,6 +116,21 @@
   .servers col.c-tool { width: 128px; }
   .servers col.c-up { width: 112px; }
   .servers col.c-pid { width: 72px; }
+  .servers col.c-act { width: 40px; }
+  .servers td.act { text-align: right; overflow: visible; }
+  /* La croce sta sopra il link che copre la riga: si clicca solo lei */
+  a.stop {
+    position: relative; z-index: 1;
+    display: inline-grid; place-items: center;
+    width: 26px; height: 26px; border-radius: 6px;
+    color: var(--muted); font-size: 17px; line-height: 1;
+    opacity: 0; transition: opacity 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
+  }
+  .servers tr:hover a.stop, a.stop:focus-visible { opacity: 1; }
+  a.stop:hover { color: #e5566f; background: var(--raised); }
+  a.stop:focus-visible { outline: 1px solid var(--accent); }
+  a.stop-all { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  a.stop-all:hover { color: #e5566f; }
   .servers .num { text-align: right; font-variant-numeric: tabular-nums; }
   .servers tbody tr { position: relative; transition: background-color 120ms ease-out; }
   .servers tbody tr:hover { background: var(--chrome); }
@@ -203,8 +218,8 @@
     body { padding: 40px 20px 40px; }
     .board { grid-template-columns: 1fr; margin-top: 48px; }
     .wide .links { grid-template-columns: 1fr; }
-    .servers col.c-pid, .servers th:last-child, .servers td:last-child { display: none; }
-    .servers td:nth-last-child(2) { padding-right: 0; }
+    .servers col.c-pid, .servers th:nth-last-child(2), .servers td:nth-last-child(2) { display: none; }
+    a.stop { opacity: 1; }
     .keybar { position: static; margin: 56px -20px -40px; padding: 10px 20px; }
     .sigil { font-size: 24px; }
     .prompt input { font-size: 20px; }
