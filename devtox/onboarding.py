@@ -219,7 +219,8 @@ class Setup:
     <small>{e(_("Separate da virgole. Servono per i server di Docker, di root o di altri utenti, che non si vedono da /proc."))}</small></label>
   <div class="switches">{tools}</div>''')}
   {row(_("Sistema"), _("Come si comporta Devtox con il resto del desktop."),
-       f'<div class="switches">{default_browser}</div>')}
+       f'<div class="switches">{default_browser}</div>'
+       f'<p class="preview"><a href="{navigation.IMPORT_URL}">{e(_("Importa preferiti e cronologia da un altro browser"))}</a></p>')}
   <p class="actions sticky">
     <button class="button" type="submit">{e(_("Salva e inizia"))}</button>
     <a class="button ghost" href="{navigation.SETUP_URL}?token={self.token}&amp;skip=1">{e(_("Salta"))}</a>

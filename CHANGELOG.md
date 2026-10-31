@@ -22,6 +22,10 @@ installazione e, se Shellrunner era il browser predefinito, lo sostituisce con D
   l'editor...) non compaiono e non vengono mai fermate.
 - Pannello Docker (`Ctrl+Shift+D`): container per progetto, avvio, arresto, riavvio, log nel
   terminale, porte pubblicate. Solo il socket locale di Docker o Podman, solo a pannello aperto.
+- Import da altri browser (`devtox://import`): preferiti e cronologia recente da Firefox,
+  Zen, LibreWolf e dai browser Chromium (Chrome, Brave, Edge, Vivaldi, Opera, Opera GX),
+  anche Flatpak e Snap. Niente password né cookie; Tor Browser mai.
+- Sandbox dei processi delle pagine (bubblewrap) attiva: prima era spenta.
 - Strumenti attivabili in `devtox://setup`: pannello Docker, avviso quando parte un server
   (spento di base), assistente IA.
 - Configurazione a righe (spiegazione e controlli) con anteprima del motore di ricerca

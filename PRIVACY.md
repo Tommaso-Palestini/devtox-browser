@@ -26,6 +26,10 @@ Devtox only opens these connections:
 | `localhost` ports listed in `dev_ports` | when the start page or the local servers popup checks which dev servers are running (connections to your own computer only) |
 | The Docker or Podman socket on your computer (a Unix socket, never the network) | only while the Docker panel is open, or when you press one of its buttons. A remote `DOCKER_HOST` (`tcp://`, `ssh://`) is ignored on purpose |
 
+When you use `devtox://import`, Devtox reads the bookmarks and history files of the
+other browsers on this computer (a temporary copy, deleted right after) and only after
+you press an Import button. Passwords, cookies and Tor Browser are never read.
+
 Devtox also reads your own entries in `/proc` to list the servers you are running
 (port, program, folder, uptime). Nothing leaves your computer. Stopping a server
 sends it `SIGTERM`, the same signal as Ctrl+C, and only after you click a stop button.

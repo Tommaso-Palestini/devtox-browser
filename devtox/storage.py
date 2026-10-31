@@ -76,6 +76,24 @@ class Storage:
         )
         return rows.fetchall()
 
+    def import_history(self, rows):
+        """Unisce la cronologia di un altro browser: [(url, titolo, visite, ultimo accesso)].
+
+        Importare due volte non raddoppia le visite: si tiene il valore più alto.
+        Restituisce quante pagine erano nuove.
+        """
+        known = {url for (url,) in self.db.execute("SELECT url FROM history")}
+        with self.db:
+            self.db.executemany(
+                """INSERT INTO history (url, title, visits, last_visit) VALUES (?, ?, ?, ?)
+                   ON CONFLICT(url) DO UPDATE SET
+                       title = CASE WHEN title = '' THEN excluded.title ELSE title END,
+                       visits = MAX(visits, excluded.visits),
+                       last_visit = MAX(last_visit, excluded.last_visit)""",
+                [(url, title or "", max(1, int(visits)), float(seen)) for url, title, visits, seen in rows],
+            )
+        return sum(1 for url, *_rest in rows if url not in known)
+
     def expire_history(self, days):
         if days > 0:
             with self.db:
@@ -101,6 +119,19 @@ class Storage:
                 (url, title or url, time.time()),
             )
             return True
+
+    def import_bookmarks(self, rows):
+        """Aggiunge i preferiti che mancano; restituisce quanti sono nuovi. L'ordine resta quello d'origine."""
+        added = 0
+        base = time.time()
+        with self.db:
+            for index, (url, title) in enumerate(rows):
+                cursor = self.db.execute(
+                    "INSERT OR IGNORE INTO bookmarks (url, title, created) VALUES (?, ?, ?)",
+                    (url, title or url, base - index * 0.001),  # i primi restano in cima
+                )
+                added += cursor.rowcount
+        return added
 
     def bookmarks(self):
         return self.db.execute("SELECT url, title FROM bookmarks ORDER BY created DESC").fetchall()

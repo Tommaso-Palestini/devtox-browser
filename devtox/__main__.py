@@ -6,7 +6,7 @@ import sys
 
 from gi.repository import GLib, Gtk
 
-from . import MIGRATED, __version__, about, devtools, log, navigation, onboarding, privacy, startpage, theme, utils, webext
+from . import MIGRATED, __version__, about, devtools, importpage, log, navigation, onboarding, privacy, startpage, theme, utils, webext
 from .i18n import _
 from .config import Config
 from .control import ControlServer, send_to_running
@@ -68,6 +68,7 @@ def main(argv=None):
     pages = {
         "start": lambda _params: startpage.render(config, storage, filters_active=content_filter.active),
         "stop": lambda params: startpage.render_stop(params, config),
+        "import": lambda params: importpage.render(params, config, storage),
         "source": devtools.render_source_page,
         "about": lambda _params: about.render_about_page(config.path),
         "welcome": about.render_welcome_page,

@@ -18,6 +18,7 @@ in the UI process.
                  │ navigation.py  address bar + devtox:// pages       │
                  │   ├ startpage.py   servers.py (from /proc)         │
                  │   ├ onboarding.py  about.py                        │
+                 │   ├ importpage.py  importer.py (other browsers)    │
                  │ privacy.py   profile, content filter, HTTPS guard  │
                  └──────┬────────────────────────────────────────────┘
                         │ WebKitGTK

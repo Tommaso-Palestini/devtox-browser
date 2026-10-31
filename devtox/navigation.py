@@ -15,6 +15,7 @@ START_URL = "devtox://start"
 WELCOME_URL = "devtox://welcome"
 ABOUT_URL = "devtox://about"
 SETUP_URL = "devtox://setup"
+IMPORT_URL = "devtox://import"
 
 # Motori di ricerca proposti nella configurazione iniziale: nome, URL con {} per la ricerca
 SEARCH_ENGINES = {

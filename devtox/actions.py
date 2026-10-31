@@ -56,6 +56,7 @@ def commands(win):
         (_("Personalizza Devtox"), "", "preferences-desktop-symbolic",
          lambda: win.new_tab(navigation.SETUP_URL)),
         (_("Guida rapida"), "", "help-browser-symbolic", lambda: win.new_tab(navigation.WELCOME_URL)),
+        (_("Importa da un altro browser"), "", "document-open-symbolic", lambda: win.new_tab(navigation.IMPORT_URL)),
     ] + ai
 
 

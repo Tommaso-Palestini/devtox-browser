@@ -50,6 +50,11 @@ uses the web engine your distribution already keeps up to date.
 | Camera, microphone, location, notifications | always denied |
 | Private tabs (ephemeral profile, gone with the last private tab) | `Ctrl+Shift+N` |
 
+Coming from another browser? `devtox://import` (also in the menu and the command
+palette) brings over bookmarks and recent history from Firefox, Chrome, Chromium, Brave,
+Edge, Vivaldi, Opera, Zen and LibreWolf, including Flatpak and Snap installs. Passwords
+and cookies stay where they are, and Tor Browser is never read.
+
 On first start a setup page (`devtox://setup`) lets you pick the language, the search
 engine (DuckDuckGo, Startpage, Brave Search, Mojeek, Ecosia or Google), a balanced
 or maximum-privacy preset, your dev server ports and whether to show the AI panel.

@@ -310,6 +310,7 @@ class BrowserWindow(Gtk.Window):
         item(_("Modifica blocklist"), None, lambda: self.open_file(privacy.blocklist_path()))
         item(_("Ricarica blocklist"), None, self.reload_blocklist)
         item(_("Personalizza Devtox"), None, lambda: self.new_tab(navigation.SETUP_URL))
+        item(_("Importa da un altro browser"), None, lambda: self.new_tab(navigation.IMPORT_URL))
         item(_("Apri configurazione"), None, lambda: self.open_file(self.config.path))
         item(_("Strumenti sviluppatore"), "F12", self.show_inspector)
         menu.append(Gtk.SeparatorMenuItem())

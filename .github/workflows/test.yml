@@ -33,3 +33,9 @@ jobs:
         run: python3 scripts/update_po.py --check
       - name: Test (compresa la prova d'avvio in Xvfb)
         run: PYTHON=/usr/bin/python3 sh scripts/check.sh
+      # Ultimo passo: setup-python cambia il python3 del sistema usato sopra
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Sintassi compatibile con Python 3.10 (requires-python)
+        run: python -m compileall -q devtox tests scripts && python -m py_compile bin/dx
