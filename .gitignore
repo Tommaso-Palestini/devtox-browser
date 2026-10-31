@@ -1,7 +1,29 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
 *.egg-info/
 build/
 dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Estensione privacy compilata localmente
 shellrunner/webext/build/
+*.so
+*.mo
+
+# Strumenti locali (grafo del codice, skill di design)
+graphify-out/
+.taste-skill/
+.claude/
+
+# Editor e sistema
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

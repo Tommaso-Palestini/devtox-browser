@@ -25,9 +25,9 @@ uses the web engine your distribution already keeps up to date.
   running in [Ollama](https://ollama.com) on your machine. Nothing leaves your PC.
 - **No telemetry.** No analytics, no update pings, no accounts. See [PRIVACY.md](PRIVACY.md).
 
-| Command palette | First-run setup |
-|---|---|
-| ![Command palette](docs/screenshots/palette-en.png) | ![Setup page](docs/screenshots/setup-en.png) |
+| Start page | Command palette | First-run setup |
+|---|---|---|
+| ![Start page with local dev servers and bookmarks](docs/screenshots/start-en.png) | ![Command palette](docs/screenshots/palette-en.png) | ![Setup page](docs/screenshots/setup-en.png) |
 
 ## Privacy defaults
 
@@ -65,9 +65,10 @@ sudo dnf install python3-gobject python3-cairo gtk3 webkit2gtk4.1 libsoup3 vte29
 sudo pacman -S python-gobject python-cairo gtk3 webkit2gtk-4.1 libsoup3 vte3 gcc pkgconf glib2
 ```
 
-Then, from a clone of this repository:
+Then clone the repository and run the installer:
 
 ```sh
+git clone https://github.com/Tommaso-Palestini/devtox-browser.git && cd devtox-browser
 sh install.sh          # installs into ~/.local, no sudo
 shellrunner            # or launch it from the applications menu
 ```
@@ -160,7 +161,7 @@ Bug reports, translations and focused pull requests are welcome: see
 [CONTRIBUTING.md](CONTRIBUTING.md). Security issues: [SECURITY.md](SECURITY.md).
 
 ```sh
-python -m unittest           # unit tests (no window)
+python3 -m unittest          # unit tests (no window)
 sh scripts/check.sh          # all tests, including a real start-up inside Xvfb
 ```
 

@@ -1,57 +1,61 @@
-/* Neon Deck: tema GTK di Shellrunner.
- * Magenta = web, ciano = shell, ambra = avvisi. Il bagliore compare
- * solo dove c'è un'azione o uno stato (focus, hover, elemento attivo). */
+/* Tema GTK di Shellrunner.
+ * Grigi neutri, un solo accento: il verde del prompt. L'accento non riempie
+ * mai niente: è la linea di 1px che segna ciò che è selezionato (tab, rail,
+ * campo con il focus). Ambra e rosso solo per gli stati che lo meritano.
+ * Niente bagliori e niente gradienti; le ombre solo su ciò che galleggia. */
 
-@define-color void #0e0b19;
-@define-color deck #171228;
-@define-color deck_hi #211a3a;
-@define-color seam #2c2348;
-@define-color ink #e9e4ff;
-@define-color haze #8d84b8;
-@define-color magenta #ff2e88;
-@define-color cyan #2de2e6;
-@define-color amber #ffb627;
-@define-color term_bg #0b0915;
+@define-color page #0e0e10;
+@define-color chrome #161618;
+@define-color raised #1f1f22;
+@define-color rule #26262a;
+@define-color control #3a3a3f;
+@define-color text #ececee;
+@define-color muted #94969d;
+@define-color accent #73c991;
+@define-color warning #d9a441;
+@define-color negative #e5566f;
+@define-color term_bg #0e0e10;
 
 /* Colori con nome usati dal tema di sistema (adw-gtk3): li riallineiamo */
-@define-color accent_color @magenta;
-@define-color accent_bg_color @magenta;
-@define-color accent_fg_color @void;
-@define-color window_bg_color @void;
-@define-color window_fg_color @ink;
-@define-color view_bg_color @deck;
-@define-color view_fg_color @ink;
-@define-color headerbar_bg_color @deck;
-@define-color headerbar_fg_color @ink;
-@define-color popover_bg_color @deck_hi;
-@define-color popover_fg_color @ink;
-@define-color card_bg_color @deck_hi;
-@define-color theme_bg_color @void;
-@define-color theme_fg_color @ink;
-@define-color theme_base_color @deck;
-@define-color theme_text_color @ink;
-@define-color theme_selected_bg_color @magenta;
-@define-color theme_selected_fg_color @void;
+@define-color accent_color @accent;
+@define-color accent_bg_color @text;
+@define-color accent_fg_color @page;
+@define-color window_bg_color @page;
+@define-color window_fg_color @text;
+@define-color view_bg_color @chrome;
+@define-color view_fg_color @text;
+@define-color headerbar_bg_color @chrome;
+@define-color headerbar_fg_color @text;
+@define-color popover_bg_color @raised;
+@define-color popover_fg_color @text;
+@define-color card_bg_color @raised;
+@define-color theme_bg_color @page;
+@define-color theme_fg_color @text;
+@define-color theme_base_color @chrome;
+@define-color theme_text_color @text;
+@define-color theme_selected_bg_color @raised;
+@define-color theme_selected_fg_color @text;
 
 * {
-  font-family: "Fira Sans Condensed", "Fira Sans", sans-serif;
-  outline-color: alpha(@cyan, 0.7);
+  font-family: "Fira Sans", "Inter", "Cantarell", sans-serif;
+  outline-color: alpha(@accent, 0.8);
+  outline-width: 1px;
 }
 
 window,
 .background {
-  background-color: @void;
-  color: @ink;
+  background-color: @page;
+  color: @text;
 }
 
 selection,
 *:selected {
-  background-color: alpha(@magenta, 0.35);
-  color: @ink;
+  background-color: alpha(@accent, 0.28);
+  color: @text;
 }
 
 .dim-label {
-  color: @haze;
+  color: @muted;
   opacity: 1;
 }
 
@@ -60,278 +64,319 @@ selection,
 button {
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 7px;
-  color: @haze;
+  border-radius: 999px;
+  color: @muted;
   box-shadow: none;
   text-shadow: none;
   -gtk-icon-shadow: none;
-  transition: background-color 160ms ease-out, color 160ms ease-out,
-              box-shadow 220ms ease-out, border-color 160ms ease-out;
+  transition: background-color 140ms ease-out, color 140ms ease-out,
+              border-color 140ms ease-out;
 }
 
 button:hover {
-  background-color: alpha(@ink, 0.07);
-  color: @ink;
+  background-color: alpha(@text, 0.07);
+  color: @text;
 }
 
-button:active,
+button:active {
+  background-color: alpha(@text, 0.12);
+  color: @text;
+}
+
 button:checked {
-  background-color: alpha(@magenta, 0.14);
-  color: @magenta;
+  background-color: alpha(@text, 0.06);
+  color: @text;
 }
 
 button:disabled {
-  color: alpha(@haze, 0.35);
+  color: alpha(@muted, 0.45);
 }
 
-button.destructive-action {
-  background-color: @magenta;
-  color: @void;
-  font-weight: 600;
-}
-
-button.destructive-action:hover {
-  box-shadow: 0 0 14px alpha(@magenta, 0.55);
-}
-
+/* Azione principale del pannello: invertita, mai colorata */
+button.destructive-action,
 button.suggested-action {
-  background-color: @cyan;
-  color: @void;
+  background-color: @text;
+  border-color: @text;
+  color: @page;
   font-weight: 600;
+}
+
+button.destructive-action:hover,
+button.suggested-action:hover {
+  background-color: #ffffff;
+  color: @page;
 }
 
 /* --- Header ------------------------------------------------------------ */
 
 headerbar.deck-header {
-  background: @deck;
-  border-bottom: 1px solid @seam;
+  background: @chrome;
+  border: none;
   box-shadow: none;
-  min-height: 44px;
-  padding: 0 6px;
+  min-height: 46px;
+  padding: 0 8px;
 }
 
 headerbar.deck-header:backdrop {
-  background: @deck;
+  background: @chrome;
 }
 
-entry.url-entry {
-  font-family: "Fira Mono", monospace;
-  font-size: 10pt;
-  background: @void;
-  color: @ink;
-  caret-color: @magenta;
-  border: 1px solid @seam;
-  border-radius: 8px;
+headerbar.deck-header button {
+  min-width: 30px;
   min-height: 30px;
-  padding: 0 12px;
+  padding: 0 2px;
+}
+
+/* La barra degli indirizzi: indirizzi in monospazio, come nel terminale */
+entry.url-entry {
+  font-family: "Fira Mono", "JetBrains Mono", monospace;
+  font-size: 10pt;
+  background: @raised;
+  color: @text;
+  caret-color: @accent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  min-height: 32px;
+  padding: 0 14px;
   box-shadow: none;
-  transition: border-color 200ms ease-out, box-shadow 280ms ease-out;
+  transition: border-color 160ms ease-out, background-color 160ms ease-out;
+}
+
+entry.url-entry:hover {
+  background: #242428;
 }
 
 entry.url-entry:focus {
-  border-color: @magenta;
-  box-shadow: 0 0 0 1px alpha(@magenta, 0.35), 0 0 16px alpha(@magenta, 0.30);
+  background: @page;
+  border-color: @accent;
 }
 
 entry.url-entry image {
-  color: @haze;
+  color: @muted;
 }
 
 button.reload.loading {
-  animation: neon-pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes neon-pulse {
-  0% { color: @magenta; }
-  50% { color: @cyan; }
-  100% { color: @magenta; }
+  color: @accent;
 }
 
 button.js-toggle {
-  font-family: "Fira Sans Compressed", sans-serif;
-  font-weight: 700;
-  min-width: 44px;
+  font-family: "Fira Mono", monospace;
+  font-weight: 600;
+  font-size: 9pt;
+  min-width: 40px;
 }
 
 button.js-toggle:checked {
-  color: @cyan;
-  background-color: alpha(@cyan, 0.10);
+  color: @muted;
+  background-color: transparent;
+}
+
+button.js-toggle:checked:hover {
+  color: @text;
+  background-color: alpha(@text, 0.07);
 }
 
 button.js-toggle:not(:checked):not(:disabled) {
-  color: @amber;
-  background-color: alpha(@amber, 0.12);
+  color: @warning;
+  background-color: #2a2416;
 }
 
 /* Sulle pagine interne (sr://) il JS non si può spegnere: pulsante muto */
 button.js-toggle:disabled {
-  color: alpha(@haze, 0.35);
+  color: alpha(@muted, 0.45);
   background-color: transparent;
 }
 
 /* --- Barra laterale (rail) --------------------------------------------- */
 
 #rail {
-  background: @deck;
-  border-right: 1px solid @seam;
-  padding: 10px 7px;
+  background: @chrome;
+  border-right: 1px solid @rule;
+  padding: 8px 0;
 }
 
+/* Tasti a tutta larghezza: la selezione è una linea di 1px sul bordo del rail */
 #rail button {
-  min-width: 38px;
-  min-height: 38px;
+  min-width: 52px;
+  min-height: 40px;
   padding: 0;
-  border-radius: 9px;
+  border: none;
+  border-radius: 0;
+  color: @muted;
+}
+
+#rail button:hover {
+  background-color: alpha(@text, 0.04);
+  color: @text;
 }
 
 #rail button:checked {
-  color: @magenta;
-  background-color: alpha(@magenta, 0.12);
-  box-shadow: inset 3px 0 @magenta, 0 0 14px alpha(@magenta, 0.25);
-}
-
-#rail button.shell:checked {
-  color: @cyan;
-  background-color: alpha(@cyan, 0.10);
-  box-shadow: inset 3px 0 @cyan, 0 0 14px alpha(@cyan, 0.22);
+  color: @text;
+  background-color: alpha(@text, 0.04);
+  box-shadow: inset 1px 0 @accent;
 }
 
 #rail separator {
-  background: @seam;
+  background: @rule;
   min-height: 1px;
-  margin: 6px 4px;
+  margin: 6px 16px;
 }
 
 #ram-button {
-  padding: 6px 0 2px;
+  padding: 8px 0 2px;
+}
+
+#ram-button:hover {
+  background-color: alpha(@text, 0.04);
 }
 
 #ram-label {
-  font-family: "Fira Sans Compressed", sans-serif;
-  font-weight: 600;
-  font-size: 9pt;
-  color: @haze;
+  font-family: "Fira Mono", monospace;
+  font-size: 8pt;
+  color: @muted;
 }
 
 /* --- Tab del browser --------------------------------------------------- */
 
+/* La tab attiva ha il colore della pagina: tab e contenuto sono un pezzo solo */
 notebook.browser-tabs > header {
-  background: @deck;
+  background: @chrome;
   border: none;
-  box-shadow: inset 0 -1px @seam;
-  padding: 4px 6px 0;
+  box-shadow: inset 0 -1px @rule;
+  padding: 0 6px;
 }
 
 notebook.browser-tabs > header tab {
-  min-height: 30px;
-  padding: 0 10px;
+  min-height: 34px;
+  padding: 0 12px;
+  margin: 0 1px;
   border: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: 0;
   background: transparent;
-  color: @haze;
-  box-shadow: inset 0 -2px transparent;
-  transition: background-color 180ms ease-out, color 180ms ease-out, box-shadow 220ms ease-out;
+  color: @muted;
+  box-shadow: none;
+  transition: background-color 140ms ease-out, color 140ms ease-out;
 }
 
 notebook.browser-tabs > header tab:hover {
-  background-color: alpha(@ink, 0.04);
-  color: @ink;
+  background-color: alpha(@text, 0.04);
+  color: @text;
 }
 
 notebook.browser-tabs > header tab:checked {
-  background-color: @void;
-  color: @ink;
-  box-shadow: inset 0 -2px @magenta, 0 -8px 14px -10px alpha(@magenta, 0.7);
+  background-color: @page;
+  color: @text;
+  box-shadow: inset 0 1px @accent, inset 1px 0 @rule, inset -1px 0 @rule;
 }
 
 notebook.browser-tabs > header tab button {
   min-width: 20px;
   min-height: 20px;
   padding: 0;
-  border-radius: 5px;
+  color: @muted;
+}
+
+notebook.browser-tabs > header tab button:hover {
+  color: @text;
+}
+
+notebook.browser-tabs > header > tabs > arrow {
+  color: @muted;
 }
 
 notebook.browser-tabs > stack {
-  background: @void;
+  background: @page;
 }
 
 /* --- Pannello laterale ------------------------------------------------- */
 
 .side-panel {
-  background: @deck;
-  border-left: 1px solid @seam;
+  background: @chrome;
+  border-left: 1px solid @rule;
 }
 
-/* Pulsanti dentro i pannelli: con bordo, così si leggono come azioni */
+/* Pulsanti dentro i pannelli: un contorno, così si leggono come azioni */
 .side-panel stack button {
-  border-color: @seam;
-  background-color: alpha(@ink, 0.03);
-  padding: 4px 12px;
+  border-color: @control;
+  background-color: transparent;
+  color: @text;
+  padding: 4px 14px;
 }
 
 .side-panel stack button:hover {
-  border-color: @magenta;
-  box-shadow: 0 0 10px alpha(@magenta, 0.25);
+  border-color: @muted;
+  background-color: alpha(@text, 0.05);
+}
+
+.side-panel stack button.destructive-action,
+.side-panel stack button.suggested-action {
+  border-color: @text;
+  background-color: @text;
+  color: @page;
 }
 
 .side-panel stack > box {
   padding: 4px 4px 8px;
 }
 
-/* Azioni che portano qualcosa nella shell: ciano come il terminale */
-.side-panel stack button.shell-action {
-  color: @cyan;
-  border-color: alpha(@cyan, 0.5);
-}
-
-.side-panel stack button.shell-action:hover {
-  border-color: @cyan;
-  box-shadow: 0 0 12px alpha(@cyan, 0.3);
-}
-
 .side-panel stackswitcher button {
-  padding: 2px 14px;
-  font-weight: 600;
+  padding: 2px 12px;
+  border: none;
+  border-radius: 0;
+  color: @muted;
+  font-weight: 500;
+}
+
+.side-panel stackswitcher button:hover {
+  background: transparent;
+  color: @text;
 }
 
 .side-panel stackswitcher button:checked {
-  color: @magenta;
+  color: @text;
   background-color: transparent;
-  box-shadow: inset 0 -2px @magenta;
+  box-shadow: inset 0 -1px @accent;
 }
 
 /* --- Terminale --------------------------------------------------------- */
 
 .terminal-panel {
   background: @term_bg;
-  border-top: 1px solid @seam;
+  border-top: 1px solid @rule;
 }
 
 .terminal-panel .terminal-title {
-  color: @cyan;
+  color: @text;
   font-weight: 600;
 }
 
 notebook.terminal-tabs > header {
   background: @term_bg;
   border: none;
-  box-shadow: inset 0 -1px @seam;
+  box-shadow: inset 0 -1px @rule;
   padding: 0 4px;
 }
 
 notebook.terminal-tabs > header tab {
-  min-height: 24px;
-  padding: 0 8px;
+  min-height: 26px;
+  padding: 0 10px;
   border: none;
-  color: @haze;
+  border-radius: 0;
+  color: @muted;
   background: transparent;
-  box-shadow: inset 0 -2px transparent;
-  transition: color 160ms ease-out, box-shadow 200ms ease-out;
+  box-shadow: none;
+  font-family: "Fira Mono", monospace;
+  font-size: 9pt;
+  transition: color 140ms ease-out;
+}
+
+notebook.terminal-tabs > header tab:hover {
+  color: @text;
 }
 
 notebook.terminal-tabs > header tab:checked {
-  color: @ink;
-  box-shadow: inset 0 -2px @cyan;
+  color: @text;
+  box-shadow: inset 0 -1px @accent;
 }
 
 notebook.terminal-tabs > stack {
@@ -339,44 +384,44 @@ notebook.terminal-tabs > stack {
 }
 
 paned > separator {
-  background: @seam;
+  background: @rule;
   min-width: 1px;
   min-height: 1px;
-  transition: background-color 200ms ease-out;
+  transition: background-color 160ms ease-out;
 }
 
 paned > separator:hover {
-  background: @cyan;
+  background: @control;
 }
 
 /* --- Liste, testo, popover --------------------------------------------- */
 
 treeview.view {
-  background-color: @deck;
-  color: @ink;
+  background-color: @chrome;
+  color: @text;
 }
 
 treeview.view:hover {
-  background-color: alpha(@ink, 0.04);
+  background-color: alpha(@text, 0.04);
 }
 
 treeview.view:selected {
-  background-color: alpha(@magenta, 0.25);
-  color: @ink;
+  background-color: @raised;
+  color: @text;
 }
 
 treeview.view header button {
-  background: @deck;
-  color: @haze;
+  background: @chrome;
+  color: @muted;
   border: none;
-  border-bottom: 1px solid @seam;
+  border-bottom: 1px solid @rule;
   border-radius: 0;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 textview text {
-  background-color: @deck;
-  color: @ink;
+  background-color: @chrome;
+  color: @text;
 }
 
 textview.ai-output text {
@@ -389,167 +434,196 @@ scrollbar {
 }
 
 scrollbar slider {
-  background-color: alpha(@haze, 0.35);
+  background-color: alpha(@muted, 0.35);
   min-width: 5px;
   min-height: 5px;
   border-radius: 5px;
   border: none;
-  transition: background-color 180ms ease-out;
+  transition: background-color 160ms ease-out;
 }
 
 scrollbar slider:hover {
-  background-color: @cyan;
+  background-color: @muted;
 }
 
 popover,
 menu,
 .menu {
-  background-color: @deck_hi;
-  border: 1px solid @seam;
-  color: @ink;
+  background-color: @raised;
+  border: 1px solid @rule;
+  border-radius: 10px;
+  color: @text;
+}
+
+popover.background {
+  box-shadow: 0 12px 32px alpha(black, 0.45);
 }
 
 menuitem {
-  transition: background-color 120ms ease-out;
+  border-radius: 6px;
+  transition: background-color 100ms ease-out;
 }
 
 menuitem:hover {
-  background-color: alpha(@magenta, 0.18);
-  color: @ink;
+  background-color: alpha(@text, 0.08);
+  color: @text;
 }
 
 menuitem accelerator {
-  color: @haze;
+  color: @muted;
+  font-family: "Fira Mono", monospace;
+}
+
+menu separator,
+.menu separator {
+  background: @rule;
 }
 
 tooltip,
 tooltip.background {
-  background-color: @deck_hi;
-  color: @ink;
-  border: 1px solid @seam;
+  background-color: @raised;
+  color: @text;
+  border: 1px solid @rule;
   border-radius: 6px;
 }
 
 combobox button,
 entry {
-  background-color: @void;
-  border: 1px solid @seam;
-  color: @ink;
+  background-color: @page;
+  border: 1px solid @control;
+  border-radius: 6px;
+  color: @text;
+  box-shadow: none;
+}
+
+entry:focus {
+  border-color: @accent;
 }
 
 /* --- Avvisi ------------------------------------------------------------ */
 
 .status-toast {
-  background-color: @deck_hi;
-  color: @ink;
-  border: 1px solid alpha(@cyan, 0.55);
-  border-radius: 10px;
-  padding: 8px 14px;
+  background-color: @raised;
+  color: @text;
+  border: 1px solid @rule;
+  border-radius: 999px;
+  padding: 8px 16px;
   margin-bottom: 18px;
-  box-shadow: 0 0 18px alpha(@cyan, 0.25);
+  box-shadow: 0 10px 28px alpha(black, 0.45);
 }
 
 /* --- Vista responsive -------------------------------------------------- */
 
 frame.device-frame > border {
-  border: 1px solid alpha(@magenta, 0.6);
+  border: 1px solid @control;
   border-radius: 4px;
-  box-shadow: 0 0 0 4px alpha(@magenta, 0.06), 0 0 28px alpha(@magenta, 0.22);
+  box-shadow: none;
 }
 
 .device-size {
-  font-family: "Fira Sans Compressed", sans-serif;
-  font-weight: 600;
-  font-size: 11pt;
-  color: @haze;
+  font-family: "Fira Mono", monospace;
+  font-size: 10pt;
+  color: @muted;
 }
 
 .suspended-placeholder {
-  color: @haze;
+  color: @muted;
   font-size: 12pt;
 }
 
 /* --- Barra indirizzi: stato della connessione -------------------------- */
 
 entry.url-entry image.left {
-  color: @cyan;
+  color: @muted;
   margin-right: 6px;
 }
 
 entry.url-entry.insecure image.left {
-  color: @amber;
+  color: @warning;
 }
 
 entry.url-entry image.right {
-  color: @haze;
-  transition: color 160ms ease-out;
+  color: @muted;
+  transition: color 140ms ease-out;
 }
 
 entry.url-entry image.right:hover {
-  color: @magenta;
+  color: @text;
 }
 
 /* Scudi: ambra quando su questo sito qualcosa è spento */
 button.shields.shields-down {
-  color: @amber;
-  background-color: alpha(@amber, 0.12);
+  color: @warning;
+  background-color: #2a2416;
 }
 
 .shields-host {
-  font-family: "Fira Sans Compressed", sans-serif;
-  font-weight: 700;
-  font-size: 16pt;
+  font-family: "Fira Mono", monospace;
+  font-weight: 600;
+  font-size: 13pt;
 }
 
 popover label.insecure {
-  color: @amber;
+  color: @warning;
 }
 
 .private-note {
-  color: @amber;
+  color: @warning;
 }
 
 switch {
-  background-color: @seam;
-  border: 1px solid @seam;
-  transition: background-color 180ms ease-out;
+  background-color: @control;
+  border: 1px solid @control;
+  border-radius: 999px;
+  transition: background-color 160ms ease-out;
 }
 
 switch:checked {
-  background-color: @magenta;
-  border-color: @magenta;
+  background-color: @accent;
+  border-color: @accent;
 }
 
 switch slider {
-  background-color: @ink;
+  background-color: @text;
   border: none;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+switch:checked slider {
+  background-color: @page;
 }
 
 /* --- Tab private ------------------------------------------------------- */
 
 notebook.browser-tabs > header tab box.private label,
 notebook.browser-tabs > header tab box.private image {
-  color: @amber;
+  color: @warning;
 }
 
 /* --- Command palette --------------------------------------------------- */
 
 .palette {
-  background-color: @deck_hi;
-  border: 1px solid alpha(@magenta, 0.55);
+  background-color: @raised;
+  border: 1px solid @rule;
   border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 18px 48px alpha(black, 0.55), 0 0 26px alpha(@magenta, 0.18);
+  padding: 8px;
+  box-shadow: 0 24px 60px alpha(black, 0.55);
 }
 
 entry.palette-entry {
   font-family: "Fira Mono", monospace;
   font-size: 12pt;
-  min-height: 38px;
-  background: @void;
-  border: 1px solid @seam;
+  min-height: 40px;
+  padding: 0 12px;
+  background: @page;
+  border: 1px solid @rule;
   border-radius: 8px;
-  caret-color: @magenta;
+  caret-color: @accent;
+}
+
+entry.palette-entry:focus {
+  border-color: @accent;
 }
 
 .palette list {
@@ -557,62 +631,70 @@ entry.palette-entry {
 }
 
 .palette list row {
-  border-radius: 7px;
-  transition: background-color 100ms ease-out;
+  border-radius: 6px;
+  transition: background-color 90ms ease-out;
 }
 
 .palette list row label {
-  color: @ink;
+  color: @text;
 }
 
 .palette list row label.dim-label,
 .palette list row image {
-  color: @haze;
+  color: @muted;
+}
+
+.palette list row label.dim-label {
+  font-family: "Fira Mono", monospace;
+  font-size: 9pt;
 }
 
 .palette list row:selected {
-  background-color: alpha(@magenta, 0.18);
-  box-shadow: inset 3px 0 @magenta;
+  background-color: alpha(@text, 0.07);
+  box-shadow: inset 1px 0 @accent;
 }
 
 .palette list row:selected image {
-  color: @magenta;
+  color: @text;
 }
 
 /* --- Ricerca nella pagina ---------------------------------------------- */
 
 .findbar {
-  background-color: @deck_hi;
-  border: 1px solid @seam;
+  background-color: @raised;
+  border: 1px solid @rule;
   border-radius: 10px;
   padding: 6px;
-  box-shadow: 0 10px 28px alpha(black, 0.5);
+  box-shadow: 0 12px 32px alpha(black, 0.45);
 }
 
 .find-count {
-  color: @haze;
+  color: @muted;
+  font-family: "Fira Mono", monospace;
+  font-size: 9pt;
   margin: 0 6px;
   min-width: 90px;
 }
 
 .find-count.error {
-  color: @amber;
+  color: @warning;
 }
 
 /* --- Download ---------------------------------------------------------- */
 
 progressbar trough {
-  background-color: @seam;
+  background-color: @rule;
   min-height: 4px;
   border-radius: 4px;
 }
 
 progressbar progress {
-  background-image: linear-gradient(to right, @magenta, @cyan);
+  background-image: none;
+  background-color: @accent;
   min-height: 4px;
   border-radius: 4px;
 }
 
 list {
-  background-color: @deck;
+  background-color: @chrome;
 }

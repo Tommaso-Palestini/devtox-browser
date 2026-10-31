@@ -202,12 +202,12 @@ class MemoryPanel(Gtk.Box):
 class RamMeter(Gtk.Button):
     """Indicatore nella barra laterale: RAM del browser rispetto a quella del PC.
 
-    Ciano fino al 20% della RAM totale, ambra fino al 35%, poi magenta.
+    Verde fino al 20% della RAM totale, ambra fino al 35%, poi rosso.
     Si aggiorna ogni pochi secondi e solo quando la finestra è visibile.
     """
 
     REFRESH_SECONDS = 3
-    BAR_WIDTH = 6
+    BAR_WIDTH = 4
     BAR_HEIGHT = 64
 
     def __init__(self, terminal_pids):
@@ -255,15 +255,15 @@ class RamMeter(Gtk.Button):
 
     def _color(self):
         if self._fraction < 0.20:
-            return theme.CYAN
+            return theme.ACCENT
         if self._fraction < 0.35:
-            return theme.AMBER
-        return theme.MAGENTA
+            return theme.WARNING
+        return theme.NEGATIVE
 
     def _on_draw(self, widget, cr):
         width, height = widget.get_allocated_width(), widget.get_allocated_height()
         radius = width / 2
-        track = theme.rgba(theme.SEAM)
+        track = theme.rgba(theme.RULE)
         cr.set_source_rgba(track.red, track.green, track.blue, 1)
         _rounded_bar(cr, 0, 0, width, height, radius)
         cr.fill()

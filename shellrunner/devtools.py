@@ -58,7 +58,8 @@ def render_start_page(ports, bookmarks=()):
             for url, title in bookmarks
             if url.startswith(("http://", "https://"))
         )
-        bookmarks_html = f'<h2>{html.escape(_("Preferiti"))}</h2><ul class="bookmarks">{items}</ul>'
+        bookmarks_html = (f'<section><h2>{html.escape(_("Preferiti"))}</h2>'
+                          f'<ul class="bookmarks">{items}</ul></section>')
     active = listening_ports(ports)
     if active:
         items = "".join(
@@ -122,8 +123,8 @@ def render_source_page(params):
     source_id = params.get("id", "")
     entry = _SOURCE_CACHE.get(int(source_id)) if source_id.isdigit() else None
     if entry is None:
-        return ('<!doctype html><meta charset="utf-8"><body style="background:#0e0b19;color:#8d84b8;'
-                'font-family:Fira Sans Condensed,sans-serif;padding:24px">'
+        return ('<!doctype html><meta charset="utf-8"><body style="background:#0e0e10;color:#94969d;'
+                'font-family:Fira Sans,sans-serif;padding:24px">'
                 + html.escape(_("Sorgente non più disponibile: riaprila con Ctrl+U dalla pagina.")) + "</body>")
     url, text, truncated = entry
     lines = "\n".join(f'<span class="line">{_highlight(line)}</span>' for line in text.splitlines())

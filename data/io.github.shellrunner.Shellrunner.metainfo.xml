@@ -18,6 +18,25 @@
       <li>No telemetry, no accounts, no update pings</li>
     </ul>
   </description>
+  <url type="homepage">https://github.com/Tommaso-Palestini/devtox-browser</url>
+  <url type="bugtracker">https://github.com/Tommaso-Palestini/devtox-browser/issues</url>
+  <developer id="io.github.tommaso-palestini">
+    <name>XENON1354</name>
+  </developer>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browser with the built-in terminal open</caption>
+      <image>https://raw.githubusercontent.com/Tommaso-Palestini/devtox-browser/main/docs/screenshots/terminal-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Command palette</caption>
+      <image>https://raw.githubusercontent.com/Tommaso-Palestini/devtox-browser/main/docs/screenshots/palette-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>First-run setup</caption>
+      <image>https://raw.githubusercontent.com/Tommaso-Palestini/devtox-browser/main/docs/screenshots/setup-en.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">shellrunner.desktop</launchable>
   <provides>
     <binary>shellrunner</binary>

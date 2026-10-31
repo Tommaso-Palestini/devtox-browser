@@ -6,163 +6,157 @@
 <title>{{Nuova tab}}</title>
 <style>
   :root {
-    --void: #0e0b19;
-    --deck: #171228;
-    --seam: #2c2348;
-    --ink: #e9e4ff;
-    --haze: #8d84b8;
-    --magenta: #ff2e88;
-    --cyan: #2de2e6;
-    --ui: "Fira Sans Condensed", "Fira Sans", system-ui, sans-serif;
-    --display: "Fira Sans Compressed", "Fira Sans Condensed", sans-serif;
-    --mono: "Fira Mono", ui-monospace, monospace;
+    --page: #0e0e10;
+    --chrome: #161618;
+    --raised: #1f1f22;
+    --rule: #26262a;
+    --text: #ececee;
+    --muted: #94969d;
+    --accent: #73c991;
+    --ui: "Fira Sans", "Inter", system-ui, sans-serif;
+    --mono: "Fira Mono", "JetBrains Mono", ui-monospace, monospace;
   }
   * { box-sizing: border-box; }
   html { color-scheme: dark; }
   body {
     margin: 0;
     min-height: 100vh;
-    padding: 12vh 16px 48px;
-    background:
-      radial-gradient(60vw 40vh at 8% 0%, rgba(255, 46, 136, 0.10), transparent 70%),
-      radial-gradient(50vw 40vh at 100% 100%, rgba(45, 226, 230, 0.08), transparent 70%),
-      var(--void);
-    color: var(--ink);
-    font: 400 16px/1.5 var(--ui);
+    padding: 14vh 24px 64px;
+    background: var(--page);
+    color: var(--text);
+    font: 400 14px/1.5 var(--ui);
   }
-  main { max-width: 720px; margin: 0 auto; }
+  main { max-width: 960px; margin: 0 auto; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
 
-  /* Il prompt è il cuore della pagina: si scrive come in una shell */
+  /* Il prompt è il cuore della pagina: si scrive come in una shell.
+     La linea sotto diventa verde quando il campo ha il focus. */
   .prompt {
-    position: relative;
     display: flex;
     align-items: baseline;
-    gap: 0.6em;
-    padding: 0 0 14px;
+    gap: 16px;
+    padding: 0 0 16px;
+    border-bottom: 1px solid var(--rule);
+    transition: border-color 160ms ease-out;
   }
-  .sigil {
-    font: 700 clamp(2.4rem, 7vw, 3.6rem)/1 var(--mono);
-    color: var(--magenta);
-    text-shadow: 0 0 18px rgba(255, 46, 136, 0.55);
-  }
+  .prompt:focus-within { border-bottom-color: var(--accent); }
+  .sigil { font: 600 32px/1 var(--mono); color: var(--accent); }
   .prompt input {
     flex: 1;
     min-width: 0;
+    padding: 0;
     background: transparent;
     border: 0;
     outline: none;
-    color: var(--ink);
-    caret-color: var(--magenta);
-    font: 400 clamp(1.3rem, 4vw, 1.9rem)/1.2 var(--mono);
+    color: var(--text);
+    caret-color: var(--accent);
+    font: 400 26px/1.2 var(--mono);
+    letter-spacing: -0.01em;
   }
-  .prompt input::placeholder { color: var(--haze); opacity: 0.7; }
-  /* La linea sotto il prompt si "carica" una volta all'apertura */
-  .prompt::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--magenta), var(--cyan));
-    box-shadow: 0 0 14px rgba(255, 46, 136, 0.45);
-    transform-origin: left;
-    animation: charge 700ms cubic-bezier(.2, .8, .2, 1) both;
-  }
-  .prompt:focus-within::after { box-shadow: 0 0 22px rgba(45, 226, 230, 0.55); }
-  @keyframes charge { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-  .hint { margin: 10px 0 0; color: var(--haze); font-size: 0.9rem; }
+  .prompt input::placeholder { color: var(--muted); }
+  .hint { margin: 12px 0 0; color: var(--muted); }
 
-  h2 {
-    margin: 56px 0 14px;
-    font: 600 1rem/1.2 var(--ui);
-    color: var(--haze);
-  }
-
-  /* Server locali: il numero di porta è l'informazione, quindi è grande */
-  .servers { display: flex; flex-wrap: wrap; gap: 12px; padding: 0; margin: 0; list-style: none; }
-  .servers a {
-    display: block;
-    min-width: 120px;
-    padding: 10px 16px 12px;
-    border: 1px solid var(--seam);
-    border-radius: 10px;
-    background: var(--deck);
-    color: var(--ink);
-    text-decoration: none;
-    transition: border-color 160ms ease-out, box-shadow 220ms ease-out, transform 160ms ease-out;
-  }
-  .servers a:hover, .servers a:focus-visible {
-    border-color: var(--cyan);
-    box-shadow: 0 0 18px rgba(45, 226, 230, 0.28);
-    transform: translateY(-2px);
-    outline: none;
-  }
-  .port {
-    display: block;
-    font: 800 2.6rem/1 var(--display);
-    color: var(--cyan);
-    font-variant-numeric: tabular-nums;
-  }
-  .host { font: 400 0.85rem/1.4 var(--mono); color: var(--haze); }
-  .empty { margin: 0; color: var(--haze); max-width: 60ch; }
-
-  /* Preferiti: titolo in evidenza, dominio sotto in piccolo */
-  .bookmarks {
+  /* Server e preferiti affiancati; da soli, i server prendono tutta la riga */
+  .columns {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px 48px;
+    margin-top: 56px;
+    align-items: start;
+  }
+  .keys-section { margin-top: 48px; }
+  h2 { margin: 0 0 12px; font: 600 16px/1.3 var(--ui); color: var(--text); }
+
+  /* Server locali: la porta è l'informazione, il punto dice che è in ascolto */
+  .servers { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+  .servers a {
+    display: flex;
+    align-items: baseline;
     gap: 10px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  .bookmarks a {
-    display: block;
-    padding: 10px 14px;
-    border: 1px solid var(--seam);
-    border-left: 2px solid var(--magenta);
+    padding: 14px 18px;
     border-radius: 8px;
-    background: var(--deck);
-    color: var(--ink);
+    background: var(--chrome);
+    color: var(--text);
     text-decoration: none;
-    transition: border-color 160ms ease-out, box-shadow 220ms ease-out;
+    transition: background-color 120ms ease-out;
   }
-  .bookmarks a:hover, .bookmarks a:focus-visible {
-    border-color: var(--magenta);
-    box-shadow: 0 0 16px rgba(255, 46, 136, 0.25);
-    outline: none;
+  .servers a::before {
+    content: "";
+    flex: none;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    align-self: center;
   }
-  .bookmarks .title { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-  .bookmarks .site { font: 400 0.8rem/1.4 var(--mono); color: var(--haze); }
-  .empty code { font-family: var(--mono); color: var(--ink); }
+  .bookmarks { display: grid; gap: 2px; padding: 0; margin: 0; list-style: none; }
+  .bookmarks a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 40px;
+    padding: 9px 12px;
+    margin: 0 -12px;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color 120ms ease-out;
+  }
+  .servers a:hover, .bookmarks a:hover { background: var(--raised); }
+  .servers a:focus-visible, .bookmarks a:focus-visible {
+    outline: 1px solid var(--accent); outline-offset: -1px; background: var(--raised);
+  }
+  .servers a:active, .bookmarks a:active { background: var(--rule); }
+  .port { font: 500 20px/1 var(--mono); font-variant-numeric: tabular-nums; }
+  .host { font: 400 13px/1.4 var(--mono); color: var(--muted); }
+  .empty { margin: 0; color: var(--muted); max-width: 52ch; }
+  .empty code { font-family: var(--mono); color: var(--text); }
+
+  /* Preferiti: titolo a sinistra, dominio a destra in monospazio */
+  .bookmarks .title { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .bookmarks .site {
+    flex: none; max-width: 45%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    font: 400 12px/1.4 var(--mono); color: var(--muted);
+  }
 
   dl.keys {
     display: grid;
     grid-template-columns: max-content 1fr max-content 1fr;
-    gap: 8px 16px;
+    gap: 0 20px;
     margin: 0;
-    color: var(--haze);
-    font-size: 0.95rem;
   }
-  dl.keys dt { margin: 0; }
-  dl.keys dd { margin: 0; }
+  dl.keys dt, dl.keys dd {
+    margin: 0;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--chrome);
+  }
+  dl.keys dd { color: var(--muted); }
   kbd {
-    font: 500 0.85rem var(--mono);
-    color: var(--ink);
-    padding: 2px 7px;
-    border: 1px solid var(--seam);
-    border-bottom-width: 2px;
-    border-radius: 5px;
-    background: var(--deck);
+    font: 500 12px/1 var(--mono);
+    color: var(--text);
+    padding: 3px 7px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--chrome);
   }
-  @media (max-width: 560px) {
+  @media (max-width: 760px) {
+    body { padding-top: 8vh; }
+    .columns { grid-template-columns: 1fr; }
     dl.keys { grid-template-columns: max-content 1fr; }
+    .sigil { font-size: 26px; }
+    .prompt input { font-size: 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::after { animation: none !important; transition: none !important; }
+    * { transition: none !important; }
   }
 </style>
 </head>
 <body>
 <main>
+  <h1 class="sr-only">{{Nuova tab}}</h1>
   <form class="prompt" action="sr://go" method="get" role="search">
     <span class="sigil" aria-hidden="true">$$</span>
     <input name="q" autocomplete="off" spellcheck="false" autofocus
@@ -170,30 +164,35 @@
   </form>
   <p class="hint">$search_hint</p>
 
-  $bookmarks
+  <div class="columns">
+    <section>
+      <h2>{{Server locali}}</h2>
+      $servers
+    </section>
+    $bookmarks
+  </div>
 
-  <h2>{{Server locali}}</h2>
-  $servers
-
-  <h2>{{Scorciatoie}}</h2>
-  <dl class="keys">
-    <dt><kbd>Ctrl+K</kbd></dt><dd>{{palette dei comandi}}</dd>
-    <dt><kbd>Ctrl+`</kbd></dt><dd>{{terminale}}</dd>
-    <dt><kbd>Ctrl+T</kbd></dt><dd>{{nuova tab}}</dd>
-    <dt><kbd>Ctrl+Shift+N</kbd></dt><dd>{{tab privata}}</dd>
-    <dt><kbd>Ctrl+F</kbd></dt><dd>{{cerca nella pagina}}</dd>
-    <dt><kbd>Ctrl+D</kbd></dt><dd>{{aggiungi ai preferiti}}</dd>
-    <dt><kbd>Ctrl+U</kbd></dt><dd>{{sorgente}}</dd>
-    <dt><kbd>Ctrl+Shift+T</kbd></dt><dd>{{riapri tab chiusa}}</dd>
-    <dt><kbd>Ctrl+Shift+L</kbd></dt><dd>{{server locali}}</dd>
-    <dt><kbd>Ctrl+L</kbd></dt><dd>{{barra indirizzi}}</dd>
-    <dt><kbd>Ctrl+Shift+E</kbd></dt><dd>{{richieste di rete}}</dd>
-    <dt><kbd>Shift+Esc</kbd></dt><dd>{{memoria}}</dd>
-    <dt><kbd>Ctrl+Shift+A</kbd></dt><dd>{{IA locale}}</dd>
-    <dt><kbd>Ctrl+Shift+M</kbd></dt><dd>{{vista responsive}}</dd>
-    <dt><kbd>Ctrl+Shift+S</kbd></dt><dd>{{screenshot}}</dd>
-    <dt><kbd>F12</kbd></dt><dd>{{strumenti sviluppatore}}</dd>
-  </dl>
+  <section class="keys-section">
+    <h2>{{Scorciatoie}}</h2>
+    <dl class="keys">
+      <dt><kbd>Ctrl+K</kbd></dt><dd>{{palette dei comandi}}</dd>
+      <dt><kbd>Ctrl+`</kbd></dt><dd>{{terminale}}</dd>
+      <dt><kbd>Ctrl+T</kbd></dt><dd>{{nuova tab}}</dd>
+      <dt><kbd>Ctrl+Shift+N</kbd></dt><dd>{{tab privata}}</dd>
+      <dt><kbd>Ctrl+F</kbd></dt><dd>{{cerca nella pagina}}</dd>
+      <dt><kbd>Ctrl+D</kbd></dt><dd>{{aggiungi ai preferiti}}</dd>
+      <dt><kbd>Ctrl+U</kbd></dt><dd>{{sorgente}}</dd>
+      <dt><kbd>Ctrl+Shift+T</kbd></dt><dd>{{riapri tab chiusa}}</dd>
+      <dt><kbd>Ctrl+Shift+L</kbd></dt><dd>{{server locali}}</dd>
+      <dt><kbd>Ctrl+L</kbd></dt><dd>{{barra indirizzi}}</dd>
+      <dt><kbd>Ctrl+Shift+E</kbd></dt><dd>{{richieste di rete}}</dd>
+      <dt><kbd>Shift+Esc</kbd></dt><dd>{{memoria}}</dd>
+      <dt><kbd>Ctrl+Shift+A</kbd></dt><dd>{{IA locale}}</dd>
+      <dt><kbd>Ctrl+Shift+M</kbd></dt><dd>{{vista responsive}}</dd>
+      <dt><kbd>Ctrl+Shift+S</kbd></dt><dd>{{screenshot}}</dd>
+      <dt><kbd>F12</kbd></dt><dd>{{strumenti sviluppatore}}</dd>
+    </dl>
+  </section>
 </main>
 </body>
 </html>

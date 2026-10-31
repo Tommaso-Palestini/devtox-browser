@@ -1,4 +1,4 @@
-"""Tema "Neon Deck": CSS GTK, palette del terminale e animazioni leggere.
+"""Tema di Shellrunner: CSS GTK, palette del terminale e animazioni leggere.
 
 Le animazioni usano il frame clock di GTK solo mentre sono in corso:
 a riposo non consumano CPU. Se nel sistema le animazioni sono spente,
@@ -7,27 +7,27 @@ ogni transizione arriva subito allo stato finale.
 
 import os
 
-import cairo
 from gi.repository import Gdk, GLib, Gtk, Pango, Vte
 
 from . import utils
 
 # Stessi valori di resources/theme.css e delle pagine sr://
-VOID = "#0e0b19"
-DECK = "#171228"
-SEAM = "#2c2348"
-INK = "#e9e4ff"
-HAZE = "#8d84b8"
-MAGENTA = "#ff2e88"
-CYAN = "#2de2e6"
-AMBER = "#ffb627"
-TERMINAL_BG = "#0b0915"
+PAGE = "#0e0e10"
+CHROME = "#161618"
+RULE = "#26262a"
+TEXT = "#ececee"
+MUTED = "#94969d"
+ACCENT = "#73c991"      # il verde del prompt: l'unico accento
+WARNING = "#d9a441"
+NEGATIVE = "#e5566f"
+TERMINAL_BG = PAGE
 
 TERMINAL_FONT = "Fira Mono 10"
-# Ordine ANSI: nero, rosso, verde, giallo, blu, magenta, ciano, bianco (+ versioni chiare)
+# Ordine ANSI: nero, rosso, verde, giallo, blu, magenta, ciano, bianco (+ versioni chiare).
+# Toni smorzati: in una sessione lunga il testo conta più dei colori.
 TERMINAL_PALETTE = [
-    "#1d1733", "#ff2e88", "#3ddc97", "#ffb627", "#6c8cff", "#c86bff", "#2de2e6", "#d8d2f5",
-    "#4a3f73", "#ff6aa9", "#7af0bd", "#ffd166", "#9db1ff", "#dd9bff", "#8ff3f5", "#ffffff",
+    "#26262a", "#e5566f", "#73c991", "#d9a441", "#6aa1e0", "#c78bd4", "#5fbfc4", "#cfd0d4",
+    "#5c5e64", "#f07c90", "#98dcae", "#e8c171", "#93bdee", "#dcaee5", "#8fd6da", "#ffffff",
 ]
 
 
@@ -49,6 +49,8 @@ def install():
     settings.set_property("gtk-application-prefer-dark-theme", True)
     provider = Gtk.CssProvider()
     provider.load_from_path(os.path.join(utils.RESOURCES_DIR, "theme.css"))
+    # Icone del rail disegnate per Shellrunner: uguali con qualunque tema di icone
+    Gtk.IconTheme.get_default().append_search_path(os.path.join(utils.RESOURCES_DIR, "icons"))
     Gtk.StyleContext.add_provider_for_screen(
         Gdk.Screen.get_default(), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
     )
@@ -67,11 +69,11 @@ def style_terminal(terminal):
     provider = Gtk.CssProvider()
     provider.load_from_data(_TERMINAL_CSS)
     terminal.get_style_context().add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
-    terminal.set_colors(rgba(INK), rgba(TERMINAL_BG), [rgba(c) for c in TERMINAL_PALETTE])
-    terminal.set_color_cursor(rgba(MAGENTA))
+    terminal.set_colors(rgba(TEXT), rgba(TERMINAL_BG), [rgba(c) for c in TERMINAL_PALETTE])
+    terminal.set_color_cursor(rgba(ACCENT))
     terminal.set_color_cursor_foreground(rgba(TERMINAL_BG))
-    terminal.set_color_highlight(rgba(MAGENTA, 0.35))
-    terminal.set_color_highlight_foreground(rgba(INK))
+    terminal.set_color_highlight(rgba(ACCENT, 0.28))
+    terminal.set_color_highlight_foreground(rgba(TEXT))
     terminal.set_font(Pango.FontDescription(TERMINAL_FONT))
     terminal.set_cursor_blink_mode(Vte.CursorBlinkMode.ON)
 
@@ -119,9 +121,9 @@ class Animation:
 
 
 class LoadTrace(Gtk.DrawingArea):
-    """Linea di caricamento magenta→ciano: insegue il progresso, poi sfuma."""
+    """Linea di caricamento nel colore d'accento: insegue il progresso, poi sfuma."""
 
-    HEIGHT = 3
+    HEIGHT = 2
 
     def __init__(self):
         super().__init__()
@@ -165,15 +167,7 @@ class LoadTrace(Gtk.DrawingArea):
         height = widget.get_allocated_height()
         if width <= 0 or self._opacity <= 0:
             return False
-        gradient = cairo.LinearGradient(0, 0, max(width, 1), 0)
-        gradient.add_color_stop_rgba(0, *_cairo_rgb(MAGENTA), self._opacity)
-        gradient.add_color_stop_rgba(1, *_cairo_rgb(CYAN), self._opacity)
-        cr.set_source(gradient)
+        cr.set_source_rgba(*_cairo_rgb(ACCENT), self._opacity)
         cr.rectangle(0, 0, width, height)
         cr.fill()
-        # Punta più luminosa: dà l'idea di una scia in movimento
-        if self._loading:
-            cr.set_source_rgba(1, 1, 1, 0.8 * self._opacity)
-            cr.rectangle(max(0, width - 14), 0, 14, height)
-            cr.fill()
         return False

@@ -6,39 +6,44 @@
 <title>{{HTTPS non disponibile}}</title>
 <style>
   :root {
-    --void: #0e0b19; --deck: #171228; --seam: #2c2348; --ink: #e9e4ff;
-    --haze: #8d84b8; --amber: #ffb627; --magenta: #ff2e88;
+    --page: #0e0e10; --chrome: #161618; --rule: #26262a; --control: #3a3a3f;
+    --text: #ececee; --muted: #94969d; --accent: #73c991; --warning: #d9a441;
   }
   * { box-sizing: border-box; }
   html { color-scheme: dark; }
   body {
     margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: 16px;
-    background: radial-gradient(60vw 50vh at 50% 0%, rgba(255, 182, 39, 0.08), transparent 70%), var(--void);
-    color: var(--ink);
-    font: 400 16px/1.55 "Fira Sans Condensed", "Fira Sans", system-ui, sans-serif;
+    padding: 24px;
+    background: var(--page);
+    color: var(--text);
+    font: 400 15px/1.6 "Fira Sans", "Inter", system-ui, sans-serif;
   }
   main {
     max-width: 600px;
-    padding: 28px 32px;
-    border: 1px solid var(--seam);
-    border-left: 3px solid var(--amber);
+    padding: 32px;
+    border: 1px solid var(--rule);
     border-radius: 12px;
-    background: var(--deck);
+    background: var(--chrome);
   }
-  h1 { margin: 0 0 12px; font: 700 1.9rem/1.15 "Fira Sans Compressed", "Fira Sans Condensed", sans-serif; }
+  h1 { margin: 0 0 16px; font: 600 24px/1.25 "Fira Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.01em; }
+  h1::before {
+    content: ""; display: inline-block; width: 8px; height: 8px; margin: 0 12px 3px 0;
+    border-radius: 50%; background: var(--warning);
+  }
   p { margin: 0 0 12px; }
-  .reason { color: var(--haze); font: 400 0.9rem/1.4 "Fira Mono", monospace; }
+  .reason {
+    padding: 10px 12px; border-radius: 6px; background: var(--page);
+    color: var(--muted); font: 400 13px/1.5 "Fira Mono", ui-monospace, monospace;
+  }
   a.continue {
-    display: inline-block; margin-top: 8px; padding: 8px 14px;
-    border: 1px solid var(--amber); border-radius: 8px;
-    color: var(--amber); text-decoration: none;
-    transition: background-color 160ms ease-out, box-shadow 200ms ease-out;
+    display: inline-flex; align-items: center; min-height: 36px; margin-top: 8px; padding: 0 18px;
+    border: 1px solid var(--warning); border-radius: 999px;
+    color: var(--warning); text-decoration: none; font-weight: 500;
+    transition: background-color 120ms ease-out;
   }
-  a.continue:hover, a.continue:focus-visible {
-    background: rgba(255, 182, 39, 0.12); box-shadow: 0 0 16px rgba(255, 182, 39, 0.3); outline: none;
-  }
-  .note { color: var(--haze); font-size: 0.9rem; margin-top: 14px; }
+  a.continue:hover { background: #2a2416; }
+  a.continue:focus-visible { outline: 1px solid var(--warning); outline-offset: 2px; }
+  .note { color: var(--muted); font-size: 13px; margin-top: 16px; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>

@@ -52,22 +52,23 @@
   const style = make("style");
   style.textContent = `
     :root { color-scheme: dark; }
-    body { margin: 0; background: #0e0b19; color: #e9e4ff;
+    body { margin: 0; background: #0e0e10; color: #ececee;
            font: 13px/1.6 "Fira Mono", ui-monospace, monospace; }
     .sr-bar { position: sticky; top: 0; display: flex; gap: 8px; padding: 8px 16px;
-              background: #171228; border-bottom: 1px solid #2c2348;
-              font-family: "Fira Sans Condensed", sans-serif; }
-    .sr-bar button { background: transparent; color: #8d84b8; border: 1px solid #2c2348;
-                     border-radius: 6px; padding: 3px 12px; font: inherit; cursor: pointer; }
-    .sr-bar button:hover, .sr-bar button[aria-pressed="true"] { color: #ff2e88; border-color: #ff2e88; }
+              background: #161618; border-bottom: 1px solid #26262a;
+              font-family: "Fira Sans", system-ui, sans-serif; }
+    .sr-bar button { background: transparent; color: #94969d; border: 1px solid #3a3a3f;
+                     border-radius: 999px; padding: 3px 14px; font: inherit; cursor: pointer; }
+    .sr-bar button:hover { color: #ececee; border-color: #94969d; }
+    .sr-bar button[aria-pressed="true"] { color: #ececee; border-color: #73c991; }
     .sr-tree { padding: 12px 16px; }
     .sr-tree details > .children, .sr-tree .leaf { padding-left: 18px; }
-    .sr-tree details > .children { border-left: 1px solid #2c2348; margin-left: 4px; }
+    .sr-tree details > .children { border-left: 1px solid #26262a; margin-left: 4px; }
     .sr-tree summary { cursor: pointer; }
-    .sr-tree summary::marker { color: #ff2e88; }
-    .key { color: #2de2e6; } .meta { color: #8d84b8; }
-    .string { color: #ffb627; } .number { color: #ff6aa9; }
-    .boolean { color: #c86bff; } .null { color: #8d84b8; }
+    .sr-tree summary::marker { color: #6b6d73; }
+    .key { color: #ececee; } .meta { color: #94969d; }
+    .string { color: #73c991; } .number { color: #6aa1e0; }
+    .boolean { color: #6aa1e0; } .null { color: #94969d; }
     .sr-raw { padding: 12px 16px; white-space: pre-wrap; word-break: break-all; margin: 0; }
   `;
 

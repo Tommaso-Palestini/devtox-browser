@@ -23,6 +23,11 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: Browsers",
 ]
 
+[project.urls]
+Homepage = "https://github.com/Tommaso-Palestini/devtox-browser"
+Issues = "https://github.com/Tommaso-Palestini/devtox-browser/issues"
+Changelog = "https://github.com/Tommaso-Palestini/devtox-browser/blob/main/CHANGELOG.md"
+
 [project.scripts]
 shellrunner = "shellrunner.__main__:main"
 
@@ -31,7 +36,7 @@ packages = ["shellrunner", "shellrunner.webext"]
 script-files = ["bin/sr"]
 
 [tool.setuptools.package-data]
-shellrunner = ["resources/*", "locale/*.po"]
+shellrunner = ["resources/*", "resources/icons/*", "locale/*.po"]
 "shellrunner.webext" = ["*.c", "*.sh"]
 
 [tool.setuptools.dynamic]

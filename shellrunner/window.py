@@ -170,7 +170,7 @@ class BrowserWindow(Gtk.Window):
         completion.set_minimum_key_length(2)
         completion.set_match_func(lambda *_: True, None)  # il filtro lo fa già SQLite
         title_cell = Gtk.CellRendererText(ellipsize=3, max_width_chars=50)
-        url_cell = Gtk.CellRendererText(ellipsize=2, foreground=theme.HAZE, max_width_chars=60)
+        url_cell = Gtk.CellRendererText(ellipsize=2, foreground=theme.MUTED, max_width_chars=60)
         completion.pack_start(title_cell, True)
         completion.add_attribute(title_cell, "text", 1)
         completion.pack_start(url_cell, False)
@@ -183,9 +183,14 @@ class BrowserWindow(Gtk.Window):
         rail = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         rail.set_name("rail")
 
+        def rail_icon(icon):
+            image = Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.BUTTON)
+            image.set_pixel_size(18)
+            return image
+
         def rail_toggle(icon, tooltip, callback, shell=False):
             button = Gtk.ToggleButton()
-            button.set_image(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR))
+            button.set_image(rail_icon(icon))
             button.set_tooltip_text(tooltip)
             if shell:
                 button.get_style_context().add_class("shell")
@@ -194,19 +199,18 @@ class BrowserWindow(Gtk.Window):
             return button
 
         def rail_button(icon, tooltip, callback):
-            button = Gtk.Button.new_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR)
+            button = Gtk.Button()
+            button.set_image(rail_icon(icon))
             button.set_tooltip_text(tooltip)
             button.connect("clicked", lambda _b: callback())
             rail.pack_start(button, False, False, 0)
             return button
 
         self.rail_terminal = rail_toggle(
-            "utilities-terminal-symbolic", _("Terminale (Ctrl+`)"), self.toggle_terminal, shell=True
+            "sr-terminal-symbolic", _("Terminale (Ctrl+`)"), self.toggle_terminal, shell=True
         )
         self.servers_button = Gtk.MenuButton()
-        self.servers_button.set_image(
-            Gtk.Image.new_from_icon_name("network-server-symbolic", Gtk.IconSize.LARGE_TOOLBAR)
-        )
+        self.servers_button.set_image(rail_icon("sr-servers-symbolic"))
         self.servers_button.set_tooltip_text(_("Server locali (Ctrl+Shift+L)"))
         self.servers_button.get_style_context().add_class("shell")
         self.servers_button.set_direction(Gtk.ArrowType.RIGHT)
@@ -217,23 +221,23 @@ class BrowserWindow(Gtk.Window):
         rail.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 0)
 
         self.rail_panels = {
-            "rete": rail_toggle("network-transmit-receive-symbolic", _("Richieste di rete (Ctrl+Shift+E)"),
+            "rete": rail_toggle("sr-network-symbolic", _("Richieste di rete (Ctrl+Shift+E)"),
                                 lambda: self.toggle_side_panel("rete")),
-            "memoria": rail_toggle("utilities-system-monitor-symbolic", _("Memoria e processi (Shift+Esc)"),
+            "memoria": rail_toggle("sr-memory-symbolic", _("Memoria e processi (Shift+Esc)"),
                                    lambda: self.toggle_side_panel("memoria")),
-            "download": rail_toggle("folder-download-symbolic", _("Download (Ctrl+Shift+Y)"),
+            "download": rail_toggle("sr-downloads-symbolic", _("Download (Ctrl+Shift+Y)"),
                                     lambda: self.toggle_side_panel("download")),
-            "ia": rail_toggle("applications-science-symbolic", _("IA locale con Ollama (Ctrl+Shift+A)"),
+            "ia": rail_toggle("sr-assistant-symbolic", _("IA locale con Ollama (Ctrl+Shift+A)"),
                               lambda: self.toggle_side_panel("ia")),
         }
         if not self.config["ai_enabled"]:
             self.rail_panels["ia"].set_no_show_all(True)
         rail.pack_start(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL), False, False, 0)
-        self.rail_responsive = rail_toggle("smartphone-symbolic", _("Vista responsive (Ctrl+Shift+M)"),
+        self.rail_responsive = rail_toggle("sr-responsive-symbolic", _("Vista responsive (Ctrl+Shift+M)"),
                                            self.toggle_responsive)
-        rail_button("applets-screenshooter-symbolic", _("Screenshot della pagina (Ctrl+Shift+S)"),
+        rail_button("sr-screenshot-symbolic", _("Screenshot della pagina (Ctrl+Shift+S)"),
                     self.take_screenshot)
-        rail_button("preferences-system-privacy-symbolic", _("Cookie e dati del sito (Ctrl+Shift+Canc)"),
+        rail_button("sr-site-data-symbolic", _("Cookie e dati del sito (Ctrl+Shift+Canc)"),
                     self.show_site_data)
 
         self.ram_meter = monitor.RamMeter(self.terminal_panel.shell_pids)
@@ -430,7 +434,7 @@ class BrowserWindow(Gtk.Window):
             properties["web_context"] = self._context_for(tab.private)
         webview = WebKit2.WebView(**properties)
         # Sfondo scuro anche prima che la pagina disegni: niente lampi bianchi
-        webview.set_background_color(theme.rgba(theme.VOID))
+        webview.set_background_color(theme.rgba(theme.PAGE))
         self._view_tabs[webview] = tab
 
         webview.connect("notify::uri", self._on_uri_changed)
