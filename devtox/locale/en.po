@@ -33,6 +33,11 @@ msgstr "do not hand addresses to an already open window"
 msgid "Estensione"
 msgstr "Extension"
 
+#: devtox/__main__.py:103
+msgid ""
+"Blocklist e HTTPS-only NON attivi: le regole non si sono compilate (vedi il log)"
+msgstr "Blocklist and HTTPS-only are NOT active: the rules did not compile (see the log)"
+
 #: devtox/about.py:75 devtox/actions.py:51 devtox/window.py:293
 msgid "Informazioni su Devtox"
 msgstr "About Devtox"
@@ -811,11 +816,11 @@ msgstr "Devtox is now the default browser."
 msgid "Impostazioni salvate"
 msgstr "Settings saved"
 
-#: devtox/onboarding.py:177 devtox/startpage.py:95
+#: devtox/onboarding.py:177 devtox/startpage.py:98
 msgid "solo HTTPS"
 msgstr "HTTPS only"
 
-#: devtox/onboarding.py:177 devtox/startpage.py:100
+#: devtox/onboarding.py:177 devtox/startpage.py:103
 msgid "anti-fingerprinting"
 msgstr "anti-fingerprinting"
 
@@ -965,15 +970,15 @@ msgstr ""
 "# No list is ever downloaded: only you manage this file.\n"
 "# After editing: menu > Reload blocklist.\n"
 
-#: devtox/privacy.py:352
+#: devtox/privacy.py:355
 msgid "certificato TLS non valido"
 msgstr "invalid TLS certificate"
 
-#: devtox/privacy.py:367
+#: devtox/privacy.py:370
 msgid "Tab privata: l'eccezione vale solo fino alla chiusura del browser."
 msgstr "Private tab: the exception only lasts until the browser is closed."
 
-#: devtox/privacy.py:369
+#: devtox/privacy.py:372
 msgid "L'eccezione resta salvata in config.json, alla voce https_exceptions."
 msgstr "The exception is saved in config.json, under https_exceptions."
 
@@ -1035,15 +1040,15 @@ msgid ""
 msgstr ""
 "Start one from the terminal (<kbd>Ctrl+`</kbd>), for example <code>npm run dev</code> or <code>python3 -m http.server</code>, and it shows up here."
 
-#: devtox/startpage.py:118
+#: devtox/startpage.py:121
 msgid "nessun server"
 msgstr "no servers"
 
-#: devtox/startpage.py:102
+#: devtox/startpage.py:105
 msgid "niente su disco"
 msgstr "nothing on disk"
 
-#: devtox/startpage.py:115
+#: devtox/startpage.py:118
 msgid "1 server in ascolto"
 msgstr "1 server listening"
 
@@ -1063,23 +1068,27 @@ msgstr "Folder"
 msgid "Attivo da"
 msgstr "Up for"
 
-#: devtox/startpage.py:96
+#: devtox/startpage.py:99
 msgid "{n} domini bloccati"
 msgstr "{n} domains blocked"
 
-#: devtox/startpage.py:130
+#: devtox/startpage.py:133
 msgid "Nessun preferito: Ctrl+D salva la pagina aperta."
 msgstr "No bookmarks yet: Ctrl+D saves the open page."
 
-#: devtox/startpage.py:116
+#: devtox/startpage.py:91
+msgid "blocklist e HTTPS-only non attivi: vedi il log"
+msgstr "blocklist and HTTPS-only are not active: see the log"
+
+#: devtox/startpage.py:119
 msgid "{n} server in ascolto"
 msgstr "{n} servers listening"
 
-#: devtox/startpage.py:128
+#: devtox/startpage.py:131
 msgid "Le pagine che apri compariranno qui."
 msgstr "Pages you open will show up here."
 
-#: devtox/startpage.py:129
+#: devtox/startpage.py:132
 msgid "Cronologia spenta in config.json."
 msgstr "History is turned off in config.json."
 
@@ -1087,7 +1096,7 @@ msgstr "History is turned off in config.json."
 msgid "Porte sempre controllate anche se di altri utenti:"
 msgstr "Ports always checked, even when another user runs them:"
 
-#: devtox/startpage.py:123
+#: devtox/startpage.py:126
 msgid ""
 "Le ricerche vanno su {engine}. Indirizzi e porte locali si aprono direttamente."
 msgstr "Searches go to {engine}. Addresses and local ports open directly."
@@ -1458,30 +1467,30 @@ msgstr "Expand all"
 msgid "Comprimi tutto"
 msgstr "Collapse all"
 
-#: devtox/resources/start.html:222
+#: devtox/resources/start.html:223
 msgid "cerca, oppure localhost:5173"
 msgstr "search, or localhost:5173"
 
-#: devtox/resources/start.html:222
+#: devtox/resources/start.html:223
 msgid "Cerca o apri un indirizzo"
 msgstr "Search or open an address"
 
-#: devtox/resources/start.html:226
+#: devtox/resources/start.html:227
 msgid "Cambia le impostazioni"
 msgstr "Change settings"
 
-#: devtox/resources/start.html:233
+#: devtox/resources/start.html:234
 msgid "In esecuzione su questo PC"
 msgstr "Running on this machine"
 
-#: devtox/resources/start.html:239
+#: devtox/resources/start.html:240
 msgid "Preferiti"
 msgstr "Bookmarks"
 
-#: devtox/resources/start.html:245
+#: devtox/resources/start.html:246
 msgid "Pagine recenti"
 msgstr "Recent pages"
 
-#: devtox/resources/start.html:251
+#: devtox/resources/start.html:252
 msgid "Tasti"
 msgstr "Keys"

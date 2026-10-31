@@ -272,6 +272,7 @@ class ContentFilter:
         self.content_manager = content_manager
         self.store = WebKit2.UserContentFilterStore.new(os.path.join(utils.cache_dir(), "filters"))
         self.blocked_domains = []
+        self.active = True  # False se l'ultima compilazione è fallita: blocklist e HTTPS-only spenti
         # Eccezioni HTTP accettate nelle tab private: valgono fino alla chiusura, mai su disco
         self.session_https_exceptions = set()
 
@@ -292,7 +293,9 @@ class ContentFilter:
             content_filter = store.save_finish(result)
         except GLib.Error as e:
             logger.error("regole non compilate, filtri NON attivi: %s", e.message)
+            self.active = False
         else:
+            self.active = True
             self.content_manager.remove_all_filters()
             self.content_manager.add_filter(content_filter)
         if on_done is not None:

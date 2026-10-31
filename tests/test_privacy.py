@@ -120,3 +120,10 @@ class HttpsGuardTest(unittest.TestCase):
     def test_other_tab_is_not_consent(self):
         self.guard.on_decide_policy(_View(), _Decision("http://bank.example/", True), self.NAV)
         self.assertEqual(self.config["https_exceptions"], [])
+
+
+class SettingsTest(unittest.TestCase):
+    def test_no_leaky_features(self):
+        settings = privacy.create_settings()
+        self.assertFalse(settings.get_enable_webrtc())
+        self.assertFalse(settings.get_enable_media_stream())

@@ -84,8 +84,11 @@ def _list_html(items, empty):
     return f'<ul class="links">{rows}</ul>'
 
 
-def _privacy_line(config):
+def _privacy_line(config, filters_active=True):
     """Stato delle protezioni in una riga: quello che è acceso, detto con le parole giuste."""
+    if not filters_active:
+        # Il filtro dei contenuti non si è compilato: lo si dice per primo, non solo nel log
+        return f'<span class="alert">{_e(_("blocklist e HTTPS-only non attivi: vedi il log"))}</span>'
     try:
         blocked = len(privacy.load_blocklist(privacy.blocklist_path()))
     except OSError:
@@ -100,10 +103,10 @@ def _privacy_line(config):
         parts.append(_("anti-fingerprinting"))
     if not config["persistent_data"]:
         parts.append(_("niente su disco"))
-    return " · ".join(parts)
+    return _e(" · ".join(parts))
 
 
-def render(config, storage, now=None):
+def render(config, storage, now=None, filters_active=True):
     now = now if now is not None else time.time()
     found = collect_servers(config["dev_ports"])
     recent = [(url, title, f"{navigation.http_host(url) or url} · {utils.format_ago(seen, now)}")
@@ -122,7 +125,7 @@ def render(config, storage, now=None):
         "start.html",
         search_hint=_e(_("Le ricerche vanno su {engine}. Indirizzi e porte locali si aprono direttamente.")
                        .format(engine=engine)),
-        privacy=_e(_privacy_line(config)),
+        privacy=_privacy_line(config, filters_active),
         servers_count=_e(count),
         servers=_servers_html(found, config["dev_ports"]),
         recent=_list_html(recent, _("Le pagine che apri compariranno qui.") if config["history_enabled"]

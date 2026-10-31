@@ -65,7 +65,7 @@ def main(argv=None):
     theme.install()
 
     pages = {
-        "start": lambda _params: startpage.render(config, storage),
+        "start": lambda _params: startpage.render(config, storage, filters_active=content_filter.active),
         "source": devtools.render_source_page,
         "about": lambda _params: about.render_about_page(config.path),
         "welcome": about.render_welcome_page,
@@ -99,6 +99,9 @@ def main(argv=None):
         window = BrowserWindow(config, context, content_manager, content_filter,
                                content_scripts, storage, pages)
         window.show()
+        if not content_filter.active:
+            window.show_status(_("Blocklist e HTTPS-only NON attivi: le regole non si sono compilate (vedi il log)"),
+                               seconds=15)
         server = ControlServer(window)
         server.start()
         running.update(window=window, server=server)
