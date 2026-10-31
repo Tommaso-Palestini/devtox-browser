@@ -32,6 +32,12 @@ sh scripts/check.sh              # everything, including a real start-up inside 
 There are no Python dependencies beyond the standard library and PyGObject.
 Please keep it that way unless there is a very good reason.
 
+## How the code is organised
+
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) maps the modules and the start-up
+sequence; [docs/adr](docs/adr/) records why the main choices were made. Add an ADR
+when you make a choice that a future contributor would otherwise have to guess.
+
 ## Code conventions
 
 - Match the style of the surrounding code. Comments and docstrings are written in
