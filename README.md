@@ -18,8 +18,10 @@ uses the web engine your distribution already keeps up to date.
   ``Ctrl+Shift+` `` opens another one. No alt-tabbing between the dev server and the page.
 - **Drive the browser from the shell.** `sr open localhost:5173`, `sr tabs`, `sr mem`.
 - **Command palette.** `Ctrl+K` searches actions, open tabs, bookmarks and history.
-- **Dev tools where you need them.** Local dev servers detected on the start page,
-  network log with "copy as curl", responsive view, full-page screenshots, view source,
+- **Your dev servers, found for you.** The start page lists every server you are running
+  (read from `/proc`, no configuration): port, tool (vite, next, django, http.server…),
+  project folder and uptime. One click opens it.
+- **Dev tools where you need them.** Network log with "copy as curl", responsive view, full-page screenshots, view source,
   JSON viewer, per-site cookies and storage, memory per process.
 - **Local AI, optional.** Summarise a page or explain a selected error with a model
   running in [Ollama](https://ollama.com) on your machine. Nothing leaves your PC.

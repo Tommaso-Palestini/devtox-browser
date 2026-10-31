@@ -13,7 +13,7 @@ import time
 import cairo
 from gi.repository import Gdk, Gio, GLib, Gtk, Pango, WebKit2
 
-from . import navigation, utils
+from . import navigation, servers, utils
 from .i18n import _
 
 # Mondo JavaScript isolato: gli script della pagina non vedono il nostro codice
@@ -46,42 +46,6 @@ def listening_ports(ports):
             found.append(port)
             break
     return found
-
-
-def render_start_page(ports, bookmarks=()):
-    """Pagina iniziale: preferiti e server locali attivi in questo momento."""
-    bookmarks_html = ""
-    if bookmarks:
-        items = "".join(
-            f'<li><a href="{html.escape(url, quote=True)}"><span class="title">{html.escape(title)}</span>'
-            f'<span class="site">{html.escape(navigation.http_host(url) or url)}</span></a></li>'
-            for url, title in bookmarks
-            if url.startswith(("http://", "https://"))
-        )
-        bookmarks_html = (f'<section><h2>{html.escape(_("Preferiti"))}</h2>'
-                          f'<ul class="bookmarks">{items}</ul></section>')
-    active = listening_ports(ports)
-    if active:
-        items = "".join(
-            f'<li><a href="http://localhost:{port}/"><span class="port">{port}</span>'
-            f'<span class="host">localhost</span></a></li>'
-            for port in active
-        )
-        servers = f'<ul class="servers">{items}</ul>'
-    elif not ports:
-        servers = '<p class="empty">' + _(
-            "Nessuna porta da controllare: aggiungile alla voce <code>dev_ports</code> di config.json."
-        ) + "</p>"
-    else:
-        watched = ", ".join(str(p) for p in ports)
-        servers = '<p class="empty">' + _(
-            "Nessun server in ascolto su {ports}. Avvialo dal terminale (<kbd>Ctrl+`</kbd>), per esempio "
-            "con <code>npm run dev</code> o <code>python3 -m http.server</code>, poi apri una nuova tab."
-        ).format(ports=html.escape(watched)) + "</p>"
-    hint = _("Le ricerche vanno su {engine}. Indirizzi e porte locali si aprono direttamente.").format(
-        engine=navigation.search_engine_name())
-    return utils.render_template("start.html", servers=servers, bookmarks=bookmarks_html,
-                                 search_hint=html.escape(hint))
 
 
 # --- Sorgente della pagina -----------------------------------------------
@@ -136,7 +100,7 @@ def render_source_page(params):
 
 
 class LocalServersPopover(Gtk.Popover):
-    """Controlla quali porte di sviluppo rispondono su localhost (IPv4 e IPv6)."""
+    """Server dell'utente letti da /proc, più le porte di dev_ports che rispondono (Docker, root)."""
 
     def __init__(self, ports, on_open):
         super().__init__()
@@ -144,11 +108,13 @@ class LocalServersPopover(Gtk.Popover):
         self.on_open = on_open
         self._generation = 0
         self._pending = 0
-        self._found = []
+        self._found = {}
 
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        box.set_border_width(8)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        box.set_border_width(10)
+        box.get_style_context().add_class("servers-popover")
         self.status = Gtk.Label(xalign=0)
+        self.status.get_style_context().add_class("dim-label")
         self.list_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
         box.pack_start(self.status, False, False, 0)
         box.pack_start(self.list_box, False, False, 0)
@@ -159,18 +125,18 @@ class LocalServersPopover(Gtk.Popover):
     def scan(self):
         self._generation += 1
         generation = self._generation
-        self._pending = len(self.ports)
-        self._found = []
         for child in self.list_box.get_children():
             self.list_box.remove(child)
-        if not self.ports:
-            self.status.set_text(_("Nessuna porta da controllare: aggiungile a dev_ports in config.json"))
+        self._found = {s.port: s for s in servers.scan()}
+        missing = [p for p in self.ports if p not in self._found]
+        self._pending = len(missing)
+        if not missing:
+            self._show_results()
             return
         self.status.set_text(_("Cerco server locali…"))
-
         client = Gio.SocketClient()
         client.set_timeout(1)
-        for port in self.ports:
+        for port in missing:
             client.connect_to_host_async(
                 f"localhost:{port}", port, None, self._on_connected, (generation, port)
             )
@@ -185,26 +151,42 @@ class LocalServersPopover(Gtk.Popover):
         if generation != self._generation:
             return  # risultato di una scansione vecchia
         if reachable:
-            self._found.append(port)
+            self._found[port] = servers.Server(port=port, host="localhost")
         self._pending -= 1
         if self._pending == 0:
             self._show_results()
 
     def _show_results(self):
         if not self._found:
-            ports = ", ".join(str(p) for p in self.ports)
-            self.status.set_text(_("Nessun server attivo su {ports}").format(ports=ports))
+            self.status.set_text(_("Niente è in ascolto su localhost in questo momento."))
             return
-        self.status.set_text(_("Server attivi (Alt+numero per aprire):"))
-        for number, port in enumerate(sorted(self._found), 1):
-            url = f"http://localhost:{port}/"
-            label = f"_{number}  localhost:{port}" if number < 10 else f"localhost:{port}"
-            button = Gtk.Button.new_with_mnemonic(label)
+        self.status.set_text(_("Server in ascolto (Alt+numero per aprire)"))
+        for number, server in enumerate(sorted(self._found.values(), key=lambda s: s.port), 1):
+            button = Gtk.Button()
             button.set_relief(Gtk.ReliefStyle.NONE)
-            button.get_child().set_xalign(0)
-            button.connect("clicked", self._on_button_clicked, url)
+            button.get_style_context().add_class("server-row")
+            row = Gtk.Box(spacing=12)
+            key = Gtk.Label.new_with_mnemonic(f"_{number}" if number < 10 else "")
+            key.set_mnemonic_widget(button)
+            key.get_style_context().add_class("server-key")
+            port = Gtk.Label(label=str(server.port), xalign=0, width_chars=6)
+            port.get_style_context().add_class("server-port")
+            tool = Gtk.Label(label=server.tool or "—", xalign=0, width_chars=11)
+            tool.get_style_context().add_class("server-tool")
+            project = Gtk.Label(label=server.project or "—", xalign=0, max_width_chars=28,
+                                ellipsize=Pango.EllipsizeMode.START)
+            project.get_style_context().add_class("dim-label")
+            uptime = Gtk.Label(label=servers.format_uptime(server.uptime), xalign=1, width_chars=10)
+            uptime.get_style_context().add_class("dim-label")
+            for widget in (key, port, tool):
+                row.pack_start(widget, False, False, 0)
+            row.pack_start(project, True, True, 0)
+            row.pack_end(uptime, False, False, 0)
+            button.add(row)
+            button.set_tooltip_text(server.url)
+            button.connect("clicked", self._on_button_clicked, server.url)
             self.list_box.pack_start(button, False, False, 0)
-            button.show()
+            button.show_all()
             if number == 1:
                 button.grab_focus()
 

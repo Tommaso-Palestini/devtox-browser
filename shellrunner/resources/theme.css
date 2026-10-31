@@ -127,6 +127,20 @@ headerbar.deck-header button {
   padding: 0 2px;
 }
 
+/* Il marchio: largo quanto il rail sotto di lui, così rail e header fanno un angolo solo */
+headerbar.deck-header button#mark {
+  min-width: 52px;
+  min-height: 46px;
+  margin: 0 6px 0 -8px;
+  padding: 0;
+  border-radius: 0;
+  border-right: 1px solid @rule;
+}
+
+headerbar.deck-header button#mark:hover {
+  background-color: alpha(@text, 0.04);
+}
+
 /* La barra degli indirizzi: indirizzi in monospazio, come nel terminale */
 entry.url-entry {
   font-family: "Fira Mono", "JetBrains Mono", monospace;
@@ -697,4 +711,44 @@ progressbar progress {
 
 list {
   background-color: @chrome;
+}
+
+/* --- Server locali (popover del rail) ----------------------------------- */
+
+.servers-popover {
+  min-width: 460px;
+}
+
+.servers-popover > label {
+  margin: 2px 6px 6px;
+  font-size: 9pt;
+}
+
+button.server-row {
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: @text;
+}
+
+button.server-row:hover,
+button.server-row:focus {
+  background-color: alpha(@text, 0.06);
+}
+
+.server-key {
+  font-family: "Fira Mono", monospace;
+  font-size: 8pt;
+  color: @muted;
+  min-width: 10px;
+}
+
+.server-port {
+  font-family: "Fira Mono", monospace;
+  font-size: 12pt;
+  font-weight: 500;
+  color: @text;
+}
+
+.server-tool {
+  font-weight: 600;
 }

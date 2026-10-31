@@ -66,6 +66,16 @@ class Storage:
         )
         return rows.fetchall()
 
+    def recent(self, limit=6):
+        """Ultime pagine web visitate: (url, titolo, ultimo accesso), le più recenti prima."""
+        rows = self.db.execute(
+            """SELECT url, title, last_visit FROM history
+               WHERE url LIKE 'http://%' OR url LIKE 'https://%'
+               ORDER BY last_visit DESC LIMIT ?""",
+            (limit,),
+        )
+        return rows.fetchall()
+
     def expire_history(self, days):
         if days > 0:
             with self.db:

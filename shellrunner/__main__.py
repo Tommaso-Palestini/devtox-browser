@@ -6,7 +6,7 @@ import sys
 
 from gi.repository import GLib, Gtk
 
-from . import __version__, about, devtools, log, navigation, onboarding, privacy, theme, utils, webext
+from . import __version__, about, devtools, log, navigation, onboarding, privacy, startpage, theme, utils, webext
 from .i18n import _
 from .config import Config
 from .control import ControlServer, send_to_running
@@ -65,7 +65,7 @@ def main(argv=None):
     theme.install()
 
     pages = {
-        "start": lambda _params: devtools.render_start_page(config["dev_ports"], storage.bookmarks()),
+        "start": lambda _params: startpage.render(config, storage),
         "source": devtools.render_source_page,
         "about": lambda _params: about.render_about_page(config.path),
         "welcome": about.render_welcome_page,

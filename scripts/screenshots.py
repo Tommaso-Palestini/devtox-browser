@@ -28,6 +28,16 @@ os.environ["GDK_BACKEND"] = "x11"
 os.environ.pop("WAYLAND_DISPLAY", None)
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Un server di sviluppo vero (solo su 127.0.0.1, in una cartella vuota del profilo
+# temporaneo): la pagina iniziale lo mostra con strumento, cartella e uptime
+# HOME punta al profilo temporaneo: la cartella appare come ~/projects/demo-site
+os.environ["HOME"] = ROOT
+SITE = os.path.join(ROOT, "projects", "demo-site")
+os.makedirs(SITE)
+DEMO = subprocess.Popen([sys.executable, "-m", "http.server", "--bind", "127.0.0.1", "5173"],
+                        cwd=SITE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+atexit.register(DEMO.terminate)
+
 from shellrunner import __main__ as app  # noqa: E402  (fissa le versioni di GTK prima di gi.repository)
 from gi.repository import GLib, Gtk  # noqa: E402
 from shellrunner.window import BrowserWindow  # noqa: E402
@@ -67,6 +77,7 @@ run([
     (0, lambda: window().maximize()),
     (2, lambda: shot("setup")),
     (0, lambda: window().notebook.set_current_page(0)),
+    (0, lambda: window().current_webview().reload()),
     (2, lambda: shot("start")),
     (0, lambda: window().show_terminal()),
     (3, type_in_terminal),

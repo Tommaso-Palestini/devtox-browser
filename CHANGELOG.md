@@ -5,6 +5,10 @@
 Prima versione pubblica.
 
 - Browser WebKitGTK con terminale VTE integrato, command palette, comando `sr`.
+- Pagina iniziale con i server in esecuzione sul PC letti da `/proc` (porta, strumento,
+  cartella del progetto, uptime), pagine recenti, preferiti e barra dei tasti.
+- Configurazione a righe (spiegazione e controlli) con anteprima del motore di ricerca
+  e riepilogo della privacy che si aggiorna mentre scegli.
 - Interfaccia in inglese e in italiano (file `.po`, scelta automatica dalla lingua del sistema).
 - Configurazione al primo avvio (`sr://setup`): lingua, motore di ricerca, livello di privacy,
   porte di sviluppo, assistente IA, browser predefinito. Riavvio dalla pagina quando serve.

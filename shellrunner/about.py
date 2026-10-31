@@ -88,7 +88,7 @@ def render_welcome_page(_params=None):
   <li class="shell"><strong><code>sr open localhost:5173</code> &nbsp;{e(_("Il browser dal terminale"))}</strong>
       {_("<code>sr open</code> apre una tab, <code>sr tabs</code> le elenca, <code>sr mem</code> mostra la memoria.")}</li>
   <li><strong><kbd>Ctrl+Shift+L</kbd> &nbsp;{e(_("Server locali"))}</strong>
-      {e(_("Le porte di sviluppo attive compaiono anche nella pagina iniziale."))}</li>
+      {e(_("Ogni server che avvii compare nella pagina iniziale, con la cartella del progetto e da quanto è attivo."))}</li>
 </ol>
 <h2>{e(_("Privacy di serie"))}</h2>
 <p>{e(_("HTTPS forzato (tranne localhost e rete locale), cookie di terze parti bloccati, blocklist locale, "

@@ -172,50 +172,72 @@ class Setup:
         )
         preset_data = {name: sorted(fields) for name, fields in PRESETS.items()}
         all_fields = [field for field, *_rest in PRIVACY_SWITCHES]
+        placeholders = {key: _("Cerca con {engine} o scrivi un indirizzo").format(engine=name)
+                        for key, (name, _url) in navigation.SEARCH_ENGINES.items()}
+        summary_words = {"https_only": _("solo HTTPS"), "fingerprint": _("anti-fingerprinting"),
+                         "gpc": "GPC", "third_party_cookies": _("cookie di terze parti bloccati")}
+        current_placeholder = placeholders.get(config["search_engine"], "")
+
+        def row(title, note, panel, extra=""):
+            return (f'<section class="setting"><div class="about"><h2>{e(title)}</h2>'
+                    f'<p>{e(note)}</p>{extra}</div><div class="panel">{panel}</div></section>')
+
         body = f"""
+<div class="settings">
 <h1>{e(_("Personalizza Shellrunner"))}</h1>
 <p class="lead">{e(_("Un minuto per scegliere come deve comportarsi. Puoi cambiare tutto più tardi dal menu."))}</p>
 <form action="{navigation.SETUP_URL}" method="get">
   <input type="hidden" name="token" value="{self.token}">
   <input type="hidden" name="save" value="1">
-
-  <h2>{e(_("Lingua"))}</h2>
-  <div class="choices row">{languages}</div>
-
-  <h2>{e(_("Motore di ricerca"))}</h2>
-  <div class="choices">{engines}</div>
-
-  <h2>{e(_("Privacy"))}</h2>
-  <p class="presets">{presets}</p>
-  <div class="switches">{privacy}</div>
-
-  <h2>{e(_("Sviluppo"))}</h2>
-  <label class="field"><strong>{e(_("Porte dei server locali da controllare"))}</strong>
+  {row(_("Lingua"), _("Menu, pagine interne e messaggi. Cambia dopo un riavvio."),
+       f'<div class="choices row">{languages}</div>')}
+  {row(_("Motore di ricerca"), _("Dove finisce quello che scrivi nella barra degli indirizzi quando non è un indirizzo."),
+       f'<div class="choices">{engines}</div>'
+       f'<p class="preview" aria-live="polite"><span class="preview-bar" id="search-preview">'
+       f'{e(current_placeholder)}</span></p>')}
+  {row(_("Privacy"), _("Tutto resta su questo PC. Ogni protezione si può spegnere per un solo sito dallo scudo nella barra."),
+       f'<p class="presets">{presets}</p><div class="switches">{privacy}</div>',
+       f'<p class="summary" id="privacy-summary" aria-live="polite"></p>')}
+  {row(_("Sviluppo"), _("I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto."),
+       f'''<label class="field"><strong>{e(_("Porte da controllare comunque"))}</strong>
     <input name="dev_ports" value="{e(ports)}" inputmode="numeric" spellcheck="false">
-    <small>{e(_("Separate da virgole. Compaiono nella pagina iniziale quando sono attive."))}</small></label>
-  <div class="switches">
-    {switch("ai_enabled", _("Assistente IA locale"),
+    <small>{e(_("Separate da virgole. Servono per i server di Docker, di root o di altri utenti, che non si vedono da /proc."))}</small></label>
+  <div class="switches">{switch("ai_enabled", _("Assistente IA locale"),
             _("Riassunti e spiegazioni con Ollama, sul tuo PC. Spento: il pannello IA sparisce."),
-            config["ai_enabled"])}
-  </div>
-
-  <h2>{e(_("Sistema"))}</h2>
-  <div class="switches">{default_browser}</div>
-
-  <p class="actions">
+            config["ai_enabled"])}</div>''')}
+  {row(_("Sistema"), _("Come si comporta Shellrunner con il resto del desktop."),
+       f'<div class="switches">{default_browser}</div>')}
+  <p class="actions sticky">
     <button class="button" type="submit">{e(_("Salva e inizia"))}</button>
     <a class="button ghost" href="{navigation.SETUP_URL}?token={self.token}&amp;skip=1">{e(_("Salta"))}</a>
   </p>
 </form>
+</div>
 <script>
   const presets = {_json(preset_data)};
   const fields = {_json(all_fields)};
+  const placeholders = {_json(placeholders)};
+  const words = {_json(summary_words)};
+  const box = (name) => document.querySelector(`input[name="${{name}}"]`);
+  // La riga di riepilogo è la stessa della pagina iniziale: si vede subito cosa cambia
+  function summarize() {{
+    const on = Object.keys(words).filter((name) => box(name) && box(name).checked).map((name) => words[name]);
+    document.getElementById("privacy-summary").textContent = on.length ? on.join(" · ") : {_json(_("Nessuna protezione accesa"))};
+  }}
   for (const button of document.querySelectorAll(".preset")) {{
     button.addEventListener("click", () => {{
       const on = presets[button.dataset.preset];
-      for (const name of fields) document.querySelector(`input[name="${{name}}"]`).checked = on.includes(name);
+      for (const name of fields) box(name).checked = on.includes(name);
+      summarize();
     }});
   }}
+  for (const name of fields) box(name).addEventListener("change", summarize);
+  for (const radio of document.querySelectorAll('input[name="search_engine"]')) {{
+    radio.addEventListener("change", () => {{
+      document.getElementById("search-preview").textContent = placeholders[radio.value];
+    }});
+  }}
+  summarize();
 </script>
 """
         return _page(_("Personalizza Shellrunner"), body)

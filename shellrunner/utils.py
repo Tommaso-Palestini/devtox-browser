@@ -3,6 +3,7 @@
 import os
 import re
 import string
+import time
 
 from gi.repository import GLib
 
@@ -64,3 +65,16 @@ def format_kb(kb):
     if kb >= 1024 * 1024:
         return f"{kb / (1024 * 1024):.2f} GB"
     return f"{kb / 1024:.1f} MB"
+
+
+def format_ago(timestamp, now=None):
+    """Tempo trascorso in parole brevi: "ora", "12 min fa", "3 h fa", "ieri", "5 g fa"."""
+    seconds = max(0, (now if now is not None else time.time()) - timestamp)
+    if seconds < 60:
+        return _("ora")
+    if seconds < 3600:
+        return _("{n} min fa").format(n=int(seconds // 60))
+    if seconds < 86400:
+        return _("{n} h fa").format(n=int(seconds // 3600))
+    days = int(seconds // 86400)
+    return _("ieri") if days == 1 else _("{n} g fa").format(n=days)

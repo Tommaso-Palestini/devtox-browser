@@ -99,7 +99,13 @@
   .choice span, .switch span, .field { display: flex; flex-direction: column; gap: 2px; }
   .choice strong, .switch strong, .field strong { font-weight: 600; }
   .choice small, .switch small, .field small, .hint { color: var(--muted); font-size: 13px; line-height: 1.45; }
-  .switches { display: grid; gap: 8px; }
+  /* Interruttori: un pannello solo diviso da linee, non una pila di scatole */
+  .switches { display: grid; border: 1px solid var(--rule); border-radius: 8px; background: var(--chrome); overflow: hidden; }
+  .switches .switch { border: 0; border-radius: 0; background: transparent; }
+  .switches .switch + .switch { border-top: 1px solid var(--rule); }
+  .switches .switch:hover { background: var(--raised); }
+  .switches > .hint { margin: 0; padding: 12px 14px; }
+  .field + .switches { margin-top: 20px; }
   input[type="radio"], input[type="checkbox"] { accent-color: var(--accent); margin-top: 3px; width: 16px; height: 16px; flex: none; }
   .field input {
     margin: 8px 0 4px; padding: 0 12px; height: 38px; max-width: 360px;
@@ -115,6 +121,49 @@
   }
   .preset:hover { border-color: var(--muted); background: var(--chrome); }
   .preset:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+  /* --- Impostazioni: spiegazione a sinistra, controlli a destra ----------
+     1040 = 300 (spiegazione) + 56 + 684 (pannello) */
+  main:has(.settings) { max-width: 1040px; }
+  .settings .lead { margin-bottom: 24px; }
+  .setting {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 16px 56px;
+    padding: 32px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .setting h2 { margin: 0 0 6px; }
+  .setting .about p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .setting .panel > :first-child { margin-top: 0; }
+  .preview { margin: 12px 0 0; }
+  .preview-bar {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--raised);
+    color: var(--muted);
+    font: 400 13px/1.4 var(--mono);
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  .summary {
+    margin-top: 14px !important;
+    padding-left: 10px;
+    border-left: 1px solid var(--accent);
+    color: var(--text) !important;
+    font-size: 13px !important;
+  }
+  .actions.sticky {
+    max-width: none;
+    position: sticky;
+    bottom: 0;
+    margin: 0;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    background: var(--page);
+  }
+  @media (max-width: 860px) {
+    .setting { grid-template-columns: 1fr; padding: 24px 0; }
+  }
   @media (max-width: 560px) {
     body { padding-top: 6vh; }
     h1 { font-size: 24px; }

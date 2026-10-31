@@ -1,9 +1,10 @@
 """Finestra principale: header, barra laterale, tab, pannelli, terminale e scorciatoie."""
 
 import collections
+import os
 import time
 
-from gi.repository import Gdk, Gio, GLib, Gtk, WebKit2
+from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk, WebKit2
 
 from . import actions, ai, devtools, monitor, navigation, privacy, theme, utils
 from .downloads import DownloadsPanel
@@ -152,10 +153,18 @@ class BrowserWindow(Gtk.Window):
         menu_button.set_tooltip_text("Menu")
         menu_button.set_popup(self._build_menu())
 
+        # Il marchio sopra il rail: dice di che prodotto si tratta e apre una nuova tab
+        mark = Gtk.Button()
+        mark.set_name("mark")
+        mark.set_image(Gtk.Image.new_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            os.path.join(utils.RESOURCES_DIR, "shellrunner.svg"), 24, 24)))
+        mark.set_tooltip_text(_("Shellrunner: nuova tab (Ctrl+T)"))
+        mark.connect("clicked", lambda _b: self.new_tab_and_focus())
+
         header = Gtk.HeaderBar()
         header.set_show_close_button(True)
         header.get_style_context().add_class("deck-header")
-        for widget in (self.back_button, self.forward_button, self.reload_button):
+        for widget in (mark, self.back_button, self.forward_button, self.reload_button):
             header.pack_start(widget)
         header.set_custom_title(self.url_entry)
         header.pack_end(menu_button)

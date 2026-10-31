@@ -29,7 +29,7 @@ def python_strings(path):
     with open(path, encoding="utf-8") as f:
         tree = ast.parse(f.read(), path)
     for node in ast.walk(tree):
-        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "_"
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in ("_", "N_")
                 and node.args and isinstance(node.args[0], ast.Constant) and isinstance(node.args[0].value, str)):
             yield node.args[0].value, node.lineno
 
