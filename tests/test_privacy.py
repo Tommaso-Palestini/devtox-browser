@@ -48,3 +48,75 @@ class RulesTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class _Config(dict):
+    def set(self, key, value):
+        self[key] = value
+
+
+class _Filter:
+    def __init__(self):
+        self.session_https_exceptions = set()
+
+    def reload(self, on_done=None):
+        if on_done:
+            on_done()
+
+
+class _View:
+    def __init__(self):
+        self.loaded = []
+
+    def load_alternate_html(self, page, uri, base):
+        self.loaded.append(uri)
+
+    def load_uri(self, uri):
+        self.loaded.append(uri)
+
+
+class _Decision:
+    def __init__(self, uri, gesture):
+        self.uri, self.gesture, self.ignored = uri, gesture, False
+
+    def get_navigation_action(self):
+        return self
+
+    def get_request(self):
+        return self
+
+    def get_uri(self):
+        return self.uri
+
+    def is_user_gesture(self):
+        return self.gesture
+
+    def ignore(self):
+        self.ignored = True
+
+
+class HttpsGuardTest(unittest.TestCase):
+    """L'HTTP si accetta solo con un clic sulla pagina d'errore, nella stessa tab."""
+
+    NAV = privacy.WebKit2.PolicyDecisionType.NAVIGATION_ACTION
+
+    def setUp(self):
+        self.config = _Config(https_only=True, https_exceptions=[])
+        self.guard = privacy.HttpsGuard(self.config, _Filter(), lambda view: False)
+        self.view = _View()
+        # Richiesta in http, portata in https, che poi fallisce
+        self.guard.on_decide_policy(self.view, _Decision("http://bank.example/", True), self.NAV)
+        self.assertTrue(self.guard._offer_http(self.view, "https://bank.example/", "timeout"))
+
+    def test_click_on_error_page_adds_exception(self):
+        decision = _Decision("http://bank.example/", True)
+        self.assertTrue(self.guard.on_decide_policy(self.view, decision, self.NAV))
+        self.assertEqual(self.config["https_exceptions"], ["bank.example"])
+
+    def test_script_navigation_is_not_consent(self):
+        self.guard.on_decide_policy(self.view, _Decision("http://bank.example/", False), self.NAV)
+        self.assertEqual(self.config["https_exceptions"], [])
+
+    def test_other_tab_is_not_consent(self):
+        self.guard.on_decide_policy(_View(), _Decision("http://bank.example/", True), self.NAV)
+        self.assertEqual(self.config["https_exceptions"], [])

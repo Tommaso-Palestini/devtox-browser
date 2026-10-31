@@ -14,6 +14,8 @@ if pkg-config --exists webkit2gtk-web-extension-4.1; then
     modules="$modules webkit2gtk-web-extension-4.1"
     defines="-DSR_WEBKIT_HEADERS"
 fi
+# Le opzioni di pkg-config vanno divise in parole: niente virgolette qui
+# shellcheck disable=SC2046,SC2086
 gcc -shared -fPIC -O2 -Wall -Wextra -Werror $defines \
     $(pkg-config --cflags $modules) \
     -o "$out/libsrprivacy.so.tmp" "$src/privacy_ext.c" \

@@ -58,3 +58,34 @@ class GoPageTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InternalRequestTest(unittest.TestCase):
+    """Una pagina sr:// che fallisce chiude comunque la richiesta (niente tab appese)."""
+
+    class Request:
+        def __init__(self, uri):
+            self.uri, self.error, self.data = uri, None, None
+
+        def get_uri(self):
+            return self.uri
+
+        def finish_error(self, error):
+            self.error = error
+
+        def finish(self, stream, length, mime):
+            self.data = length
+
+    def test_broken_page_finishes_with_error(self):
+        def broken(_params):
+            raise RuntimeError("boom")
+
+        request = self.Request("sr://start")
+        with self.assertLogs("shellrunner", "ERROR"):
+            navigation._handle_internal_request(request, {"start": broken})
+        self.assertIsNotNone(request.error)
+
+    def test_page_is_served(self):
+        request = self.Request("sr://start?x=1")
+        navigation._handle_internal_request(request, {"start": lambda params: "<p>" + params["x"]})
+        self.assertEqual(request.data, len("<p>1"))

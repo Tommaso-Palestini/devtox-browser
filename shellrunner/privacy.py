@@ -307,15 +307,20 @@ class HttpsGuard:
         self.content_filter = content_filter
         self._is_private = is_private  # is_private(webview): le tab private non scrivono su disco
         self._upgraded_hosts = set()  # host richiesti in http e portati in https
-        self._offered = {}            # URL http proposto nella pagina d'errore -> host
+        # (WebView, URL http) proposti nella pagina d'errore -> host. Il consenso vale solo
+        # nella stessa tab e con un gesto dell'utente: una pagina che naviga da sola
+        # a quell'URL (anche da un'altra tab) non abbassa la protezione
+        self._offered = {}
 
     def on_decide_policy(self, webview, decision, decision_type):
         if decision_type != WebKit2.PolicyDecisionType.NAVIGATION_ACTION:
             return False
         uri = decision.get_navigation_action().get_request().get_uri()
 
-        host = self._offered.pop(uri, None)
-        if host is not None:
+        action = decision.get_navigation_action()
+        host = self._offered.get((webview, uri))
+        if host is not None and action.is_user_gesture():
+            del self._offered[(webview, uri)]
             # L'utente ha cliccato "continua in HTTP" nella nostra pagina d'errore
             decision.ignore()
             if self._is_private(webview):
@@ -352,7 +357,9 @@ class HttpsGuard:
         if parts.scheme != "https" or host not in self._upgraded_hosts or not _rule_host_ok(host):
             return False
         http_uri = urllib.parse.urlunsplit(("http",) + tuple(parts[1:]))
-        self._offered[http_uri] = host
+        if len(self._offered) > 100:
+            self._offered.clear()
+        self._offered[(webview, http_uri)] = host
         page = utils.render_template(
             "https_error.html",
             host=html.escape(host),

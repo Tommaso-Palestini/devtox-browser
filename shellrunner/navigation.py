@@ -8,6 +8,7 @@ import urllib.parse
 from gi.repository import Gio, GLib
 
 from .i18n import _
+from .log import logger
 
 INTERNAL_SCHEME = "sr"
 START_URL = "sr://start"
@@ -165,6 +166,11 @@ def _handle_internal_request(request, pages):
         return
 
     params = dict(urllib.parse.parse_qsl(parts.query))
-    data = render(params).encode("utf-8")
+    try:
+        data = render(params).encode("utf-8")
+    except Exception as e:  # noqa: BLE001  una pagina rotta non deve lasciare la tab appesa
+        logger.exception("pagina interna %s non generata", parts.netloc)
+        request.finish_error(GLib.Error.new_literal(Gio.io_error_quark(), str(e), Gio.IOErrorEnum.FAILED))
+        return
     stream = Gio.MemoryInputStream.new_from_bytes(GLib.Bytes.new(data))
     request.finish(stream, len(data), "text/html")

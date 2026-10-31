@@ -2,9 +2,18 @@ name: test
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
+# Un push nuovo sullo stesso ramo annulla la corsa vecchia
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Librerie di sistema
@@ -12,6 +21,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-webkit2-4.1 \
-            gir1.2-soup-3.0 gir1.2-vte-2.91 gcc pkg-config libglib2.0-dev xvfb
+            gir1.2-soup-3.0 gir1.2-vte-2.91 gcc pkg-config libglib2.0-dev xvfb \
+            pyflakes3 shellcheck desktop-file-utils appstream
+      - name: Controlli statici
+        run: |
+          python3 -m pyflakes shellrunner tests scripts bin/sr
+          shellcheck install.sh shellrunner/webext/build.sh scripts/check.sh
+          desktop-file-validate data/shellrunner.desktop
+          appstreamcli validate --no-net data/io.github.shellrunner.Shellrunner.metainfo.xml
+      - name: Traduzioni complete
+        run: python3 scripts/update_po.py --check
       - name: Test (compresa la prova d'avvio in Xvfb)
         run: PYTHON=/usr/bin/python3 sh scripts/check.sh

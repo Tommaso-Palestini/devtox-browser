@@ -5,6 +5,7 @@ l'avvio si ferma con un messaggio che dice cosa installare, invece di un
 traceback di PyGObject.
 """
 
+import importlib.util
 import shutil
 import sys
 
@@ -30,9 +31,7 @@ def missing():
     except ImportError:
         return [("PyGObject (modulo gi)", PYGOBJECT)]
     result = []
-    try:
-        import cairo  # noqa: F401  (screenshot e indicatore della RAM)
-    except ImportError:
+    if importlib.util.find_spec("cairo") is None:  # screenshot e indicatore della RAM
         result.append(("pycairo", PYCAIRO))
     for namespace, version, packages in REQUIRED:
         try:

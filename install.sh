@@ -44,12 +44,12 @@ if ! (cd "$src" && "$python" -c "from shellrunner import deps; deps.require()");
 fi
 
 mkdir -p "$app" "$bin" "$apps" "$icons" "$metainfo"
-rm -rf "$app/shellrunner"
+rm -rf "${app:?}/shellrunner"
 cp -r "$src/shellrunner" "$app/shellrunner"
 find "$app/shellrunner" -name __pycache__ -prune -exec rm -rf {} +
 rm -rf "$app/shellrunner/webext/build"
 # bin/ accanto al pacchetto: i terminali integrati trovano sr anche fuori dal PATH
-rm -rf "$app/bin"
+rm -rf "${app:?}/bin"
 cp -r "$src/bin" "$app/bin"
 
 cat > "$bin/shellrunner" <<LAUNCHER

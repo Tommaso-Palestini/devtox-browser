@@ -24,9 +24,20 @@ def download_dir(config):
     )
 
 
+MAX_NAME_BYTES = 255  # limite dei filesystem Linux comuni
+
+
 def safe_filename(name):
-    """Solo il nome del file: niente percorsi, niente file nascosti."""
+    """Solo il nome del file: niente percorsi, file nascosti, caratteri di controllo o nomi troppo lunghi."""
+    name = "".join(ch for ch in name if ch.isprintable())
     name = os.path.basename(name.replace("\\", "/")).strip().lstrip(".")
+    if len(name.encode()) > MAX_NAME_BYTES:
+        stem, ext = os.path.splitext(name)
+        ext = ext if len(ext.encode()) <= 16 else ""
+        # Taglio per byte senza spezzare un carattere UTF-8; spazio per " (99)" di unique_path
+        budget = MAX_NAME_BYTES - len(ext.encode()) - 8
+        stem = stem.encode()[:budget].decode(errors="ignore")
+        name = stem + ext
     return name or "download"
 
 
