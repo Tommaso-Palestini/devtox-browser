@@ -26,6 +26,13 @@ installazione e, se Shellrunner era il browser predefinito, lo sostituisce con D
   Zen, LibreWolf e dai browser Chromium (Chrome, Brave, Edge, Vivaldi, Opera, Opera GX),
   anche Flatpak e Snap. Niente password né cookie; Tor Browser mai.
 - Sandbox dei processi delle pagine (bubblewrap) attiva: prima era spenta.
+- Gestore password nel portachiavi del sistema (libsecret): proposta di salvataggio,
+  compilazione con un clic solo sull'origine esatta e solo in HTTPS o su localhost, script
+  in un mondo JavaScript isolato, import dal CSV di Firefox, Chrome, Opera, Brave, Edge e
+  Bitwarden (`devtox://passwords`).
+- Protezione anti-phishing attiva di base: lista pubblica Phishing.Database (MIT) controllata
+  sul PC, completa una volta a settimana e domini nuovi ogni giorno; le piattaforme condivise
+  (vercel.app, github.io, sites.google.com...) non si bloccano mai per intero.
 - Strumenti attivabili in `devtox://setup`: pannello Docker, avviso quando parte un server
   (spento di base), assistente IA.
 - Configurazione a righe (spiegazione e controlli) con anteprima del motore di ricerca

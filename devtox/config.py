@@ -20,6 +20,7 @@ DEFAULTS = {
     "trim_referer": True,             # Referer ridotto a schema://host/
     "https_only": True,               # HTTPS forzato tranne localhost e rete locale
     "https_exceptions": [],           # host per cui hai accettato l'HTTP
+    "phishing_protection": True,      # lista pubblica di siti di phishing, controllata sul PC
     "fingerprint_protection": True,   # canvas/WebGL "sporcati", come Brave
     "fingerprint_off_hosts": [],      # siti con anti-fingerprinting spento
     "shields_down_hosts": [],         # siti con la blocklist spenta
@@ -34,6 +35,7 @@ DEFAULTS = {
     "web_process_memory_limit_mb": 0,  # 0 = limite automatico di WebKit
     # Strumenti
     "dev_ports": [5173, 3000, 8000, 4321],
+    "passwords_enabled": True,        # gestore password nel portachiavi del sistema (libsecret)
     "docker_enabled": True,           # pannello Docker (interroga il socket locale solo a pannello aperto)
     "server_alerts": False,           # avviso quando un server di sviluppo inizia ad ascoltare
     # IA locale

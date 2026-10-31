@@ -20,6 +20,8 @@ in the UI process.
                  │   ├ onboarding.py  about.py                        │
                  │   ├ importpage.py  importer.py (other browsers)    │
                  │ privacy.py   profile, content filter, HTTPS guard  │
+                 │ phishing.py  local list + guard (devtox://blocked) │
+                 │ passwords.py passwordui.py  keyring + isolated JS  │
                  └──────┬────────────────────────────────────────────┘
                         │ WebKitGTK
         web processes ◄─┤  webext/privacy_ext.c (Sec-GPC, Referer)
@@ -47,6 +49,7 @@ embed it. `devtox://setup` changes settings only with a per-process random token
 | Layer | Where |
 |---|---|
 | HTTPS-only and the tracker blocklist | WebKit content filter (`privacy.build_rules`), compiled from `blocklist.txt` |
+| Phishing check of every main-frame navigation | `phishing.Guard`, a sorted array of 64-bit hashes (~3 MB) |
 | HTTP fallback after a failed upgrade | `privacy.HttpsGuard`: only after a click on the error page, in the same tab |
 | `Sec-GPC` header, Referer trimmed to the origin | C web extension, built at first start into the cache |
 | `navigator.globalPrivacyControl`, canvas/WebGL noise | user scripts injected before page scripts |

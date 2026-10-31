@@ -18,3 +18,5 @@ for name in ("XDG_CONFIG_HOME", "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HO
     os.environ[name] = path
 # Test deterministici: interfaccia in italiano (la lingua sorgente); l'inglese ha i suoi test
 os.environ["LANGUAGE"] = "it"
+# Nessun test usa la rete: la lista anti-phishing non viene scaricata
+os.environ["DEVTOX_NO_NETWORK"] = "1"

@@ -42,6 +42,9 @@ PRIVACY_SWITCHES = [
 # Strumenti per sviluppatori che si possono spegnere: (voce di config.json, titolo, spiegazione).
 # Ognuno dice cosa costa: niente lavoro in background se non serve, niente rete
 TOOL_SWITCHES = [
+    ("passwords_enabled", _("Gestore password"),
+     _("Propone di salvare le password e le compila con un clic, solo sul sito esatto. "
+       "Stanno nel portachiavi del sistema, mai in file di Devtox.")),
     ("docker_enabled", _("Pannello Docker"),
      _("Container per progetto, con avvio, arresto, riavvio e log. Parla solo con il socket locale "
        "di Docker o Podman, e solo a pannello aperto.")),

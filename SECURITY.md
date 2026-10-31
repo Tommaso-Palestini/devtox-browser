@@ -22,6 +22,9 @@ In scope: the Devtox code in this repository, for example
 - a web page reaching `devtox://` pages, the terminal, the `dx` socket or local files
 - a way around HTTPS-only, the blocklist, private tabs or the download protections
 - the AI panel running a command without confirmation
+- a page reading, triggering or redirecting the password manager (filling on another
+  origin, without a click, or exposing the isolated script to page scripts)
+- a way to skip the phishing check without the "continue anyway" link
 - the privacy extension (`devtox/webext/`)
 
 Out of scope, please report upstream instead:

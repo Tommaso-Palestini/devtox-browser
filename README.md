@@ -35,6 +35,17 @@ uses the web engine your distribution already keeps up to date.
 |---|---|---|
 | ![Start page with local dev servers and bookmarks](docs/screenshots/start-en.png) | ![Command palette](docs/screenshots/palette-en.png) | ![Setup page](docs/screenshots/setup-en.png) |
 
+## Safe by default
+
+- **Phishing protection.** Navigations are checked against the public
+  [Phishing.Database](https://github.com/mitchellkrogza/Phishing.Database) list (MIT), kept on
+  your computer: one small download a day, nothing about you is sent. Shared platforms
+  (vercel.app, github.io, sites.google.com…) are never blocked whole.
+- **Password manager.** Passwords live in the system keyring (GNOME Keyring, KWallet), are
+  filled with one click and only on the exact site, and can be imported from the CSV export
+  of Firefox, Chrome, Opera, Brave, Edge or Bitwarden (`devtox://passwords`).
+- **Sandboxed pages.** Every web page process runs inside bubblewrap.
+
 ## Privacy defaults
 
 | Protection | Default |
@@ -42,6 +53,7 @@ uses the web engine your distribution already keeps up to date.
 | HTTPS-only (except localhost and private networks) | on |
 | Third-party cookies | blocked |
 | Tracker blocklist (local file, editable) | on |
+| Phishing protection (public list, checked locally) | on |
 | Canvas/WebGL fingerprinting noise | on |
 | Global Privacy Control (`Sec-GPC: 1` header + JS API) | on |
 | Referer trimmed to the origin | on |

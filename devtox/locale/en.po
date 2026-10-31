@@ -5,41 +5,41 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: en\n"
 
-#: devtox/__main__.py:19 devtox/about.py:50
+#: devtox/__main__.py:22 devtox/about.py:50
 msgid "Browser leggero per sviluppatori, con terminale integrato."
 msgstr "A lightweight browser for developers, with a built-in terminal."
 
-#: devtox/__main__.py:21
+#: devtox/__main__.py:24
 msgid "INDIRIZZO"
 msgstr "URL"
 
-#: devtox/__main__.py:22
+#: devtox/__main__.py:25
 msgid "indirizzi o ricerche da aprire in nuove tab"
 msgstr "addresses or searches to open in new tabs"
 
-#: devtox/__main__.py:25
+#: devtox/__main__.py:28
 msgid "controlla dipendenze ed estensione privacy, poi esce"
 msgstr "check dependencies and the privacy extension, then exit"
 
-#: devtox/__main__.py:26
+#: devtox/__main__.py:29
 msgid "log dettagliato anche sul terminale"
 msgstr "verbose logging on the terminal too"
 
-#: devtox/__main__.py:28
+#: devtox/__main__.py:31
 msgid "non passare gli indirizzi a una finestra già aperta"
 msgstr "do not hand addresses to an already open window"
 
-#: devtox/__main__.py:37
+#: devtox/__main__.py:40
 msgid "Estensione"
 msgstr "Extension"
 
-#: devtox/__main__.py:106
+#: devtox/__main__.py:130
 msgid ""
 "Blocklist e HTTPS-only NON attivi: le regole non si sono compilate (vedi il log)"
 msgstr ""
 "Blocklist and HTTPS-only are NOT active: the rules did not compile (see the log)"
 
-#: devtox/about.py:75 devtox/actions.py:54 devtox/window.py:318
+#: devtox/about.py:75 devtox/actions.py:54 devtox/window.py:323
 msgid "Informazioni su Devtox"
 msgstr "About Devtox"
 
@@ -47,7 +47,7 @@ msgstr "About Devtox"
 msgid "Benvenuto"
 msgstr "Welcome"
 
-#: devtox/about.py:28 devtox/onboarding.py:221
+#: devtox/about.py:28 devtox/onboarding.py:224
 msgid "Sistema"
 msgstr "System"
 
@@ -106,7 +106,7 @@ msgid ""
 "Se apri una segnalazione, copia la tabella delle versioni e allega il log."
 msgstr "If you file a bug report, copy the versions table and attach the log."
 
-#: devtox/about.py:57 devtox/onboarding.py:212
+#: devtox/about.py:57 devtox/onboarding.py:215
 msgid "Privacy"
 msgstr "Privacy"
 
@@ -150,7 +150,7 @@ msgstr "Welcome to Devtox"
 msgid "Trenta secondi per le quattro cose che lo rendono diverso."
 msgstr "Thirty seconds on the four things that make it different."
 
-#: devtox/about.py:84 devtox/window.py:295
+#: devtox/about.py:84 devtox/window.py:300
 msgid "Palette dei comandi"
 msgstr "Command palette"
 
@@ -213,7 +213,7 @@ msgstr "AI: summarize the page"
 msgid "IA: spiega l'errore selezionato"
 msgstr "AI: explain the selected error"
 
-#: devtox/actions.py:41 devtox/window.py:302
+#: devtox/actions.py:41 devtox/window.py:307
 msgid "Vista responsive"
 msgstr "Responsive view"
 
@@ -249,19 +249,19 @@ msgstr "Copy address"
 msgid "Copia link in Markdown"
 msgstr "Copy Markdown link"
 
-#: devtox/actions.py:49 devtox/window.py:315
+#: devtox/actions.py:49 devtox/window.py:320
 msgid "Strumenti sviluppatore"
 msgstr "Developer tools"
 
-#: devtox/actions.py:50 devtox/window.py:310
+#: devtox/actions.py:50 devtox/window.py:315
 msgid "Modifica blocklist"
 msgstr "Edit blocklist"
 
-#: devtox/actions.py:51 devtox/window.py:311
+#: devtox/actions.py:51 devtox/window.py:316
 msgid "Ricarica blocklist"
 msgstr "Reload blocklist"
 
-#: devtox/actions.py:52 devtox/window.py:314
+#: devtox/actions.py:52 devtox/window.py:319
 msgid "Apri configurazione"
 msgstr "Open config file"
 
@@ -269,27 +269,35 @@ msgstr "Open config file"
 msgid "Cancella cronologia"
 msgstr "Clear history"
 
-#: devtox/actions.py:56 devtox/onboarding.py:257 devtox/onboarding.py:201 devtox/window.py:312
+#: devtox/actions.py:56 devtox/onboarding.py:260 devtox/onboarding.py:204 devtox/window.py:317
 msgid "Personalizza Devtox"
 msgstr "Customize Devtox"
 
-#: devtox/actions.py:58 devtox/window.py:317
+#: devtox/actions.py:58 devtox/window.py:322
 msgid "Guida rapida"
 msgstr "Quick tour"
 
-#: devtox/actions.py:59 devtox/importpage.py:45 devtox/importpage.py:97 devtox/window.py:313
+#: devtox/actions.py:59 devtox/importpage.py:45 devtox/importpage.py:97 devtox/window.py:318
 msgid "Importa da un altro browser"
 msgstr "Import from another browser"
 
-#: devtox/actions.py:23 devtox/tabs.py:10 devtox/window.py:297 devtox/resources/start.html:6
+#: devtox/actions.py:61
+msgid "Compila password"
+msgstr "Fill password"
+
+#: devtox/actions.py:62
+msgid "Password salvate"
+msgstr "Saved passwords"
+
+#: devtox/actions.py:23 devtox/tabs.py:10 devtox/window.py:302 devtox/resources/start.html:6
 msgid "Nuova tab"
 msgstr "New tab"
 
-#: devtox/actions.py:24 devtox/window.py:298
+#: devtox/actions.py:24 devtox/window.py:303
 msgid "Nuova tab privata"
 msgstr "New private tab"
 
-#: devtox/actions.py:25 devtox/window.py:299
+#: devtox/actions.py:25 devtox/window.py:304
 msgid "Riapri tab chiusa"
 msgstr "Reopen closed tab"
 
@@ -297,7 +305,7 @@ msgstr "Reopen closed tab"
 msgid "Chiudi tab"
 msgstr "Close tab"
 
-#: devtox/actions.py:28 devtox/window.py:300
+#: devtox/actions.py:28 devtox/window.py:305
 msgid "Nuovo terminale"
 msgstr "New terminal"
 
@@ -313,7 +321,7 @@ msgstr "Page source"
 msgid "Aggiungi o togli dai preferiti"
 msgstr "Add or remove bookmark"
 
-#: devtox/actions.py:32 devtox/window.py:169
+#: devtox/actions.py:32 devtox/window.py:172
 msgid "Scudi e connessione del sito"
 msgstr "Site shields and connection"
 
@@ -343,7 +351,7 @@ msgstr ""
 msgid "IA"
 msgstr "AI"
 
-#: devtox/ai.py:166 devtox/downloads.py:163
+#: devtox/ai.py:166 devtox/downloads.py:163 devtox/passwordui.py:178
 msgid "Annulla"
 msgstr "Cancel"
 
@@ -806,9 +814,8 @@ msgstr "Source: {source}"
 
 #: devtox/importpage.py:79
 msgid ""
-"Password e cookie non si importano: l'altro browser li cifra con il portachiavi del sistema, e copiarli li esporrebbe. Tor Browser non viene mai proposto."
-msgstr ""
-"Passwords and cookies are not imported: the other browser encrypts them with the system keyring, and copying them would expose them. Tor Browser is never offered."
+"Le password si importano dal file CSV che l'altro browser sa esportare, in devtox://passwords: Devtox non legge mai i loro archivi cifrati. I cookie non si importano. Tor Browser non viene mai proposto."
+msgstr "Passwords are imported from the CSV file the other browser can export, in devtox://passwords: Devtox never reads their encrypted stores. Cookies are not imported. Tor Browser is never offered."
 
 #: devtox/importpage.py:48
 msgid ""
@@ -851,6 +858,10 @@ msgstr "Import from {name}"
 #: devtox/importpage.py:61
 msgid "{n} preferiti"
 msgstr "{n} bookmarks"
+
+#: devtox/importpage.py:81
+msgid "Vai alle password"
+msgstr "Go to passwords"
 
 #: devtox/importpage.py:96
 msgid "Vai alla pagina iniziale"
@@ -912,27 +923,27 @@ msgstr "Browser: {memory} ({fraction:.0%} of RAM)"
 msgid "Pagina interna sconosciuta: {name}"
 msgstr "Unknown internal page: {name}"
 
-#: devtox/onboarding.py:64
+#: devtox/onboarding.py:67
 msgid "Non profila le ricerche. Predefinito."
 msgstr "Does not profile your searches. Default."
 
-#: devtox/onboarding.py:65
+#: devtox/onboarding.py:68
 msgid "Risultati di Google senza tracciamento."
 msgstr "Google results without the tracking."
 
-#: devtox/onboarding.py:66
+#: devtox/onboarding.py:69
 msgid "Indice proprio, senza profilazione."
 msgstr "Its own index, no profiling."
 
-#: devtox/onboarding.py:67
+#: devtox/onboarding.py:70
 msgid "Indice proprio, piccolo e indipendente."
 msgstr "Its own index, small and independent."
 
-#: devtox/onboarding.py:68
+#: devtox/onboarding.py:71
 msgid "Usa i ricavi per piantare alberi."
 msgstr "Uses its profits to plant trees."
 
-#: devtox/onboarding.py:69
+#: devtox/onboarding.py:72
 msgid "I risultati migliori per molti, ma le ricerche vengono profilate."
 msgstr "The best results for many, but your searches are profiled."
 
@@ -954,7 +965,7 @@ msgstr "Block third-party cookies"
 msgid "I cookie dei siti incorporati non ti seguono da una pagina all'altra."
 msgstr "Cookies from embedded sites don't follow you from page to page."
 
-#: devtox/onboarding.py:31 devtox/ui.py:348 devtox/window.py:643
+#: devtox/onboarding.py:31 devtox/ui.py:348 devtox/window.py:657
 msgid "Anti-fingerprinting"
 msgstr "Anti-fingerprinting"
 
@@ -998,178 +1009,308 @@ msgstr ""
 "Cookies and site data are kept between runs. Off: every start is a clean slate."
 
 #: devtox/onboarding.py:45
+msgid "Gestore password"
+msgstr "Password manager"
+
+#: devtox/onboarding.py:46
+msgid ""
+"Propone di salvare le password e le compila con un clic, solo sul sito esatto. Stanno nel portachiavi del sistema, mai in file di Devtox."
+msgstr ""
+"Offers to save passwords and fills them with one click, only on the exact site. They live in the system keyring, never in Devtox files."
+
+#: devtox/onboarding.py:48
 msgid "Pannello Docker"
 msgstr "Docker panel"
 
-#: devtox/onboarding.py:46
+#: devtox/onboarding.py:49
 msgid ""
 "Container per progetto, con avvio, arresto, riavvio e log. Parla solo con il socket locale di Docker o Podman, e solo a pannello aperto."
 msgstr ""
 "Containers by project, with start, stop, restart and logs. Talks only to the local Docker or Podman socket, and only while the panel is open."
 
-#: devtox/onboarding.py:48
+#: devtox/onboarding.py:51
 msgid "Avviso quando parte un server"
 msgstr "Tell me when a server starts"
 
-#: devtox/onboarding.py:49
+#: devtox/onboarding.py:52
 msgid ""
 "Un messaggio con «Apri» appena un server di sviluppo inizia ad ascoltare. Controlla /proc ogni 5 secondi, per questo è spento di base."
 msgstr ""
 "A message with “Open” as soon as a development server starts listening. It checks /proc every 5 seconds, so it is off by default."
 
-#: devtox/onboarding.py:51
+#: devtox/onboarding.py:54
 msgid "Assistente IA locale"
 msgstr "Local AI assistant"
 
-#: devtox/onboarding.py:52
+#: devtox/onboarding.py:55
 msgid ""
 "Riassunti e spiegazioni con Ollama, sul tuo PC. Spento: il pannello IA sparisce."
 msgstr ""
 "Summaries and explanations with Ollama, on your computer. Off: the AI panel disappears."
 
-#: devtox/onboarding.py:291
+#: devtox/onboarding.py:294
 msgid "Devtox è ora il browser predefinito."
 msgstr "Devtox is now the default browser."
 
-#: devtox/onboarding.py:144 devtox/onboarding.py:133
+#: devtox/onboarding.py:147 devtox/onboarding.py:136
 msgid "Impostazioni salvate"
 msgstr "Settings saved"
 
-#: devtox/onboarding.py:191 devtox/startpage.py:108
+#: devtox/onboarding.py:194 devtox/startpage.py:108
 msgid "solo HTTPS"
 msgstr "HTTPS only"
 
-#: devtox/onboarding.py:191 devtox/startpage.py:113
+#: devtox/onboarding.py:194 devtox/startpage.py:113
 msgid "anti-fingerprinting"
 msgstr "anti-fingerprinting"
 
-#: devtox/onboarding.py:192
+#: devtox/onboarding.py:195
 msgid "cookie di terze parti bloccati"
 msgstr "third-party cookies blocked"
 
-#: devtox/onboarding.py:284
+#: devtox/onboarding.py:287
 msgid ""
 "xdg-settings non trovato: imposta il browser predefinito dalle impostazioni di sistema."
 msgstr ""
 "xdg-settings not found: set the default browser from your system settings."
 
-#: devtox/onboarding.py:87 devtox/onboarding.py:87
+#: devtox/onboarding.py:90 devtox/onboarding.py:90
 msgid "Riavvio…"
 msgstr "Restarting…"
 
-#: devtox/onboarding.py:177
+#: devtox/onboarding.py:180
 msgid "Imposta Devtox come browser predefinito"
 msgstr "Make Devtox the default browser"
 
-#: devtox/onboarding.py:178
+#: devtox/onboarding.py:181
 msgid "I link aperti da altre applicazioni arrivano qui."
 msgstr "Links opened from other applications land here."
 
-#: devtox/onboarding.py:290
+#: devtox/onboarding.py:293
 msgid ""
 "Non sono riuscito a impostarlo come browser predefinito: fallo dalle impostazioni di sistema."
 msgstr ""
 "Couldn't set it as the default browser: do it from your system settings."
 
-#: devtox/onboarding.py:189 devtox/window.py:156
+#: devtox/onboarding.py:192 devtox/window.py:159
 msgid "Cerca con {engine} o scrivi un indirizzo"
 msgstr "Search with {engine} or type an address"
 
-#: devtox/onboarding.py:202
+#: devtox/onboarding.py:205
 msgid ""
 "Un minuto per scegliere come deve comportarsi. Puoi cambiare tutto più tardi dal menu."
 msgstr ""
 "One minute to choose how it should behave. You can change everything later from the menu."
 
-#: devtox/onboarding.py:206
+#: devtox/onboarding.py:209
 msgid "Lingua"
 msgstr "Language"
 
-#: devtox/onboarding.py:206
+#: devtox/onboarding.py:209
 msgid "Menu, pagine interne e messaggi. Cambia dopo un riavvio."
 msgstr "Menus, internal pages and messages. Changes after a restart."
 
-#: devtox/onboarding.py:208
+#: devtox/onboarding.py:211
 msgid "Motore di ricerca"
 msgstr "Search engine"
 
-#: devtox/onboarding.py:208
+#: devtox/onboarding.py:211
 msgid ""
 "Dove finisce quello che scrivi nella barra degli indirizzi quando non è un indirizzo."
 msgstr ""
 "Where what you type in the address bar goes when it is not an address."
 
-#: devtox/onboarding.py:212
+#: devtox/onboarding.py:215
 msgid ""
 "Tutto resta su questo PC. Ogni protezione si può spegnere per un solo sito dallo scudo nella barra."
 msgstr ""
 "Everything stays on this computer. Any protection can be turned off for one site from the shield in the address bar."
 
-#: devtox/onboarding.py:215
+#: devtox/onboarding.py:218
 msgid "Sviluppo"
 msgstr "Development"
 
-#: devtox/onboarding.py:215
+#: devtox/onboarding.py:218
 msgid ""
 "I server che avvii tu compaiono da soli nella pagina iniziale, con la cartella del progetto. Gli strumenti qui sotto si accendono e spengono uno per uno."
 msgstr ""
 "Servers you start show up on the start page by themselves, with their project folder. The tools below can be turned on and off one by one."
 
-#: devtox/onboarding.py:221
+#: devtox/onboarding.py:224
 msgid "Come si comporta Devtox con il resto del desktop."
 msgstr "How Devtox works with the rest of the desktop."
 
-#: devtox/onboarding.py:225
+#: devtox/onboarding.py:228
 msgid "Salva e inizia"
 msgstr "Save and start"
 
-#: devtox/onboarding.py:226
+#: devtox/onboarding.py:229
 msgid "Salta"
 msgstr "Skip"
 
-#: devtox/onboarding.py:239
+#: devtox/onboarding.py:242
 msgid "Nessuna protezione accesa"
 msgstr "No protection turned on"
 
-#: devtox/onboarding.py:142
+#: devtox/onboarding.py:145
 msgid "Continua"
 msgstr "Continue"
 
-#: devtox/onboarding.py:180
+#: devtox/onboarding.py:183
 msgid "Per impostarlo come browser predefinito installalo con install.sh."
 msgstr "To make it the default browser, install it with install.sh."
 
-#: devtox/onboarding.py:139
+#: devtox/onboarding.py:142
 msgid ""
 "Lingua e alcune protezioni cambiano dopo un riavvio. Le tab aperte vengono ripristinate."
 msgstr ""
 "Language and some protections change after a restart. Open tabs are restored."
 
-#: devtox/onboarding.py:141
+#: devtox/onboarding.py:144
 msgid "Riavvia ora"
 msgstr "Restart now"
 
-#: devtox/onboarding.py:184
+#: devtox/onboarding.py:187
 msgid "Bilanciata (consigliata)"
 msgstr "Balanced (recommended)"
 
-#: devtox/onboarding.py:184
+#: devtox/onboarding.py:187
 msgid "Massima privacy"
 msgstr "Maximum privacy"
 
-#: devtox/onboarding.py:217
+#: devtox/onboarding.py:220
 msgid "Porte da controllare comunque"
 msgstr "Ports to check anyway"
 
-#: devtox/onboarding.py:219
+#: devtox/onboarding.py:222
 msgid ""
 "Separate da virgole. Servono per i server di Docker, di root o di altri utenti, che non si vedono da /proc."
 msgstr ""
 "Comma-separated. For servers run by Docker, root or other users, which /proc does not show."
 
-#: devtox/onboarding.py:223
+#: devtox/onboarding.py:226
 msgid "Importa preferiti e cronologia da un altro browser"
 msgstr "Import bookmarks and history from another browser"
+
+#: devtox/passwordui.py:244
+msgid ""
+"Stanno nel portachiavi del sistema, cifrate e sbloccate con il tuo login. Devtox le compila solo sul sito esatto in cui le hai salvate, e solo quando lo chiedi tu."
+msgstr ""
+"They live in the system keyring, encrypted and unlocked with your login. Devtox fills them only on the exact site where you saved them, and only when you ask."
+
+#: devtox/passwordui.py:246
+msgid ""
+"Per portarle da un altro browser, esportale in CSV (Firefox: about:logins → Esporta; Chrome, Opera, Brave, Edge: Gestore password → Esporta; Bitwarden: Esporta in .csv), poi importale qui."
+msgstr ""
+"To bring them from another browser, export them as CSV (Firefox: about:logins → Export; Chrome, Opera, Brave, Edge: Password Manager → Export; Bitwarden: Export as .csv), then import them here."
+
+#: devtox/passwordui.py:258
+msgid ""
+"Il portachiavi del sistema (Secret Service: GNOME Keyring o KWallet) non risponde, quindi Devtox non salva password. Installa gnome-keyring o attiva KWallet, poi riavvia."
+msgstr ""
+"The system keyring (Secret Service: GNOME Keyring or KWallet) is not responding, so Devtox does not save passwords. Install gnome-keyring or enable KWallet, then restart."
+
+#: devtox/passwordui.py:177
+msgid "Importa password da un file CSV"
+msgstr "Import passwords from a CSV file"
+
+#: devtox/passwordui.py:178
+msgid "Importa"
+msgstr "Import"
+
+#: devtox/passwordui.py:123
+msgid "Gestisci password…"
+msgstr "Manage passwords…"
+
+#: devtox/passwordui.py:134
+msgid "Nessuna password salvata per questa pagina"
+msgstr "No saved password for this page"
+
+#: devtox/passwordui.py:170
+msgid "Password salvata nel portachiavi del sistema"
+msgstr "Password saved in the system keyring"
+
+#: devtox/passwordui.py:209
+msgid "Eliminare il file CSV?"
+msgstr "Delete the CSV file?"
+
+#: devtox/passwordui.py:249 devtox/passwordui.py:253 devtox/passwordui.py:260 devtox/passwordui.py:261
+msgid "Password"
+msgstr "Passwords"
+
+#: devtox/passwordui.py:251
+msgid "Importa da CSV…"
+msgstr "Import from CSV…"
+
+#: devtox/passwordui.py:251
+msgid "Salvate"
+msgstr "Saved"
+
+#: devtox/passwordui.py:189
+msgid "Questo file non sembra un export di password"
+msgstr "This file does not look like a password export"
+
+#: devtox/passwordui.py:211
+msgid ""
+"{path} contiene le tue password in chiaro. Ora sono nel portachiavi: il file non serve più."
+msgstr ""
+"{path} contains your passwords in plain text. They are now in the keyring: the file is no longer needed."
+
+#: devtox/passwordui.py:243
+msgid ""
+"Nessuna password salvata. Accedi a un sito e Devtox ti chiederà se salvarla."
+msgstr ""
+"No saved passwords. Sign in to a site and Devtox will ask whether to save it."
+
+#: devtox/passwordui.py:106
+msgid "Password salvate per {host}"
+msgstr "Saved passwords for {host}"
+
+#: devtox/passwordui.py:113
+msgid "Accedi a {host} come"
+msgstr "Sign in to {host} as"
+
+#: devtox/passwordui.py:117
+msgid "(senza nome utente)"
+msgstr "(no username)"
+
+#: devtox/passwordui.py:158
+msgid "Aggiornare la password per {host}?"
+msgstr "Update the password for {host}?"
+
+#: devtox/passwordui.py:159
+msgid "Salvare la password per {host}?"
+msgstr "Save the password for {host}?"
+
+#: devtox/passwordui.py:161
+msgid "Salva"
+msgstr "Save"
+
+#: devtox/passwordui.py:199
+msgid "{n} password importate, {skipped} scartate (http in chiaro o app)"
+msgstr "{n} passwords imported, {skipped} skipped (plain http or apps)"
+
+#: devtox/passwordui.py:239
+msgid "Elimina"
+msgstr "Delete"
+
+#: devtox/passwordui.py:167 devtox/passwordui.py:197
+msgid "Portachiavi non disponibile: {error}"
+msgstr "Keyring not available: {error}"
+
+#: devtox/passwordui.py:239
+msgid "Eliminare questa password?"
+msgstr "Delete this password?"
+
+#: devtox/passwordui.py:219
+msgid "Non sono riuscito a eliminarlo: {error}"
+msgstr "Could not delete it: {error}"
+
+#: devtox/phishing.py:257
+msgid ""
+"Fonte: la lista pubblica {name}, scaricata e controllata su questo PC. Si spegne in devtox://setup."
+msgstr ""
+"Source: the public {name} list, downloaded and checked on this computer. Turn it off in devtox://setup."
 
 #: devtox/privacy.py:42
 msgid ""
@@ -1183,15 +1324,15 @@ msgstr ""
 "# No list is ever downloaded: only you manage this file.\n"
 "# After editing: menu > Reload blocklist.\n"
 
-#: devtox/privacy.py:359
+#: devtox/privacy.py:362
 msgid "certificato TLS non valido"
 msgstr "invalid TLS certificate"
 
-#: devtox/privacy.py:374
+#: devtox/privacy.py:377
 msgid "Tab privata: l'eccezione vale solo fino alla chiusura del browser."
 msgstr "Private tab: the exception only lasts until the browser is closed."
 
-#: devtox/privacy.py:376
+#: devtox/privacy.py:379
 msgid "L'eccezione resta salvata in config.json, alla voce https_exceptions."
 msgstr "The exception is saved in config.json, under https_exceptions."
 
@@ -1476,203 +1617,225 @@ msgstr "active, just built ({path})"
 msgid "attiva ({path})"
 msgstr "active ({path})"
 
-#: devtox/window.py:144
+#: devtox/window.py:147
 msgid "Indietro (Alt+←)"
 msgstr "Back (Alt+←)"
 
-#: devtox/window.py:146
+#: devtox/window.py:149
 msgid "Avanti (Alt+→)"
 msgstr "Forward (Alt+→)"
 
-#: devtox/window.py:148
+#: devtox/window.py:151
 msgid "Ricarica (F5)"
 msgstr "Reload (F5)"
 
-#: devtox/window.py:183
+#: devtox/window.py:186
 msgid "Devtox: nuova tab (Ctrl+T)"
 msgstr "Devtox: new tab (Ctrl+T)"
 
-#: devtox/window.py:241
+#: devtox/window.py:246
 msgid "Terminale (Ctrl+`)"
 msgstr "Terminal (Ctrl+`)"
 
-#: devtox/window.py:245
+#: devtox/window.py:250
 msgid "Server locali (Ctrl+Shift+L)"
 msgstr "Local servers (Ctrl+Shift+L)"
 
-#: devtox/window.py:270
+#: devtox/window.py:275
 msgid "Vista responsive (Ctrl+Shift+M)"
 msgstr "Responsive view (Ctrl+Shift+M)"
 
-#: devtox/window.py:272
+#: devtox/window.py:277
 msgid "Screenshot della pagina (Ctrl+Shift+S)"
 msgstr "Page screenshot (Ctrl+Shift+S)"
 
-#: devtox/window.py:274
+#: devtox/window.py:279
 msgid "Cookie e dati del sito (Ctrl+Shift+Canc)"
 msgstr "Site cookies and data (Ctrl+Shift+Delete)"
 
-#: devtox/window.py:304
+#: devtox/window.py:309
 msgid "Disattivata"
 msgstr "Off"
 
-#: devtox/window.py:379
+#: devtox/window.py:384
 msgid ""
 "Tab privata: niente cronologia, i dati spariscono con l'ultima tab privata"
 msgstr "Private tab: no history, data disappears with the last private tab"
 
-#: devtox/window.py:643
+#: devtox/window.py:657
 msgid "Blocco tracker"
 msgstr "Tracker blocking"
 
-#: devtox/window.py:645
+#: devtox/window.py:659
 msgid "{shield} attivo su {host}"
 msgstr "{shield} on for {host}"
 
-#: devtox/window.py:645
+#: devtox/window.py:659
 msgid "{shield} spento su {host}"
 msgstr "{shield} off for {host}"
 
-#: devtox/window.py:746
+#: devtox/window.py:764
 msgid ""
 "Pagina chiusa: aveva superato il limite di memoria. F5 per ricaricare."
 msgstr "Page closed: it went over the memory limit. F5 to reload."
 
-#: devtox/window.py:872
+#: devtox/window.py:890
 msgid "Preferiti e cookie restano. Non si può annullare."
 msgstr "Bookmarks and cookies are kept. This cannot be undone."
 
-#: devtox/window.py:907
+#: devtox/window.py:925
 msgid "Invio"
 msgstr "Enter"
 
-#: devtox/window.py:255
+#: devtox/window.py:260
 msgid "Richieste di rete (Ctrl+Shift+E)"
 msgstr "Network requests (Ctrl+Shift+E)"
 
-#: devtox/window.py:257
+#: devtox/window.py:262
 msgid "Memoria e processi (Shift+Esc)"
 msgstr "Memory and processes (Shift+Esc)"
 
-#: devtox/window.py:259
+#: devtox/window.py:264
 msgid "Download (Ctrl+Shift+Y)"
 msgstr "Downloads (Ctrl+Shift+Y)"
 
-#: devtox/window.py:261
+#: devtox/window.py:266
 msgid "Container Docker (Ctrl+Shift+D)"
 msgstr "Docker containers (Ctrl+Shift+D)"
 
-#: devtox/window.py:263
+#: devtox/window.py:268
 msgid "IA locale con Ollama (Ctrl+Shift+A)"
 msgstr "Local AI with Ollama (Ctrl+Shift+A)"
 
-#: devtox/window.py:400
+#: devtox/window.py:405
 msgid "Nessuna tab chiusa da riaprire"
 msgstr "No closed tab to reopen"
 
-#: devtox/window.py:748
+#: devtox/window.py:766
 msgid "Il processo della pagina si è bloccato. F5 per ricaricare."
 msgstr "The page process crashed. F5 to reload."
 
-#: devtox/window.py:820
+#: devtox/window.py:838
 msgid "Si possono salvare solo pagine web"
 msgstr "Only web pages can be bookmarked"
 
-#: devtox/window.py:823
+#: devtox/window.py:841
 msgid "Aggiunto ai preferiti"
 msgstr "Bookmark added"
 
-#: devtox/window.py:823
+#: devtox/window.py:841
 msgid "Tolto dai preferiti"
 msgstr "Bookmark removed"
 
-#: devtox/window.py:842
+#: devtox/window.py:860
 msgid "Il sorgente è disponibile per le pagine web"
 msgstr "Source is available for web pages"
 
-#: devtox/window.py:865
+#: devtox/window.py:883
 msgid "Link Markdown copiato"
 msgstr "Markdown link copied"
 
-#: devtox/window.py:865
+#: devtox/window.py:883
 msgid "Indirizzo copiato"
 msgstr "Address copied"
 
-#: devtox/window.py:870
+#: devtox/window.py:888
 msgid "Cancellare tutta la cronologia?"
 msgstr "Clear all history?"
 
-#: devtox/window.py:877
+#: devtox/window.py:895
 msgid "Cronologia cancellata"
 msgstr "History cleared"
 
-#: devtox/window.py:895
+#: devtox/window.py:913
 msgid "server locale"
 msgstr "local server"
 
-#: devtox/window.py:968
+#: devtox/window.py:986
 msgid "Apri un sito web per vederne cookie e dati"
 msgstr "Open a website to see its cookies and data"
 
-#: devtox/window.py:988
+#: devtox/window.py:1006
 msgid "Vista responsive disattivata"
 msgstr "Responsive view off"
 
-#: devtox/window.py:440
+#: devtox/window.py:445
 msgid "Aperto dal terminale: {url}"
 msgstr "Opened from the terminal: {url}"
 
-#: devtox/window.py:589
+#: devtox/window.py:603
 msgid "Togli dai preferiti (Ctrl+D)"
 msgstr "Remove bookmark (Ctrl+D)"
 
-#: devtox/window.py:589
+#: devtox/window.py:603
 msgid "Aggiungi ai preferiti (Ctrl+D)"
 msgstr "Bookmark this page (Ctrl+D)"
 
-#: devtox/window.py:837
+#: devtox/window.py:855
 msgid "Zoom {level:.0%}"
 msgstr "Zoom {level:.0%}"
 
-#: devtox/window.py:892
+#: devtox/window.py:910
 msgid "tab aperta"
 msgstr "open tab"
 
-#: devtox/window.py:907
+#: devtox/window.py:925
 msgid "Apri o cerca «{text}»"
 msgstr "Open or search \"{text}\""
 
-#: devtox/window.py:540
+#: devtox/window.py:554
 msgid "{tool} è pronto su localhost:{port}"
 msgstr "{tool} is ready on localhost:{port}"
 
-#: devtox/window.py:541
+#: devtox/window.py:555
 msgid "Apri"
 msgstr "Open"
 
-#: devtox/window.py:986
+#: devtox/window.py:1004
 msgid "Vista responsive {width}×{height}"
 msgstr "Responsive view {width}×{height}"
 
-#: devtox/window.py:540
+#: devtox/window.py:554
 msgid "Un server"
 msgstr "A server"
 
-#: devtox/window.py:975
+#: devtox/window.py:993
 msgid "Screenshot salvato in {path}"
 msgstr "Screenshot saved to {path}"
 
-#: devtox/window.py:977
+#: devtox/window.py:995
 msgid "Screenshot non riuscito: {error}"
 msgstr "Screenshot failed: {error}"
 
-#: devtox/window.py:999
+#: devtox/window.py:1017
 msgid "Blocklist ricaricata: {count} domini"
 msgstr "Blocklist reloaded: {count} domains"
 
-#: devtox/resources/https_error.html:2 devtox/resources/info.html:2 devtox/resources/source.html:2 devtox/resources/start.html:2
+#: devtox/resources/blocked.html:2 devtox/resources/https_error.html:2 devtox/resources/info.html:2 devtox/resources/source.html:2
 msgid "it"
 msgstr "en"
+
+#: devtox/resources/blocked.html:6
+msgid "Sito segnalato"
+msgstr "Reported site"
+
+#: devtox/resources/blocked.html:39
+msgid "Questo sito è segnalato come phishing"
+msgstr "This site is reported as phishing"
+
+#: devtox/resources/blocked.html:40
+msgid ""
+"Potrebbe imitare un servizio che usi per rubarti password, dati o soldi. Devtox ha fermato la pagina prima di caricarla."
+msgstr ""
+"It may imitate a service you use to steal passwords, data or money. Devtox stopped the page before loading it."
+
+#: devtox/resources/blocked.html:43
+msgid "Torna indietro"
+msgstr "Go back"
+
+#: devtox/resources/blocked.html:44
+msgid "Continua comunque (solo per questa sessione)"
+msgstr "Continue anyway (this session only)"
 
 #: devtox/resources/https_error.html:6
 msgid "HTTPS non disponibile"
@@ -1735,3 +1898,8 @@ msgstr "Recent pages"
 #: devtox/resources/start.html:267
 msgid "Tasti"
 msgstr "Keys"
+
+#~ msgid ""
+#~ "Password e cookie non si importano: l'altro browser li cifra con il portachiavi del sistema, e copiarli li esporrebbe. Tor Browser non viene mai proposto."
+#~ msgstr ""
+#~ "Passwords and cookies are not imported: the other browser encrypts them with the system keyring, and copying them would expose them. Tor Browser is never offered."

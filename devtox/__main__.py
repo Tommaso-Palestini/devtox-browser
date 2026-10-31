@@ -6,12 +6,15 @@ import sys
 
 from gi.repository import GLib, Gtk
 
-from . import MIGRATED, __version__, about, devtools, importpage, log, navigation, onboarding, privacy, startpage, theme, utils, webext
+from . import MIGRATED, __version__, about, devtools, importpage, log, navigation, onboarding, passwords, passwordui, phishing, privacy, startpage, theme, utils, webext
 from .i18n import _
 from .config import Config
 from .control import ControlServer, send_to_running
 from .storage import Storage
 from .window import BrowserWindow
+
+
+PHISHING_CHECK_SECONDS = 6 * 3600  # si controlla spesso, si scarica solo quando la lista è scaduta
 
 
 def parse_args(argv=None):
@@ -65,10 +68,26 @@ def main(argv=None):
     storage.expire_history(config["history_days"])
     theme.install()
 
+    # Anti-phishing: indice locale subito, aggiornamento della lista in un thread se è scaduta
+    phishing_guard = phishing.Guard(lambda: config["phishing_protection"])
+    phishing_folder = os.path.join(utils.cache_dir(), "phishing")
+    phishing_guard.start(phishing_folder)
+
+    def refresh_phishing():
+        phishing_guard.start(phishing_folder)
+        return GLib.SOURCE_CONTINUE
+
+    GLib.timeout_add_seconds(PHISHING_CHECK_SECONDS, refresh_phishing)
+
     pages = {
         "start": lambda _params: startpage.render(config, storage, filters_active=content_filter.active),
         "stop": lambda params: startpage.render_stop(params, config),
         "import": lambda params: importpage.render(params, config, storage),
+        "blocked": lambda params: phishing.render_blocked(params, phishing_guard),
+        # La pagina delle password ha bisogno della finestra (scelta del file CSV): c'è dopo l'avvio
+        "passwords": lambda params: (running["window"].passwords.render_page(params)
+                                     if "window" in running and running["window"].passwords
+                                     else passwordui.unavailable_page()),
         "source": devtools.render_source_page,
         "about": lambda _params: about.render_about_page(config.path),
         "welcome": about.render_welcome_page,
@@ -93,6 +112,11 @@ def main(argv=None):
     navigation.register_internal_scheme(context, pages)
     content_manager = privacy.create_content_manager()
     content_scripts = privacy.ContentScripts(config, content_manager)
+    # Password: solo se attive e se il portachiavi del sistema risponde
+    vault = None
+    if config["passwords_enabled"] and passwords.available():
+        vault = passwords.Vault(passwords.SecretBackend())
+        content_scripts.extra_scripts.append(passwordui.user_script())
     content_scripts.rebuild()
     content_filter = privacy.ContentFilter(config, content_manager)
 
@@ -100,7 +124,7 @@ def main(argv=None):
         # La finestra nasce solo dopo la compilazione dei filtri:
         # nessuna pagina viene caricata senza blocklist e regole HTTPS
         window = BrowserWindow(config, context, content_manager, content_filter,
-                               content_scripts, storage, pages)
+                               content_scripts, storage, pages, phishing_guard, vault)
         window.show()
         if not content_filter.active:
             window.show_status(_("Blocklist e HTTPS-only NON attivi: le regole non si sono compilate (vedi il log)"),

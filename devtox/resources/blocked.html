@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="{{it}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{Sito segnalato}}</title>
+<style>
+  :root {
+    --page: #0e0e10; --chrome: #161618; --rule: #26262a; --control: #3a3a3f;
+    --text: #ececee; --muted: #94969d; --negative: #e5566f;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px; background: var(--page); color: var(--text);
+    font: 400 15px/1.6 "Fira Sans", "Inter", system-ui, sans-serif;
+  }
+  main { max-width: 620px; padding: 32px; border: 1px solid var(--rule); border-radius: 12px; background: var(--chrome); }
+  h1 { margin: 0 0 16px; font: 600 24px/1.25 "Fira Sans", "Inter", system-ui, sans-serif; letter-spacing: -0.01em; }
+  h1::before { content: ""; display: inline-block; width: 8px; height: 8px; margin: 0 12px 3px 0; border-radius: 50%; background: var(--negative); }
+  p { margin: 0 0 12px; }
+  .host { padding: 10px 12px; border-radius: 6px; background: var(--page); font: 400 13px/1.5 "Fira Mono", ui-monospace, monospace; word-break: break-all; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; align-items: center; }
+  .button {
+    display: inline-flex; align-items: center; min-height: 36px; padding: 0 18px; border-radius: 999px;
+    border: 1px solid var(--text); background: var(--text); color: var(--page); font-weight: 600;
+    text-decoration: none; cursor: pointer; font-size: 14px; font-family: inherit;
+  }
+  .button:hover { background: #fff; }
+  a.continue { color: var(--muted); font-size: 13px; text-underline-offset: 3px; }
+  a.continue:hover { color: var(--negative); }
+  .note { color: var(--muted); font-size: 13px; margin-top: 20px; }
+  .note a { color: var(--muted); }
+</style>
+</head>
+<body>
+  <main>
+    <h1>{{Questo sito è segnalato come phishing}}</h1>
+    <p>{{Potrebbe imitare un servizio che usi per rubarti password, dati o soldi. Devtox ha fermato la pagina prima di caricarla.}}</p>
+    <p class="host">$host</p>
+    <p class="actions">
+      <button class="button" type="button" onclick="history.length > 1 ? history.back() : location.replace('devtox://start')">{{Torna indietro}}</button>
+      <a class="continue" href="$continue_url">{{Continua comunque (solo per questa sessione)}}</a>
+    </p>
+    <p class="note">$source</p>
+  </main>
+</body>
+</html>

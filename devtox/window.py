@@ -10,6 +10,7 @@ from . import actions, ai, devtools, monitor, navigation, privacy, servers, star
 from .dockerpanel import DockerPanel
 from .downloads import DownloadsPanel
 from .i18n import _
+from .passwordui import PasswordController
 from .tabs import BrowserTab
 from .terminal import TerminalPanel
 from .ui import CommandPalette, FindBar, PaletteItem, ShieldsPopover, SidePanel, connection_summary
@@ -25,7 +26,7 @@ ZOOM_LEVELS = (0.5, 0.67, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0)
 
 class BrowserWindow(Gtk.Window):
     def __init__(self, config, context, content_manager, content_filter, content_scripts,
-                 storage, pages):
+                 storage, pages, phishing_guard=None, vault=None):
         super().__init__(title=utils.APP_TITLE)
         self.config = config
         self.context = context
@@ -36,6 +37,8 @@ class BrowserWindow(Gtk.Window):
         self._pages = pages                # pagine devtox:// da registrare anche sul profilo privato
         self._private_context = None       # creato alla prima tab privata
         self.https_guard = privacy.HttpsGuard(config, content_filter, self._is_private_view)
+        self.phishing_guard = phishing_guard
+        self.passwords = PasswordController(self, content_manager, vault) if vault is not None else None
         self._tabs = {}                    # contenitore del Notebook -> BrowserTab
         self._view_tabs = {}               # WebView -> BrowserTab
         self._closed_tabs = collections.deque(maxlen=CLOSED_TABS_LIMIT)
@@ -191,6 +194,8 @@ class BrowserWindow(Gtk.Window):
         header.set_custom_title(self.url_entry)
         header.pack_end(menu_button)
         header.pack_end(self.shields_button)
+        if self.passwords is not None:
+            header.pack_end(self.passwords.button)
         header.show_all()
         return header
 
@@ -439,6 +444,12 @@ class BrowserWindow(Gtk.Window):
         self.new_tab(url, private=False)
         self.show_status(_("Aperto dal terminale: {url}").format(url=url))
 
+    def reload_internal(self, url):
+        """Ricarica le tab che mostrano una pagina interna (dopo un import, per esempio)."""
+        for tab in self._tabs.values():
+            if tab.webview is not None and (tab.webview.get_uri() or "").startswith(url):
+                tab.webview.reload()
+
     def select_relative_tab(self, offset):
         count = self.notebook.get_n_pages()
         self.notebook.set_current_page((self.notebook.get_current_page() + offset) % count)
@@ -484,6 +495,9 @@ class BrowserWindow(Gtk.Window):
         webview.connect("load-changed", self._on_load_changed)
         webview.connect("load-failed", self.https_guard.on_load_failed)
         webview.connect("load-failed-with-tls-errors", self.https_guard.on_tls_error)
+        if self.phishing_guard is not None:
+            # Prima dell'HTTPS: un sito segnalato non va nemmeno portato in https
+            webview.connect("decide-policy", self.phishing_guard.on_decide_policy)
         webview.connect("decide-policy", self.https_guard.on_decide_policy)
         webview.connect("permission-request", privacy.deny_permission_request)
         webview.connect("resource-load-started", self._on_resource_load_started)
@@ -682,6 +696,8 @@ class BrowserWindow(Gtk.Window):
         # Durante "switch-page" la tab corrente è ancora la vecchia
         if tab.webview is not None and self._is_current(tab.webview):
             self._sync_toolbar(tab.webview)
+            if self.passwords is not None:
+                self.passwords.page_changed()
         return GLib.SOURCE_REMOVE
 
     def _on_uri_changed(self, webview, _param):
@@ -722,6 +738,8 @@ class BrowserWindow(Gtk.Window):
             self._update_nav_buttons(webview)
             if event in (WebKit2.LoadEvent.COMMITTED, WebKit2.LoadEvent.FINISHED):
                 self._update_site_indicators(webview)
+            if event == WebKit2.LoadEvent.COMMITTED and self.passwords is not None:
+                self.passwords.page_changed()
 
     def _on_resource_load_started(self, webview, resource, request):
         tab = self._view_tabs.get(webview)

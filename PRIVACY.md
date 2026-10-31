@@ -24,6 +24,7 @@ Devtox only opens these connections:
 | Your search engine (DuckDuckGo by default, you can change it in `devtox://setup`) | when you type something that is not an address in the address bar, the start page or the command palette |
 | Ollama on `127.0.0.1:11434` (your own computer) | only when you open the AI panel or use an AI action |
 | `localhost` ports listed in `dev_ports` | when the start page or the local servers popup checks which dev servers are running (connections to your own computer only) |
+| `raw.githubusercontent.com` (the public [Phishing.Database](https://github.com/mitchellkrogza/Phishing.Database) list) | phishing protection, on by default: the full list once a week (about 3.7 MB, only if it changed) and the day's new domains once a day. Nothing about you is sent: GitHub sees your IP address and a plain download, and every check happens on your computer. Turn it off in `devtox://setup` |
 | The Docker or Podman socket on your computer (a Unix socket, never the network) | only while the Docker panel is open, or when you press one of its buttons. A remote `DOCKER_HOST` (`tcp://`, `ssh://`) is ignored on purpose |
 
 When you use `devtox://import`, Devtox reads the bookmarks and history files of the
@@ -49,6 +50,8 @@ control what they do with the data you send them.
 | Cookies, local storage, site data | `~/.local/share/devtox/` | `Ctrl+Shift+Delete` per site; turn off "Stay signed in to sites" to keep nothing between runs |
 | Web cache, compiled filters and privacy extension | `~/.cache/devtox/` | delete the folder |
 | Log (errors and warnings, no browsing history) | `~/.local/state/devtox/devtox.log` | delete the file |
+| Saved passwords | your system keyring (GNOME Keyring or KWallet), never in a Devtox file | `devtox://passwords` → Delete, or your keyring manager |
+| Phishing list and its index | `~/.cache/devtox/phishing/` | delete the folder |
 | Screenshots you take | your Pictures folder | delete the files |
 | Downloads | your Downloads folder | delete the files |
 
@@ -79,6 +82,15 @@ The GPC header and the Referer trimming come from a small WebKit extension that
 is compiled on first start; `devtox --check` tells you whether it is active.
 
 None of these makes you anonymous. If you need anonymity, use Tor Browser.
+
+## Passwords
+
+Passwords are stored in the system keyring through libsecret, encrypted by the
+keyring and unlocked with your login. Devtox fills a password only on the exact
+origin it was saved for (scheme, host and port), only over HTTPS (or plain HTTP on
+localhost), and only after you click. The code that talks to login forms runs in an
+isolated JavaScript world that page scripts cannot see. Private tabs never save
+passwords. Imports read a CSV file you export yourself; Devtox offers to delete it.
 
 ## The local AI assistant
 

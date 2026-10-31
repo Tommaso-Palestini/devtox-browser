@@ -23,6 +23,7 @@ for name in ("XDG_CONFIG_HOME", "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HO
     os.environ[name] = os.path.join(ROOT, name.lower())
 os.environ["DEVTOX_SOCKET"] = os.path.join(ROOT, "dx.sock")
 os.environ["LANGUAGE"] = LANG
+os.environ["DEVTOX_NO_NETWORK"] = "1"  # niente download della lista anti-phishing
 # Sempre dentro Xvfb: senza queste due righe GTK sceglierebbe il desktop Wayland vero
 os.environ["GDK_BACKEND"] = "x11"
 os.environ.pop("WAYLAND_DISPLAY", None)

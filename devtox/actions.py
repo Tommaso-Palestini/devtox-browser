@@ -57,7 +57,10 @@ def commands(win):
          lambda: win.new_tab(navigation.SETUP_URL)),
         (_("Guida rapida"), "", "help-browser-symbolic", lambda: win.new_tab(navigation.WELCOME_URL)),
         (_("Importa da un altro browser"), "", "document-open-symbolic", lambda: win.new_tab(navigation.IMPORT_URL)),
-    ] + ai
+    ] + ([
+        (_("Compila password"), "", "dialog-password-symbolic", win.passwords.open),
+        (_("Password salvate"), "", "dialog-password-symbolic", lambda: win.new_tab("devtox://passwords")),
+    ] if win.passwords is not None else []) + ai
 
 
 def handle_key(win, event):

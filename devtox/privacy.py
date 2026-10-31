@@ -141,6 +141,7 @@ class ContentScripts:
         self.content_manager = content_manager
         # Nuovo a ogni avvio: l'impronta "sporcata" cambia da una sessione all'altra
         self.seed = secrets.token_hex(16)
+        self.extra_scripts = []  # script di altri moduli (password) da rimettere a ogni rebuild
 
     def rebuild(self):
         manager = self.content_manager
@@ -154,6 +155,8 @@ class ContentScripts:
                 off_hosts=json.dumps(self.config["fingerprint_off_hosts"]),
             )
             manager.add_script(_page_script(source))
+        for script in self.extra_scripts:
+            manager.add_script(script)
         # Il visualizzatore JSON gira in un mondo isolato: la pagina non lo vede
         manager.add_script(
             WebKit2.UserScript.new_for_world(

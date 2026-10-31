@@ -76,9 +76,9 @@ def _form(sources, config):
     <p class="actions compact"><button class="button" type="submit">{_e(button)}</button></p>
   </form>
 </section>""")
-    note = _("Password e cookie non si importano: l'altro browser li cifra con il portachiavi del sistema, "
-             "e copiarli li esporrebbe. Tor Browser non viene mai proposto.")
-    parts.append('<p class="hint">' + _e(note) + "</p>")
+    note = _("Le password si importano dal file CSV che l'altro browser sa esportare, in devtox://passwords: "
+             "Devtox non legge mai i loro archivi cifrati. I cookie non si importano. Tor Browser non viene mai proposto.")
+    parts.append('<p class="hint">' + _e(note) + ' <a href="devtox://passwords">' + _e(_("Vai alle password")) + "</a></p>")
     return _page(title, '<div class="settings">' + "".join(parts) + "</div>")
 
 
