@@ -73,7 +73,7 @@ Then clone the repository and run the installer:
 ```sh
 git clone https://github.com/Tommaso-Palestini/devtox-browser.git && cd devtox-browser
 sh install.sh          # installs into ~/.local, no sudo
-devtox            # or launch it from the applications menu
+devtox                       # or launch it from the applications menu
 ```
 
 `sh install.sh --uninstall` removes it again (your profile is kept).
@@ -114,9 +114,10 @@ it installs is `devtox`, and the shell command is `dx`.
 ## Command line
 
 ```sh
-devtox [URL ...]        # opens URLs; reuses the running window if there is one
-devtox --check          # versions, privacy extension status, log path
-devtox --new-instance   # do not hand URLs to the running window
+devtox [URL ...]             # opens URLs; reuses the running window if there is one
+devtox --check               # versions, privacy extension status, log path
+devtox --new-instance        # do not hand URLs to the running window
+dx                           # start Devtox from any folder (or bring it forward), frees the prompt
 dx open <url or search>      # new tab in the running browser
 dx tabs                      # list tabs (* current, z suspended)
 dx mem                       # memory per process

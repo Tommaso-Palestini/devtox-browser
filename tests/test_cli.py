@@ -72,6 +72,31 @@ class SrTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertIn("nessun server", result.stdout)
 
+    def test_no_arguments_brings_running_window_forward(self):
+        browser = FakeBrowser(self.path, {"ok": True})
+        browser.start()
+        result = self.run_sr()
+        browser.join(5)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(browser.requests, [{"cmd": "present"}])
+
+    def test_no_arguments_starts_devtox_when_closed(self):
+        # Un "devtox" finto nel PATH: scrive un file quando viene avviato
+        folder = tempfile.mkdtemp()
+        marker = os.path.join(folder, "avviato")
+        fake = os.path.join(folder, "devtox")
+        with open(fake, "w") as f:
+            f.write(f"#!/bin/sh\ntouch {marker}\n")
+        os.chmod(fake, 0o755)
+        env = dict(os.environ, DEVTOX_SOCKET=self.path, PATH=folder + os.pathsep + os.environ["PATH"])
+        result = subprocess.run([sys.executable, SR], env=env, capture_output=True, text=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        for _ in range(50):
+            if os.path.exists(marker):
+                break
+            threading.Event().wait(0.1)
+        self.assertTrue(os.path.exists(marker))
+
     def test_error_from_browser(self):
         browser = FakeBrowser(self.path, {"ok": False, "error": "indirizzo vuoto"})
         browser.start()

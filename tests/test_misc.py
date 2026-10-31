@@ -35,6 +35,9 @@ class FakeWindow:
         self.opened.append(text)
         return ("https://" + text) if text else None
 
+    def present(self):
+        self.presented = True
+
     def list_tabs(self):
         return [{"index": 1, "title": "T", "uri": "https://a.it/", "suspended": False, "current": True}]
 
@@ -54,6 +57,10 @@ class ControlTest(unittest.TestCase):
 
     def test_tabs(self):
         self.assertEqual(self.server._handle('{"cmd": "tabs"}')["tabs"][0]["uri"], "https://a.it/")
+
+    def test_present(self):
+        self.assertTrue(self.server._handle('{"cmd": "present"}')["ok"])
+        self.assertTrue(self.window.presented)
 
     def test_servers(self):
         from unittest import mock

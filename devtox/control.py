@@ -5,6 +5,7 @@ Protocollo: una riga JSON di richiesta, una riga JSON di risposta.
   {"cmd": "tabs"}
   {"cmd": "mem"}
   {"cmd": "servers"}
+  {"cmd": "present"}     porta la finestra in primo piano
 """
 
 import json
@@ -103,6 +104,9 @@ class ControlServer:
             if url is None:
                 return {"ok": False, "error": _("indirizzo vuoto")}
             return {"ok": True, "url": url}
+        if command == "present":
+            self.window.present()
+            return {"ok": True}
         if command == "tabs":
             return {"ok": True, "tabs": self.window.list_tabs()}
         if command == "mem":

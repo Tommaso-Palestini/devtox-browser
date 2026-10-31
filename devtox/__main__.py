@@ -45,9 +45,10 @@ def main(argv=None):
     if args.check:
         return check()
 
-    # Una finestra è già aperta: le passiamo gli indirizzi invece di aprirne un'altra
-    if args.urls and not args.new_instance:
-        first = send_to_running({"cmd": "open", "url": args.urls[0]})
+    # Una finestra è già aperta: le passiamo gli indirizzi (o la portiamo in primo piano)
+    # invece di aprirne un'altra, che resterebbe senza socket per dx
+    if not args.new_instance:
+        first = send_to_running({"cmd": "open", "url": args.urls[0]} if args.urls else {"cmd": "present"})
         if first is not None:
             for url in args.urls[1:]:
                 send_to_running({"cmd": "open", "url": url})

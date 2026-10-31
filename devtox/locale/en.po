@@ -33,10 +33,11 @@ msgstr "do not hand addresses to an already open window"
 msgid "Estensione"
 msgstr "Extension"
 
-#: devtox/__main__.py:103
+#: devtox/__main__.py:104
 msgid ""
 "Blocklist e HTTPS-only NON attivi: le regole non si sono compilate (vedi il log)"
-msgstr "Blocklist and HTTPS-only are NOT active: the rules did not compile (see the log)"
+msgstr ""
+"Blocklist and HTTPS-only are NOT active: the rules did not compile (see the log)"
 
 #: devtox/about.py:75 devtox/actions.py:51 devtox/window.py:293
 msgid "Informazioni su Devtox"
@@ -444,19 +445,19 @@ msgstr "[error] {error}"
 msgid "Ollama non raggiungibile su {address} ({error})"
 msgstr "Ollama not reachable on {address} ({error})"
 
-#: devtox/control.py:84
+#: devtox/control.py:85
 msgid "richiesta vuota o troppo lunga"
 msgstr "empty or too long request"
 
-#: devtox/control.py:99
+#: devtox/control.py:100
 msgid "JSON non valido"
 msgstr "invalid JSON"
 
-#: devtox/control.py:104
+#: devtox/control.py:105
 msgid "indirizzo vuoto"
 msgstr "empty address"
 
-#: devtox/control.py:128
+#: devtox/control.py:132
 msgid "comando sconosciuto: {command}"
 msgstr "unknown command: {command}"
 

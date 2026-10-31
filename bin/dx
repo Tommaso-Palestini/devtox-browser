@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """dx: controlla Devtox dal terminale tramite il socket Unix locale.
 
+  dx                              avvia Devtox (o porta in primo piano la finestra aperta)
   dx open <indirizzo o ricerca>   apre una nuova tab
   dx tabs                         elenca le tab
   dx mem                          memoria dei processi del browser
@@ -10,7 +11,9 @@
 import argparse
 import json
 import os
+import shutil
 import socket
+import subprocess
 import sys
 
 APP_ID = "devtox"
@@ -25,6 +28,10 @@ MESSAGES_EN = {
     "risposta non valida": "invalid response",
     "aperto": "opened",
     "terminale": "terminal",
+    "Senza argomenti avvia Devtox, o porta in primo piano la finestra già aperta.":
+        "With no arguments, start Devtox or bring the open window forward.",
+    "dx: comando devtox non trovato: esegui install.sh": "dx: devtox command not found: run install.sh",
+    "Devtox avviato": "Devtox started",
     "server di sviluppo in ascolto su questo PC": "development servers listening on this machine",
     "nessun server in ascolto su localhost": "no server listening on localhost",
 }
@@ -58,12 +65,15 @@ def socket_path():
     return os.path.join(runtime, APP_ID + ".sock")
 
 
-def send(request):
+def send(request, missing_ok=False):
+    """Risposta del browser; con missing_ok=True None se Devtox non è aperto."""
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
         sock.settimeout(5)
         try:
             sock.connect(socket_path())
         except OSError:
+            if missing_ok:
+                return None
             sys.exit(_("dx: Devtox non è in esecuzione (socket non trovato)"))
         sock.sendall((json.dumps(request) + "\n").encode())
         data = b""
@@ -78,13 +88,31 @@ def send(request):
     return response
 
 
+def launch():
+    """Avvia Devtox staccato dal terminale: il prompt torna subito libero."""
+    here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if shutil.which("devtox"):
+        command, env = ["devtox"], None
+    elif os.path.isdir(os.path.join(here, "devtox")):
+        # Da un clone del progetto: il pacchetto sta accanto a bin/
+        command = [sys.executable, "-m", "devtox"]
+        env = dict(os.environ, PYTHONPATH=here + os.pathsep + os.environ.get("PYTHONPATH", ""))
+    else:
+        sys.exit(_("dx: comando devtox non trovato: esegui install.sh"))
+    subprocess.Popen(command, env=env, cwd=os.path.expanduser("~"), stdin=subprocess.DEVNULL,
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    print(_("Devtox avviato"))
+
+
 def mb_size(kb):
     return f"{kb / 1024:.1f} MB"
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="dx", description=_("Controlla Devtox."))
-    sub = parser.add_subparsers(dest="cmd", required=True)
+    parser = argparse.ArgumentParser(
+        prog="dx", description=_("Controlla Devtox.") + " "
+        + _("Senza argomenti avvia Devtox, o porta in primo piano la finestra già aperta."))
+    sub = parser.add_subparsers(dest="cmd")
     open_parser = sub.add_parser("open", help=_("apre un indirizzo o una ricerca in una nuova tab"))
     open_parser.add_argument("target", nargs="+")
     sub.add_parser("tabs", help=_("elenca le tab aperte"))
@@ -92,7 +120,10 @@ def main():
     sub.add_parser("servers", help=_("server di sviluppo in ascolto su questo PC"))
     args = parser.parse_args()
 
-    if args.cmd == "open":
+    if args.cmd is None:
+        if send({"cmd": "present"}, missing_ok=True) is None:
+            launch()
+    elif args.cmd == "open":
         response = send({"cmd": "open", "url": " ".join(args.target)})
         print(f"{_('aperto')}: {response['url']}")
     elif args.cmd == "tabs":
