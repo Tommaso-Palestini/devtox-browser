@@ -105,10 +105,23 @@ def create_web_context(config, private=False):
         if config["block_third_party_cookies"]
         else WebKit2.CookieAcceptPolicy.ALWAYS
     )
-    context.get_cookie_manager().set_accept_policy(cookie_policy)
+    cookie_manager = context.get_cookie_manager()
+    cookie_manager.set_accept_policy(cookie_policy)
+    if not manager.is_ephemeral():
+        # WebKitGTK non salva i cookie su disco se non glielo si chiede: senza questo
+        # "Resta connesso ai siti" non funzionava e a ogni avvio si perdevano gli accessi
+        cookie_manager.set_persistent_storage(cookies_path(), WebKit2.CookiePersistentStorage.SQLITE)
 
     _load_web_extension(context, config)
     return context
+
+
+def cookies_path():
+    """Database dei cookie: dentro una cartella leggibile solo da te (le sessioni valgono come password)."""
+    folder = utils.data_dir()
+    os.makedirs(folder, mode=0o700, exist_ok=True)
+    os.chmod(folder, 0o700)
+    return os.path.join(folder, "cookies.sqlite")
 
 
 def _load_web_extension(context, config):

@@ -140,3 +140,17 @@ class SandboxTest(unittest.TestCase):
         for private in (False, True):
             with self.subTest(private=private):
                 self.assertTrue(privacy.create_web_context(config, private=private).get_sandbox_enabled())
+
+
+class CookiePersistenceTest(unittest.TestCase):
+    """"Resta connesso ai siti": i cookie finiscono su disco, in una cartella solo tua."""
+
+    def test_cookie_folder_is_private(self):
+        import tempfile as _tempfile
+        from unittest import mock
+
+        home = _tempfile.mkdtemp()
+        with mock.patch.object(privacy.utils, "data_dir", return_value=os.path.join(home, "devtox")):
+            path = privacy.cookies_path()
+        self.assertEqual(os.path.basename(path), "cookies.sqlite")
+        self.assertEqual(os.stat(os.path.dirname(path)).st_mode & 0o777, 0o700)
