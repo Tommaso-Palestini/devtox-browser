@@ -174,4 +174,22 @@ def _handle_internal_request(request, pages):
         request.finish_error(GLib.Error.new_literal(Gio.io_error_quark(), str(e), Gio.IOErrorEnum.FAILED))
         return
     stream = Gio.MemoryInputStream.new_from_bytes(GLib.Bytes.new(data))
-    request.finish(stream, len(data), "text/html")
+    _finish_uncached(request, stream, len(data))
+
+
+def _finish_uncached(request, stream, length):
+    """Le pagine interne cambiano a ogni apertura (server in ascolto, azioni): mai dalla cache.
+
+    Senza intestazioni WebKit può riusare la risposta di devtox://start o di un devtox://stop
+    già visto, e mostrare i server di prima (o non rifare l'azione).
+    """
+    try:
+        from gi.repository import Soup, WebKit2
+        response = WebKit2.URISchemeResponse.new(stream, length)
+        response.set_content_type("text/html")
+        headers = Soup.MessageHeaders.new(Soup.MessageHeadersType.RESPONSE)
+        headers.append("Cache-Control", "no-store, max-age=0")
+        response.set_http_headers(headers)
+        request.finish_with_response(response)
+    except (ImportError, ValueError, AttributeError, TypeError):
+        request.finish(stream, length, "text/html")
